@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+outputs/**/*
+!outputs/.gitkeep
+!outputs/mock/
+!outputs/mock/.gitkeep
+data/raw/
+data/processed/
+*.egg-info/
+

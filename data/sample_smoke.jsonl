@@ -1,0 +1,7 @@
+{"example_id":"smoke-001","split":"test","label_id":14,"label_name":"card_not_working","text_en":"My card is not working at the ATM.","text_pt_br":"Meu cartão não está funcionando no caixa eletrônico."}
+{"example_id":"smoke-002","split":"test","label_id":41,"label_name":"lost_or_stolen_card","text_en":"I lost my card yesterday.","text_pt_br":"Perdi meu cartão ontem."}
+{"example_id":"smoke-003","split":"test","label_id":62,"label_name":"transaction_charged_twice","text_en":"I was charged twice for the same payment.","text_pt_br":"Cobraram duas vezes o mesmo pagamento."}
+{"example_id":"smoke-004","split":"test","label_id":0,"label_name":"activate_my_card","text_en":"How do I activate my new card?","text_pt_br":"Como ativo meu cartão novo?"}
+{"example_id":"smoke-005","split":"test","label_id":25,"label_name":"declined_card_payment","text_en":"My card payment was declined in a store.","text_pt_br":"O pagamento com cartão foi recusado na loja."}
+{"example_id":"smoke-006","split":"test","label_id":52,"label_name":"request_refund","text_en":"I want a refund for this charge.","text_pt_br":"Quero reembolso desta cobrança."}
+

@@ -1,0 +1,13 @@
+seed: 42
+sample_size: 500
+ece_bins: 15
+languages: [en, pt_br]
+systems: [jev, llm]
+paths:
+  intents: data/intents.json
+  sample: data/sample.jsonl
+  translations: data/translations_pt_br.jsonl
+  raw_predictions: outputs/raw_predictions.jsonl
+  metrics: outputs/metrics.json
+  reliability_plot: outputs/reliability_diagram.png
+
