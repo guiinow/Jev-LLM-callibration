@@ -15,7 +15,9 @@ pip install -e ".[dev]"
 cp .env.example .env
 ```
 
-O `.env` deve ser preenchido apenas para as execuções reais; nunca commite chaves.
+O `.env` deve ser preenchido apenas para as execuções reais; nunca commite chaves. A CLI carrega o `.env` da raiz do repositório automaticamente (variáveis já definidas no ambiente têm prioridade).
+
+`run` grava cada resposta em `raw_predictions.jsonl` assim que ela chega e, se interrompido, retoma de onde parou ao ser executado de novo (respostas com erro são refeitas; cada chamada tem até 3 tentativas). Use `run --fresh` para descartar as respostas existentes. Antes de chamar as APIs, o `run` falha se faltar `description_pt_br` em alguma intenção ou se algum `text_pt_br` estiver vazio ou idêntico ao inglês. O `metrics.json` reporta, por idioma, os erros excluídos (`errors`), as métricas sobre os exemplos em que os dois sistemas responderam (`paired`, base do bootstrap) e sobre todas as respostas válidas (`all_valid`). O smoke usa `data/intents_smoke.json`, com descrições PT-BR marcadas `[SMOKE-PLACEHOLDER]` só para testar o pipeline.
 
 ## Comandos
 
@@ -27,6 +29,17 @@ jev-eval --config configs/default.yaml plot
 ```
 
 O smoke gera `outputs/smoke/raw_predictions.jsonl`, `outputs/smoke/metrics.json` e `outputs/smoke/reliability_diagram.png`. Os mocks são determinísticos e servem somente para testar o pipeline, não para evidência científica.
+
+## Tradução PT-BR
+
+1. Rascunho automático com modelo local via [Ollama](https://ollama.com) (`gemma4:12b-it-qat`, de família diferente do LLM avaliado, para não enviesar a comparação), com glossário fixo:
+   `python scripts/translate_local.py` → preenche `description_pt_br` em `data/intents.json` e gera `data/translations_pt_br.jsonl` com `translation_status: machine_draft` (retomável).
+2. Planilhas de revisão humana (CSV `;`, UTF-8), divididas por intenção entre os revisores:
+   `python scripts/export_review_sheets.py --reviewers Nome1 Nome2 Nome3 Nome4` → `data/review/`.
+   Cada revisor corrige a coluna `*_final` e preenche `status` com `ok` ou `corrigido` (e `observacao` para casos difíceis).
+3. Importar e aplicar: `python scripts/import_review_sheets.py` e depois `python scripts/merge_translations.py`.
+
+O `run` recusa descrições PT-BR vazias ou duplicadas e avisa enquanto houver traduções não revisadas.
 
 ## Método
 

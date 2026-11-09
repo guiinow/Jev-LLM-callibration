@@ -1,0 +1,20 @@
+﻿label_name;description_en;mt_draft;description_pt_br_final;status;observacao;reviewer
+activate_my_card;activate my card;ativar meu cartão;ativar meu cartão;;;Guilherme Ferreira
+automatic_top_up;automatic top up;recarga automática;recarga automática;;;Guilherme Ferreira
+cancel_transfer;cancel transfer;cancelar transferência;cancelar transferência;;;Guilherme Ferreira
+card_delivery_estimate;card delivery estimate;estimativa de entrega do cartão;estimativa de entrega do cartão;;;Guilherme Ferreira
+card_payment_not_recognised;card payment not recognised;pagamento com cartão não reconhecido;pagamento com cartão não reconhecido;;;Guilherme Ferreira
+cash_withdrawal_not_recognised;cash withdrawal not recognised;saque não reconhecido;saque não reconhecido;;;Guilherme Ferreira
+country_support;country support;suporte por país;suporte por país;;;Guilherme Ferreira
+direct_debit_payment_not_recognised;direct debit payment not recognised;pagamento por débito automático não reconhecido;pagamento por débito automático não reconhecido;;;Guilherme Ferreira
+exchange_rate;exchange rate;taxa de câmbio;taxa de câmbio;;"ATENÇÃO: rascunho igual ao de exchange_charge; precisam ser diferentes. Combinar com Bernardo.";Guilherme Ferreira
+fiat_currency_support;fiat currency support;suporte de moeda fiat;suporte de moeda fiat;;;Guilherme Ferreira
+getting_virtual_card;getting virtual card;obter cartão virtual;obter cartão virtual;;;Guilherme Ferreira
+passcode_forgotten;passcode forgotten;esqueci o código de acesso;esqueci o código de acesso;;;Guilherme Ferreira
+pending_transfer;pending transfer;transferência pendente;transferência pendente;;;Guilherme Ferreira
+reverted_card_payment;reverted card payment;pagamento com cartão estornado;pagamento com cartão estornado;;;Guilherme Ferreira
+top_up_by_card_charge;top up by card charge;recarga por cobrança no cartão;recarga por cobrança no cartão;;"Sentido errado no rascunho; sugestão: 'tarifa de recarga com cartão'.";Guilherme Ferreira
+top_up_reverted;top up reverted;recarga estornado;recarga estornado;;Concordância: 'recarga estornada'.;Guilherme Ferreira
+transfer_into_account;transfer into account;transferência para conta;transferência para conta;;;Guilherme Ferreira
+verify_my_identity;verify my identity;verificar minha identidade;verificar minha identidade;;;Guilherme Ferreira
+visa_or_mastercard;visa or mastercard;visa ou mastercard;visa ou mastercard;;;Guilherme Ferreira

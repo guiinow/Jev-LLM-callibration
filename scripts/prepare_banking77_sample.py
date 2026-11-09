@@ -32,9 +32,14 @@ def main() -> None:
             file.write(json.dumps({
                 "example_id": f"test-{index:04d}", "split": "test", "label_id": row["label"],
                 "label_name": LABELS[row["label"]], "text_en": row["text"],
-                "text_pt_br": row["text"], "translation_status": "pending_human_review",
+                "text_pt_br": "", "translation_status": "pending_translation",
             }, ensure_ascii=False) + "\n")
-    Path("data/intents.json").write_text(json.dumps([
+    print(f"Wrote {len(selected)} examples ({per_label} per label) to {output}")
+    intents_path = Path("data/intents.json")
+    if intents_path.exists():
+        print(f"Kept existing {intents_path} (not overwritten, to preserve translated descriptions)")
+        return
+    intents_path.write_text(json.dumps([
         {"label_id": i, "label_name": label, "description_en": label.replace("_", " "),
          "description_pt_br": ""}
         for i, label in enumerate(LABELS)

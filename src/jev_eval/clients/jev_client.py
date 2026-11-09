@@ -20,6 +20,7 @@ def _mock_choice(message: str, labels: list[str]) -> tuple[str, float, dict[str,
 class JevClient(ClassifierClient):
     def __init__(self, model: str | None = None) -> None:
         self.model = model or os.getenv("TYPESAFE_DEFAULT_MODEL", "jev-latest")
+        self.model_id = self.model
         api_key = os.getenv("TYPESAFE_API_KEY")
         if not api_key:
             raise RuntimeError("TYPESAFE_API_KEY is required for JevClient; use --mock for local smoke runs.")
@@ -34,7 +35,7 @@ class JevClient(ClassifierClient):
             questions={question_id: Choice(instructions="Choose the banking intent.", criteria=criteria)},
         )
         answer = response.answers[question_id]
-        return ClassificationResult(answer.choice, float(answer.confidence), answer, self.model)
+        return ClassificationResult(answer.choice, float(answer.confidence), answer, self.model, "jev-native")
 
 
 class MockJevClient(ClassifierClient):
@@ -43,4 +44,4 @@ class MockJevClient(ClassifierClient):
     def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
         labels = list(criteria)
         label, confidence, raw = _mock_choice(message, labels)
-        return ClassificationResult(label, confidence, raw, self.model_id)
+        return ClassificationResult(label, confidence, raw, self.model_id, "jev-native")

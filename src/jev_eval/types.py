@@ -10,6 +10,7 @@ class SampleExample:
     label_name: str
     text_en: str
     text_pt_br: str
+    translation_status: str | None = None
 
 
 @dataclass
@@ -41,4 +42,4 @@ class ClassificationResult:
     confidence: float
     raw_response: Any
     model_id: str
-
+    prompt_version: str = ""

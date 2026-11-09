@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 from jev_eval.clients.base import ClassifierClient
+from jev_eval.prompts.llm_prompt import PROMPT_VERSION
 from jev_eval.types import ClassificationResult
 
 
@@ -31,6 +32,7 @@ class LlmClient(ClassifierClient):
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY is required for LlmClient; use --mock for local smoke runs.")
         self.model = model or os.getenv("LLM_MODEL", "gpt-4.1-mini")
+        self.model_id = self.model
         self.client = OpenAI(api_key=api_key, base_url=os.getenv("OPENAI_BASE_URL"))
 
     def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
@@ -45,7 +47,7 @@ class LlmClient(ClassifierClient):
         )
         text = response.choices[0].message.content or ""
         intent, confidence = parse_llm_json(text, set(criteria))
-        return ClassificationResult(intent, confidence, text, self.model)
+        return ClassificationResult(intent, confidence, text, self.model, PROMPT_VERSION)
 
 
 class MockLlmClient(ClassifierClient):
@@ -57,5 +59,5 @@ class MockLlmClient(ClassifierClient):
         label, base, raw = _mock_choice(message, labels)
         confidence = min(0.99, base + 0.25)
         raw["confidence"] = confidence
-        return ClassificationResult(label, confidence, raw, self.model_id)
+        return ClassificationResult(label, confidence, raw, self.model_id, PROMPT_VERSION)
 
