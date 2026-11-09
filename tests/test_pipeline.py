@@ -45,7 +45,7 @@ def make_config(tmp_path: Path, pt_desc=None) -> EvalConfig:
 
 
 def patch_clients(monkeypatch, clients):
-    monkeypatch.setattr(ri, "build_clients", lambda mock: clients)
+    monkeypatch.setattr(ri, "build_clients", lambda mock, config=None: clients)
     monkeypatch.setattr(ri.time, "sleep", lambda s: None)
 
 

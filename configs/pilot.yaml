@@ -1,0 +1,21 @@
+# PILOT: first 100 examples of the (shuffled, stratified) sample, machine-draft PT-BR,
+# local LLM via Ollama's OpenAI-compatible endpoint. Not evidence for H1.
+# Build inputs first: python scripts/build_pilot_data.py
+seed: 42
+sample_size: 100
+ece_bins: 15
+languages: [en, pt_br]
+systems: [jev, llm]
+jev:
+  model: jev-latest
+llm:
+  # Different family from the translation model (gemma4) to avoid biasing PT-BR.
+  model: ministral-3:14b
+  base_url: http://localhost:11434/v1
+  api_key: ollama  # Ollama ignores the key; the OpenAI client just needs a non-empty value
+paths:
+  intents: data/pilot/intents_pilot.json
+  sample: data/pilot/sample_pilot.jsonl
+  translations: data/translations_pt_br.jsonl
+  raw_predictions: outputs/pilot/raw_predictions.jsonl
+  metrics: outputs/pilot/metrics.json

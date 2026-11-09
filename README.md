@@ -41,6 +41,25 @@ O smoke gera `outputs/smoke/raw_predictions.jsonl`, `outputs/smoke/metrics.json`
 
 O `run` recusa descrições PT-BR vazias ou duplicadas e avisa enquanto houver traduções não revisadas.
 
+## Saídas de uma execução
+
+`analyze` grava `metrics.json` (ECE, acurácia, IC 95% bootstrap por sistema, confiança média, excesso de confiança, erros com confiança ≥ 0,9 e ΔECE pareado). `plot` grava, ao lado de `raw_predictions.jsonl`, sempre sobre os exemplos em que os dois sistemas responderam:
+
+| Arquivo | Para quê |
+|---|---|
+| `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por idioma |
+| `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema/idioma com IC 95% |
+| `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM (teste de H1: IC abaixo de 0) |
+| `figures/confidence_correct_vs_wrong.png` | Confiança em acertos vs erros, por sistema e idioma |
+| `figures/risk_coverage.png` | Exploratório: acurácia das respostas aceitas vs cobertura, por limiar de confiança |
+| `figures/top_confusions.png` | Pares (verdadeiro → previsto) mais confundidos |
+| `tables/summary.csv` | Tabela principal do relatório |
+| `tables/reliability_bins.csv` | Contagem, confiança e acurácia por bin |
+| `tables/high_confidence_errors.csv` | Erros com confiança ≥ 0,9, com o texto, para análise qualitativa |
+| `tables/confusion_pairs.csv`, `tables/language_flips.csv` | Análise de erros e efeito da tradução (EN vs PT-BR) |
+
+Piloto (100 exemplos, PT-BR em rascunho, LLM local `ministral-3:14b` via Ollama): `python scripts/build_pilot_data.py`, depois `jev-eval --config configs/pilot.yaml run`, `analyze` e `plot`.
+
 ## Método
 
 Usamos Banking77, split `test`, amostragem estratificada (seed 42), até 500 exemplos, e as mesmas mensagens e opções para Jev e LLM. A métrica primária é ECE com bins uniformes congelados no YAML (`smoke=6`, `default=15`). O intervalo de 95% da diferença `ECE_jev - ECE_llm` usa bootstrap pareado por `example_id`, 5000 reamostragens e seed 42. Acurácia é apenas contexto. O estudo avalia produtos/interfaces e não permite concluir superioridade de RLCD sobre RLHF.

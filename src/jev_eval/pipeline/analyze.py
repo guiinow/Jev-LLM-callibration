@@ -1,19 +1,33 @@
 from collections import defaultdict
 from typing import Any
 
-from jev_eval.eval.metrics import expected_calibration_error, paired_bootstrap_ece, save_metrics
+from jev_eval.eval.metrics import (bootstrap_system_ci, expected_calibration_error, paired_bootstrap_ece,
+                                   save_metrics)
+
+HIGH_CONFIDENCE = 0.9
 
 SYSTEMS = ("jev", "llm")
 
 
-def _summary(rows: list[dict[str, Any]], n_bins: int) -> dict[str, Any]:
+def _summary(rows: list[dict[str, Any]], n_bins: int, with_ci: bool = False) -> dict[str, Any]:
     if not rows:
         return {"ece": None, "accuracy": None, "n": 0}
-    return {
-        "ece": expected_calibration_error([r["confidence"] for r in rows], [r["correct"] for r in rows], n_bins),
-        "accuracy": sum(r["correct"] for r in rows) / len(rows),
+    confidences = [r["confidence"] for r in rows]
+    correct = [bool(r["correct"]) for r in rows]
+    accuracy = sum(correct) / len(rows)
+    mean_confidence = sum(confidences) / len(rows)
+    summary = {
+        "ece": expected_calibration_error(confidences, correct, n_bins),
+        "accuracy": accuracy,
         "n": len(rows),
+        "mean_confidence": mean_confidence,
+        "overconfidence": mean_confidence - accuracy,
+        "high_confidence_errors": sum(1 for c, ok in zip(confidences, correct) if not ok and c >= HIGH_CONFIDENCE),
+        "distinct_confidence_values": len({round(c, 4) for c in confidences}),
     }
+    if with_ci:
+        summary.update(bootstrap_system_ci(confidences, correct, n_bins))
+    return summary
 
 
 def analyze(records: list[dict[str, Any]], n_bins: int, output_path) -> dict[str, Any]:
@@ -32,14 +46,15 @@ def analyze(records: list[dict[str, Any]], n_bins: int, output_path) -> dict[str
         else:
             errors[row["language"]][row["system"]].append(row["example_id"])
 
-    metrics: dict[str, Any] = {"n_bins": n_bins, "languages": {}}
+    metrics: dict[str, Any] = {"n_bins": n_bins, "high_confidence_threshold": HIGH_CONFIDENCE, "languages": {}}
     for language in sorted(set(by_language) | set(errors)):
         systems = by_language[language]
         paired_ids = sorted(set.intersection(*(set(systems.get(s, {})) for s in SYSTEMS)))
         language_metrics: dict[str, Any] = {
             "errors": {s: {"n": len(errors[language][s]), "example_ids": errors[language][s]} for s in SYSTEMS},
             "all_valid": {s: _summary(list(systems.get(s, {}).values()), n_bins) for s in SYSTEMS},
-            "paired": {s: _summary([systems[s][i] for i in paired_ids], n_bins) for s in SYSTEMS},
+            "paired": {s: _summary([systems[s][i] for i in paired_ids], n_bins, with_ci=bool(paired_ids))
+                       for s in SYSTEMS},
             "n_paired": len(paired_ids),
         }
         if paired_ids:

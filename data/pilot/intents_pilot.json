@@ -1,0 +1,618 @@
+[
+  {
+    "label_id": 0,
+    "label_name": "activate_my_card",
+    "description_en": "activate my card",
+    "description_pt_br": "ativar meu cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 1,
+    "label_name": "age_limit",
+    "description_en": "age limit",
+    "description_pt_br": "limite de idade",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 2,
+    "label_name": "apple_pay_or_google_pay",
+    "description_en": "apple pay or google pay",
+    "description_pt_br": "Apple Pay ou Google Pay",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 3,
+    "label_name": "atm_support",
+    "description_en": "atm support",
+    "description_pt_br": "suporte ao caixa eletrônico",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 4,
+    "label_name": "automatic_top_up",
+    "description_en": "automatic top up",
+    "description_pt_br": "recarga automática",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 5,
+    "label_name": "balance_not_updated_after_bank_transfer",
+    "description_en": "balance not updated after bank transfer",
+    "description_pt_br": "saldo não atualizado após transferência bancária",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 6,
+    "label_name": "balance_not_updated_after_cheque_or_cash_deposit",
+    "description_en": "balance not updated after cheque or cash deposit",
+    "description_pt_br": "saldo não atualizado após depósito de cheque ou dinheiro",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 7,
+    "label_name": "beneficiary_not_allowed",
+    "description_en": "beneficiary not allowed",
+    "description_pt_br": "favorecido não permitido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 8,
+    "label_name": "cancel_transfer",
+    "description_en": "cancel transfer",
+    "description_pt_br": "cancelar transferência",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 9,
+    "label_name": "card_about_to_expire",
+    "description_en": "card about to expire",
+    "description_pt_br": "cartão prestes a vencer",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 10,
+    "label_name": "card_acceptance",
+    "description_en": "card acceptance",
+    "description_pt_br": "aceitação de cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 11,
+    "label_name": "card_arrival",
+    "description_en": "card arrival",
+    "description_pt_br": "chegada do cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 12,
+    "label_name": "card_delivery_estimate",
+    "description_en": "card delivery estimate",
+    "description_pt_br": "estimativa de entrega do cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 13,
+    "label_name": "card_linking",
+    "description_en": "card linking",
+    "description_pt_br": "vincular cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 14,
+    "label_name": "card_not_working",
+    "description_en": "card not working",
+    "description_pt_br": "cartão não funciona",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 15,
+    "label_name": "card_payment_fee_charged",
+    "description_en": "card payment fee charged",
+    "description_pt_br": "taxa de pagamento com cartão cobrada",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 16,
+    "label_name": "card_payment_not_recognised",
+    "description_en": "card payment not recognised",
+    "description_pt_br": "pagamento com cartão não reconhecido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 17,
+    "label_name": "card_payment_wrong_exchange_rate",
+    "description_en": "card payment wrong exchange rate",
+    "description_pt_br": "pagamento com cartão taxa de câmbio errada",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 18,
+    "label_name": "card_swallowed",
+    "description_en": "card swallowed",
+    "description_pt_br": "cartão retido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 19,
+    "label_name": "cash_withdrawal_charge",
+    "description_en": "cash withdrawal charge",
+    "description_pt_br": "tarifa de saque",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 20,
+    "label_name": "cash_withdrawal_not_recognised",
+    "description_en": "cash withdrawal not recognised",
+    "description_pt_br": "saque não reconhecido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 21,
+    "label_name": "change_pin",
+    "description_en": "change pin",
+    "description_pt_br": "alterar PIN",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 22,
+    "label_name": "compromised_card",
+    "description_en": "compromised card",
+    "description_pt_br": "cartão comprometido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 23,
+    "label_name": "contactless_not_working",
+    "description_en": "contactless not working",
+    "description_pt_br": "pagamento por aproximação não funcionando",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 24,
+    "label_name": "country_support",
+    "description_en": "country support",
+    "description_pt_br": "suporte por país",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 25,
+    "label_name": "declined_card_payment",
+    "description_en": "declined card payment",
+    "description_pt_br": "pagamento com cartão recusado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 26,
+    "label_name": "declined_cash_withdrawal",
+    "description_en": "declined cash withdrawal",
+    "description_pt_br": "saque recusado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 27,
+    "label_name": "declined_transfer",
+    "description_en": "declined transfer",
+    "description_pt_br": "transferência recusada",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 28,
+    "label_name": "direct_debit_payment_not_recognised",
+    "description_en": "direct debit payment not recognised",
+    "description_pt_br": "pagamento por débito automático não reconhecido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 29,
+    "label_name": "disposable_card_limits",
+    "description_en": "disposable card limits",
+    "description_pt_br": "limites do cartão virtual descartável",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 30,
+    "label_name": "edit_personal_details",
+    "description_en": "edit personal details",
+    "description_pt_br": "editar dados pessoais",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 31,
+    "label_name": "exchange_charge",
+    "description_en": "exchange charge",
+    "description_pt_br": "tarifa de câmbio",
+    "description_pt_br_status": "pilot_patch",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 32,
+    "label_name": "exchange_rate",
+    "description_en": "exchange rate",
+    "description_pt_br": "taxa de câmbio",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 33,
+    "label_name": "exchange_via_app",
+    "description_en": "exchange via app",
+    "description_pt_br": "câmbio pelo app",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 34,
+    "label_name": "extra_charge_on_statement",
+    "description_en": "extra charge on statement",
+    "description_pt_br": "taxa extra no extrato",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 35,
+    "label_name": "failed_transfer",
+    "description_en": "failed transfer",
+    "description_pt_br": "transferência falhou",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 36,
+    "label_name": "fiat_currency_support",
+    "description_en": "fiat currency support",
+    "description_pt_br": "suporte de moeda fiat",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 37,
+    "label_name": "get_disposable_virtual_card",
+    "description_en": "get disposable virtual card",
+    "description_pt_br": "obter cartão virtual descartável",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 38,
+    "label_name": "get_physical_card",
+    "description_en": "get physical card",
+    "description_pt_br": "obter cartão físico",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 39,
+    "label_name": "getting_spare_card",
+    "description_en": "getting spare card",
+    "description_pt_br": "obter cartão adicional",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 40,
+    "label_name": "getting_virtual_card",
+    "description_en": "getting virtual card",
+    "description_pt_br": "obter cartão virtual",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 41,
+    "label_name": "lost_or_stolen_card",
+    "description_en": "lost or stolen card",
+    "description_pt_br": "cartão perdido ou roubado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 42,
+    "label_name": "lost_or_stolen_phone",
+    "description_en": "lost or stolen phone",
+    "description_pt_br": "celular perdido ou roubado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 43,
+    "label_name": "order_physical_card",
+    "description_en": "order physical card",
+    "description_pt_br": "pedir cartão físico",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 44,
+    "label_name": "passcode_forgotten",
+    "description_en": "passcode forgotten",
+    "description_pt_br": "esqueci o código de acesso",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 45,
+    "label_name": "pending_card_payment",
+    "description_en": "pending card payment",
+    "description_pt_br": "pagamento com cartão pendente",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 46,
+    "label_name": "pending_cash_withdrawal",
+    "description_en": "pending cash withdrawal",
+    "description_pt_br": "saque pendente",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 47,
+    "label_name": "pending_top_up",
+    "description_en": "pending top up",
+    "description_pt_br": "recarga pendente",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 48,
+    "label_name": "pending_transfer",
+    "description_en": "pending transfer",
+    "description_pt_br": "transferência pendente",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 49,
+    "label_name": "pin_blocked",
+    "description_en": "pin blocked",
+    "description_pt_br": "PIN bloqueado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 50,
+    "label_name": "receiving_money",
+    "description_en": "receiving money",
+    "description_pt_br": "receber dinheiro",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 51,
+    "label_name": "Refund_not_showing_up",
+    "description_en": "Refund not showing up",
+    "description_pt_br": "Reembolso não aparece",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 52,
+    "label_name": "request_refund",
+    "description_en": "request refund",
+    "description_pt_br": "solicitar reembolso",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 53,
+    "label_name": "reverted_card_payment",
+    "description_en": "reverted card payment",
+    "description_pt_br": "pagamento com cartão estornado",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 54,
+    "label_name": "supported_cards_and_currencies",
+    "description_en": "supported cards and currencies",
+    "description_pt_br": "cartões e moedas suportados",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 55,
+    "label_name": "terminate_account",
+    "description_en": "terminate account",
+    "description_pt_br": "encerrar conta",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 56,
+    "label_name": "top_up_by_bank_transfer_charge",
+    "description_en": "top up by bank transfer charge",
+    "description_pt_br": "taxa de recarga por transferência bancária",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 57,
+    "label_name": "top_up_by_card_charge",
+    "description_en": "top up by card charge",
+    "description_pt_br": "tarifa de recarga com cartão",
+    "description_pt_br_status": "pilot_patch",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 58,
+    "label_name": "top_up_by_cash_or_cheque",
+    "description_en": "top up by cash or cheque",
+    "description_pt_br": "recarga por dinheiro ou cheque",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 59,
+    "label_name": "top_up_failed",
+    "description_en": "top up failed",
+    "description_pt_br": "falha na recarga",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 60,
+    "label_name": "top_up_limits",
+    "description_en": "top up limits",
+    "description_pt_br": "limites de recarga",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 61,
+    "label_name": "top_up_reverted",
+    "description_en": "top up reverted",
+    "description_pt_br": "recarga estornada",
+    "description_pt_br_status": "pilot_patch",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 62,
+    "label_name": "topping_up_by_card",
+    "description_en": "topping up by card",
+    "description_pt_br": "recarga por cartão",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 63,
+    "label_name": "transaction_charged_twice",
+    "description_en": "transaction charged twice",
+    "description_pt_br": "cobrança duplicada",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 64,
+    "label_name": "transfer_fee_charged",
+    "description_en": "transfer fee charged",
+    "description_pt_br": "taxa de transferência cobrada",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 65,
+    "label_name": "transfer_into_account",
+    "description_en": "transfer into account",
+    "description_pt_br": "transferência para conta",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 66,
+    "label_name": "transfer_not_received_by_recipient",
+    "description_en": "transfer not received by recipient",
+    "description_pt_br": "transferência não recebida pelo favorecido",
+    "description_pt_br_status": "pilot_patch",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 67,
+    "label_name": "transfer_timing",
+    "description_en": "transfer timing",
+    "description_pt_br": "prazo de transferência",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 68,
+    "label_name": "unable_to_verify_identity",
+    "description_en": "unable to verify identity",
+    "description_pt_br": "não consigo verificar identidade",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 69,
+    "label_name": "verify_my_identity",
+    "description_en": "verify my identity",
+    "description_pt_br": "verificar minha identidade",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 70,
+    "label_name": "verify_source_of_funds",
+    "description_en": "verify source of funds",
+    "description_pt_br": "verificar origem dos recursos",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 71,
+    "label_name": "verify_top_up",
+    "description_en": "verify top up",
+    "description_pt_br": "verificar recarga",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 72,
+    "label_name": "virtual_card_not_working",
+    "description_en": "virtual card not working",
+    "description_pt_br": "cartão virtual não está funcionando",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 73,
+    "label_name": "visa_or_mastercard",
+    "description_en": "visa or mastercard",
+    "description_pt_br": "visa ou mastercard",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 74,
+    "label_name": "why_verify_identity",
+    "description_en": "why verify identity",
+    "description_pt_br": "por que verificar identidade",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 75,
+    "label_name": "wrong_amount_of_cash_received",
+    "description_en": "wrong amount of cash received",
+    "description_pt_br": "valor de saque incorreto recebido",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  },
+  {
+    "label_id": 76,
+    "label_name": "wrong_exchange_rate_for_cash_withdrawal",
+    "description_en": "wrong exchange rate for cash withdrawal",
+    "description_pt_br": "taxa de câmbio errada para saque",
+    "description_pt_br_status": "machine_draft",
+    "description_mt_model": "gemma4:12b-it-qat"
+  }
+]

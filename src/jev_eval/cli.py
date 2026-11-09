@@ -4,9 +4,17 @@ from pathlib import Path
 from jev_eval.config import load_config
 from jev_eval.data.io import read_jsonl
 from jev_eval.env import load_env
-from jev_eval.eval.plots import reliability_diagram
+from jev_eval.eval.figures import make_report_outputs
 from jev_eval.pipeline.analyze import analyze
 from jev_eval.pipeline.run_inference import run_inference
+
+
+def _plot(config, records) -> None:
+    examples = read_jsonl(config.paths["sample"])
+    written = make_report_outputs(config.paths["raw_predictions"].parent, records, config.ece_bins,
+                                  examples=examples, seed=config.seed)
+    for path in written:
+        print(path)
 
 
 def main() -> None:
@@ -26,15 +34,14 @@ def main() -> None:
     if args.command == "smoke":
         records = run_inference(config, mock=True, fresh=True)
         analyze(records, config.ece_bins, config.paths["metrics"])
-        reliability_diagram(config.paths["reliability_plot"], records, config.ece_bins)
+        _plot(config, records)
     elif args.command == "run":
         run_inference(config, mock=args.mock, fresh=args.fresh)
     elif args.command == "analyze":
         records = read_jsonl(config.paths["raw_predictions"])
         analyze(records, config.ece_bins, config.paths["metrics"])
     elif args.command == "plot":
-        records = read_jsonl(config.paths["raw_predictions"])
-        reliability_diagram(config.paths["reliability_plot"], records, config.ece_bins)
+        _plot(config, read_jsonl(config.paths["raw_predictions"]))
 
 
 if __name__ == "__main__":

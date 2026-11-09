@@ -61,10 +61,16 @@ def validate_examples(examples: list[SampleExample], languages: list[str]) -> No
                       f"(e.g. {unreviewed[:3]}).", file=sys.stderr)
 
 
-def build_clients(mock: bool) -> dict[str, ClassifierClient]:
+def build_clients(mock: bool, config: EvalConfig | None = None) -> dict[str, ClassifierClient]:
     if mock:
         return {"jev": MockJevClient(), "llm": MockLlmClient()}
-    return {"jev": JevClient(), "llm": LlmClient()}
+    llm = (config.llm if config else {}) or {}
+    jev = (config.jev if config else {}) or {}
+    return {
+        "jev": JevClient(model=jev.get("model")),
+        "llm": LlmClient(model=llm.get("model"), base_url=llm.get("base_url"),
+                         api_key_env=llm.get("api_key_env", "OPENAI_API_KEY"), api_key=llm.get("api_key")),
+    }
 
 
 def _key(row: dict[str, Any]) -> tuple[str, str, str]:
@@ -75,6 +81,8 @@ def _classify_with_retry(client: ClassifierClient, message: str, criteria: dict[
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
             return client.classify(message, criteria, language)
+        except ValueError:
+            raise  # invalid/unparseable answer: deterministic at temperature 0, retrying won't help
         except Exception:
             if attempt == MAX_ATTEMPTS:
                 raise
@@ -90,7 +98,7 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
     examples = load_examples(config.paths["sample"], config.sample_size)
     validate_examples(examples, config.languages)
     criteria = criteria_by_language(config)
-    clients = build_clients(mock)
+    clients = build_clients(mock, config)
 
     output: Path = config.paths["raw_predictions"]
     done = [] if fresh else [row for row in read_jsonl(output) if row.get("error") is None]
