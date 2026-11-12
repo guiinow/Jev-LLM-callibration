@@ -1,0 +1,7 @@
+# ministral-3:14b with an explicit context window.
+# Ollama truncates prompts longer than num_ctx without an error, its default num_ctx has
+# changed between releases, and the OpenAI-compatible /v1 endpoint cannot set it per
+# request. Pinning it here makes the window part of the recorded setup.
+# Create with: ollama create ministral-3-14b-ctx8k -f configs/ollama/ministral-3-14b-ctx8k.Modelfile
+FROM ministral-3:14b
+PARAMETER num_ctx 8192

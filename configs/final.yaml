@@ -1,0 +1,23 @@
+# FINAL RUN (evidence for H1): all 462 sample examples, human-reviewed PT-BR, pinned versions.
+# Inputs: data/intents.json + data/sample.jsonl after the review is imported and merged
+# (see README, "Execução final"). Never resumes over records made from other inputs.
+seed: 42
+sample_size: 462
+ece_bins: 15
+languages: [en, pt_br]
+systems: [jev, llm]
+jev:
+  model: jev-1.14.0  # pinned version instead of the moving alias jev-latest (group decision pending)
+llm:
+  # Built from configs/ollama/ministral-3-14b-ctx8k.Modelfile (FROM ministral-3:14b, num_ctx 8192).
+  # Different family from the translation model (gemma4) to avoid biasing PT-BR.
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192  # must match the Modelfile; requests using >= 90% of it are recorded as ContextOverflow
+  base_url: http://localhost:11434/v1
+  api_key: ollama  # Ollama ignores the key; the OpenAI client just needs a non-empty value
+paths:
+  intents: data/intents.json
+  sample: data/sample.jsonl
+  translations: data/translations_pt_br.jsonl
+  raw_predictions: outputs/final/raw_predictions.jsonl
+  metrics: outputs/final/metrics.json

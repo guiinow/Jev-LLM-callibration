@@ -34,6 +34,10 @@ class PredictionRecord:
     model_id: str
     prompt_version: str
     error: str | None
+    confidence_sdk: float | None = None  # Jev's own `confidence` statistic, kept as a check (not used for ECE)
+    served_model: str | None = None  # model/version the API reports it actually used
+    usage: dict[str, Any] | None = None  # token counts reported by the LLM server
+    input_hash: str | None = None  # fingerprint of (message, options, model, prompt); resume key
 
 
 @dataclass
@@ -43,3 +47,6 @@ class ClassificationResult:
     raw_response: Any
     model_id: str
     prompt_version: str = ""
+    confidence_sdk: float | None = None
+    served_model: str | None = None
+    usage: dict[str, Any] | None = None

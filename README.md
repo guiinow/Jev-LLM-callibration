@@ -1,77 +1,125 @@
-# Calibração Jev x LLM no Banking77
+# Calibração Jev x LLM no Banking77 (PT-BR)
 
-Projeto de curso sobre a calibração de confiança na classificação de intenções bancárias em PT-BR. A pergunta principal compara o `confidence` estruturado do Jev com a confiança verbalizada por um LLM generativo nos mesmos exemplos do Banking77 traduzidos e revisados.
+Projeto final da disciplina de LLMs (UFMG, 2026/2). Comparamos a calibração de confiança de dois sistemas na classificação de intenções bancárias: o **Jev** (TypeSafe), que devolve a escolha e as probabilidades das opções, e um **LLM generativo** (`ministral-3:14b`, local via Ollama), que devolve a intenção e uma confiança verbalizada. Os dois sistemas recebem as mesmas mensagens do Banking77 traduzidas para PT-BR e as mesmas 77 opções.
 
-## Status
+- **H1 (única hipótese principal):** em PT-BR, ECE_Jev < ECE_LLM. A hipótese é apoiada se o IC 95% pareado de ΔECE = ECE_Jev − ECE_LLM ficar abaixo de zero. Se o intervalo incluir zero, o resultado é inconclusivo.
+- **Inglês:** os mesmos exemplos, como comparação exploratória.
+- **Métrica primária:** ECE com 15 bins uniformes, fixados antes do teste. A acurácia entra como contexto.
+- **Confiança:** no Jev, `probabilities[escolha]` (proposta, seção 4.2). No LLM, o número verbalizado no JSON.
 
-O pipeline, os testes, uma amostra smoke de seis pares EN/PT-BR, os gráficos e os PDFs de especificação estão prontos. A amostra completa ainda não foi baixada e nenhuma API real é chamada pelo smoke run.
+## Execuções
+
+| Pasta | Config | Papel | PT-BR | Jev | LLM | Máquina |
+|---|---|---|---|---|---|---|
+| `outputs/full_ministral/` | `configs/full_local.yaml` | Preliminar | Rascunho automático (não revisado) | `jev-latest` (alias) | `ministral-3:14b`, `num_ctx` padrão do Ollama | Do Marco Túlio |
+| `outputs/final/` | `configs/final.yaml` | **Evidência para H1** | Revisado pelo grupo | Versão fixada (`jev.model`) | `ministral-3-14b-ctx8k` (`num_ctx` 8192) | MacBook Pro M3 Max, 36 GB, Ollama (Metal) |
+
+A versão exata de cada componente (commit, chip, RAM, versão do Ollama, digest e quantização do modelo, `num_ctx`, versões dos pacotes) fica registrada em `outputs/<execução>/run_metadata.json`, uma entrada por invocação de `run`. Cada linha de `raw_predictions.jsonl` também traz o `served_model` (a versão que a API diz ter usado), o `usage` (tokens do LLM) e o `input_hash`. Todas as execuções com LLM a partir da final rodam na mesma máquina.
+
+| Componente da execução final | Valor |
+|---|---|
+| Hardware | MacBook Pro, Apple M3 Max, 36 GB (detalhes em `run_metadata.json` → `machine`) |
+| Ollama | Versão em `run_metadata.json` → `ollama.version` |
+| LLM | `ministral-3:14b` (digest e quantização em `run_metadata.json` → `ollama`), com `num_ctx` 8192 via `configs/ollama/ministral-3-14b-ctx8k.Modelfile` |
+| Jev | `jev.model` em `configs/final.yaml`. A versão servida fica em `served_model` em cada linha |
 
 ## Setup
 
+Requer Python ≥ 3.12 (o numpy fixado exige isso).
+
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv        # ou: uv venv --python 3.12 .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-cp .env.example .env
+cp .env.example .env            # preencha TYPESAFE_API_KEY; nunca commite o .env
+pytest                          # a suíte deve passar
 ```
 
-O `.env` deve ser preenchido apenas para as execuções reais; nunca commite chaves. A CLI carrega o `.env` da raiz do repositório automaticamente (variáveis já definidas no ambiente têm prioridade).
+A CLI `jev-eval` carrega o `.env` da raiz automaticamente (variáveis já definidas no ambiente têm prioridade). Variáveis:
 
-`run` grava cada resposta em `raw_predictions.jsonl` assim que ela chega e, se interrompido, retoma de onde parou ao ser executado de novo (respostas com erro são refeitas; cada chamada tem até 3 tentativas). Use `run --fresh` para descartar as respostas existentes. Antes de chamar as APIs, o `run` falha se faltar `description_pt_br` em alguma intenção ou se algum `text_pt_br` estiver vazio ou idêntico ao inglês. O `metrics.json` reporta, por idioma, os erros excluídos (`errors`), as métricas sobre os exemplos em que os dois sistemas responderam (`paired`, base do bootstrap) e sobre todas as respostas válidas (`all_valid`). O smoke usa `data/intents_smoke.json`, com descrições PT-BR marcadas `[SMOKE-PLACEHOLDER]` só para testar o pipeline.
+| Variável | Uso |
+|---|---|
+| `TYPESAFE_API_KEY` | Obrigatória para chamar o Jev |
+| `TYPESAFE_DEFAULT_MODEL` | Fallback. As configs fixam `jev.model` |
+| `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `LLM_MODEL` | Só para configs sem seção `llm:`. As nossas usam o Ollama local, sem chave |
 
-## Comandos
+### Ollama (LLM local)
 
 ```bash
-jev-eval --config configs/smoke.yaml smoke
-jev-eval --config configs/default.yaml run --mock
-jev-eval --config configs/default.yaml analyze
-jev-eval --config configs/default.yaml plot
+brew install ollama && ollama serve          # ou o app do ollama.com
+ollama pull ministral-3:14b
+ollama create ministral-3-14b-ctx8k -f configs/ollama/ministral-3-14b-ctx8k.Modelfile
+ollama show ministral-3-14b-ctx8k --parameters   # deve mostrar num_ctx 8192
 ```
 
-O smoke gera `outputs/smoke/raw_predictions.jsonl`, `outputs/smoke/metrics.json` e `outputs/smoke/reliability_diagram.png`. Os mocks são determinísticos e servem somente para testar o pipeline, não para evidência científica.
+O `num_ctx` é fixado no Modelfile porque o Ollama **trunca prompts longos sem avisar**, o valor padrão mudou entre versões e o endpoint compatível com OpenAI (`/v1`) não aceita `num_ctx` por requisição. Por segurança, uma resposta cujo prompt mais a saída use 90% ou mais do `num_ctx` configurado é gravada como erro `ContextOverflow`, e não como resposta válida.
+
+## Reproduzir os resultados principais
+
+```bash
+# 1. Aplicar a revisão humana (planilhas em data/review/) aos dados
+python scripts/import_review_sheets.py     # -> data/translations_pt_br.jsonl e data/intents.json
+python scripts/merge_translations.py       # -> text_pt_br em data/sample.jsonl
+
+# 2. Pré-voo: tokens do prompt mais longo (EN e PT-BR) e uma chamada ao Jev (versão servida)
+jev-eval --config configs/final.yaml probe
+
+# 3. Execução, métricas, figuras e tabelas
+jev-eval --config configs/final.yaml run       # retomável; grava cada resposta ao chegar
+jev-eval --config configs/final.yaml analyze   # -> outputs/final/metrics.json
+jev-eval --config configs/final.yaml plot      # -> outputs/final/figures/, outputs/final/tables/
+```
+
+Sem chamar nenhuma API, os números reportados podem ser recalculados a partir de `outputs/final/raw_predictions.jsonl`, que está versionado, com `analyze` e `plot`.
+
+**Preliminar.** As entradas são montadas com `python scripts/build_pilot_data.py`. Para refazer a análise sem tocar nas saídas originais:
+`jev-eval --config configs/full_local.yaml analyze --output-dir outputs/full_ministral/rederived_c1` (e `plot` com o mesmo `--output-dir`). Os registros do preliminar foram gravados com o campo `confidence` do SDK. O `analyze`/`plot` derivam `probabilities[escolha]` do `raw_response` salvo e informam em `metrics.json` (`jev_confidence_source`) quantos registros puderam ser derivados.
+
+**Garantias do `run`:**
+- Respostas com erro são refeitas, com até 3 tentativas para erros de rede.
+- O `run` **recusa retomar** sobre registros produzidos a partir de outras entradas (texto, opções, modelo ou prompt diferentes, detectados pelo `input_hash`) ou sobre registros antigos sem hash. Nesse caso, use uma pasta nova ou `--fresh`.
+- O `run` falha antes de chamar as APIs se faltar uma descrição PT-BR, se duas descrições forem iguais ou se algum `text_pt_br` estiver vazio ou idêntico ao inglês. Ele avisa enquanto houver traduções não revisadas.
+
+**Teste sem APIs:** `jev-eval --config configs/smoke.yaml smoke` ou `jev-eval --config configs/default.yaml run --mock`. Os mocks são determinísticos e servem só para testar o pipeline.
 
 ## Tradução PT-BR
 
-1. Rascunho automático com modelo local via [Ollama](https://ollama.com) (`gemma4:12b-it-qat`, de família diferente do LLM avaliado, para não enviesar a comparação), com glossário fixo:
-   `python scripts/translate_local.py` → preenche `description_pt_br` em `data/intents.json` e gera `data/translations_pt_br.jsonl` com `translation_status: machine_draft` (retomável).
-2. Planilhas de revisão humana (CSV `;`, UTF-8), divididas por intenção entre os revisores:
-   `python scripts/export_review_sheets.py --reviewers Nome1 Nome2 Nome3 Nome4` → `data/review/`.
-   Cada revisor corrige a coluna `*_final` e preenche `status` com `ok` ou `corrigido` (e `observacao` para casos difíceis).
-3. Importar e aplicar: `python scripts/import_review_sheets.py` e depois `python scripts/merge_translations.py`.
-
-O `run` recusa descrições PT-BR vazias ou duplicadas e avisa enquanto houver traduções não revisadas.
+1. Rascunho automático com modelo local via Ollama (`gemma4:12b-it-qat`, de família diferente do LLM avaliado, para não enviesar a comparação), com glossário fixo: `python scripts/translate_local.py`. Ele preenche `description_pt_br` em `data/intents.json` e gera `data/translations_pt_br.jsonl` com `translation_status: machine_draft` (retomável).
+2. Planilhas de revisão (CSV `;`, UTF-8), divididas por intenção entre os revisores: `python scripts/export_review_sheets.py --reviewers Nome1 Nome2 Nome3 Nome4` → `data/review/`. Cada revisor corrige a coluna `*_final` e preenche `status` com `ok` ou `corrigido` (e `observacao` para os casos difíceis).
+3. Importar e aplicar: `scripts/import_review_sheets.py` e depois `scripts/merge_translations.py` (passo 1 acima).
 
 ## Saídas de uma execução
 
-`analyze` grava `metrics.json` (ECE, acurácia, IC 95% bootstrap por sistema, confiança média, excesso de confiança, erros com confiança ≥ 0,9 e ΔECE pareado). `plot` grava, ao lado de `raw_predictions.jsonl`, sempre sobre os exemplos em que os dois sistemas responderam:
-
 | Arquivo | Para quê |
 |---|---|
+| `raw_predictions.jsonl` | Uma linha por (exemplo, idioma, sistema): previsão, confiança, acerto, resposta bruta (também nas respostas inválidas), `served_model`, `usage`, `confidence_sdk` (Jev), `input_hash` |
+| `run_metadata.json` | Proveniência de cada invocação de `run` |
+| `metrics.json` | ECE, acurácia, IC 95% por bootstrap, confiança média, excesso de confiança, erros com confiança ≥ 0,9, ΔECE pareado (5000 reamostragens, seed 42), chamadas que falharam por sistema, e `jev_confidence_sdk_check` (ECE usando o `confidence` do SDK, só como checagem) |
 | `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por idioma |
-| `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema/idioma com IC 95% |
-| `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM (teste de H1: IC abaixo de 0) |
-| `figures/confidence_correct_vs_wrong.png` | Confiança em acertos vs erros, por sistema e idioma |
-| `figures/risk_coverage.png` | Exploratório: acurácia das respostas aceitas vs cobertura, por limiar de confiança |
+| `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema e idioma, com IC 95% |
+| `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE (teste de H1) |
+| `figures/confidence_correct_vs_wrong.png` | Confiança em acertos e em erros |
+| `figures/risk_coverage.png` | Exploratório: acurácia das respostas aceitas vs cobertura |
 | `figures/top_confusions.png` | Pares (verdadeiro → previsto) mais confundidos |
-| `tables/summary.csv` | Tabela principal do relatório |
-| `tables/reliability_bins.csv` | Contagem, confiança e acurácia por bin |
-| `tables/high_confidence_errors.csv` | Erros com confiança ≥ 0,9, com o texto, para análise qualitativa |
-| `tables/confusion_pairs.csv`, `tables/language_flips.csv` | Análise de erros e efeito da tradução (EN vs PT-BR) |
+| `tables/summary.csv` | Tabela principal (inclui `n_paired` e `n_failed_calls`) |
+| `tables/reliability_bins.csv`, `high_confidence_errors.csv`, `confusion_pairs.csv`, `language_flips.csv` | Bins, erros com confiança alta, confusões e efeito da tradução (EN vs PT-BR) |
 
-Piloto (100 exemplos, PT-BR em rascunho, LLM local `ministral-3:14b` via Ollama): `python scripts/build_pilot_data.py`, depois `jev-eval --config configs/pilot.yaml run`, `analyze` e `plot`.
+As figuras e tabelas usam só os exemplos em que os dois sistemas responderam, para que ECE_Jev e ECE_LLM sejam calculados sobre os mesmos itens.
 
 ## Método
 
-Usamos Banking77, split `test`, amostragem estratificada (seed 42), até 500 exemplos, e as mesmas mensagens e opções para Jev e LLM. A métrica primária é ECE com bins uniformes congelados no YAML (`smoke=6`, `default=15`). O intervalo de 95% da diferença `ECE_jev - ECE_llm` usa bootstrap pareado por `example_id`, 5000 reamostragens e seed 42. Acurácia é apenas contexto. O estudo avalia produtos/interfaces e não permite concluir superioridade de RLCD sobre RLHF.
+- Banking77, split `test`, amostragem estratificada com seed 42: 6 exemplos por intenção × 77 = 462 (a proposta fala em "até 500").
+- Mesmas mensagens e opções para os dois sistemas. As opções em PT-BR usam as descrições traduzidas.
+- O LLM roda com temperatura 0 e prompt congelado (`llm-intent-json-v1`, em `src/jev_eval/prompts/llm_prompt.py`).
+- O ECE usa bins uniformes congelados no YAML (`final` = 15).
+- O IC 95% de ΔECE vem de bootstrap pareado por `example_id`, com 5000 reamostragens e seed 42.
+- O estudo compara produtos e interfaces. Ele não permite concluir que RLCD seja superior a RLHF.
 
-## Próximos passos (não executados)
+## Desvios do protocolo e limitações conhecidas
 
-1. Preencher as chaves no `.env`.
-2. Executar `python scripts/prepare_banking77_sample.py --sample-size 500 --seed 42`.
-3. Traduzir e revisar humanamente as mensagens PT-BR e as descrições das intenções; aplicar `scripts/merge_translations.py`.
-4. Fazer piloto com APIs reais e congelar prompts/modelos.
-5. Executar a avaliação principal EN+PT-BR com Jev+LLM.
-6. Escrever o relatório ACM de duas páginas e preparar a apresentação.
+- **Preliminar:** PT-BR não revisado; Jev pelo alias `jev-latest`, sem registro da versão servida; confiança do Jev gravada a partir do campo `confidence` do SDK (corrigido na análise, ver acima); `num_ctx` padrão do Ollama numa máquina diferente.
+- A execução final roda numa máquina diferente da do preliminar. As diferenças entre as duas não se devem só à revisão da tradução.
+- O estudo avalia o Banking77 **traduzido**, e não a linguagem bancária brasileira nativa.
 
 ## AI disclosure (rascunho)
 
