@@ -5,6 +5,7 @@ from pathlib import Path
 
 from datasets import load_dataset
 
+from jev_eval.config import load_config
 from jev_eval.data.intent_labels import LABELS
 
 
@@ -12,8 +13,10 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--sample-size", type=int, default=500)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--config", default="configs/default.yaml")
     args = parser.parse_args()
-    dataset = load_dataset("PolyAI/banking77", split="test")
+    spec = next(d for d in load_config(args.config).datasets if d.name == "banking77")
+    dataset = load_dataset(spec.source.hf_id, split=spec.source.split, revision=spec.source.revision)
     grouped = {label_id: [] for label_id in range(len(LABELS))}
     for row in dataset:
         grouped[row["label"]].append(row)
@@ -25,7 +28,7 @@ def main() -> None:
         selected.extend(rows[:per_label])
     rng.shuffle(selected)
     selected = selected[:args.sample_size]
-    output = Path("data/sample.jsonl")
+    output = spec.paths["sample"]
     output.parent.mkdir(exist_ok=True)
     with output.open("w", encoding="utf-8") as file:
         for index, row in enumerate(selected):
@@ -35,7 +38,7 @@ def main() -> None:
                 "text_pt_br": "", "translation_status": "pending_translation",
             }, ensure_ascii=False) + "\n")
     print(f"Wrote {len(selected)} examples ({per_label} per label) to {output}")
-    intents_path = Path("data/intents.json")
+    intents_path = spec.paths["intents"]
     if intents_path.exists():
         print(f"Kept existing {intents_path} (not overwritten, to preserve translated descriptions)")
         return

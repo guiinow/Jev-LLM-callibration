@@ -18,6 +18,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
+from jev_eval.conditions import CONDITIONS
+from jev_eval.data.datasets import Example
 from jev_eval.eval.metrics import (
     bootstrap_delta_samples,
     bootstrap_system_ci,
@@ -28,11 +30,12 @@ from jev_eval.eval.metrics import (
 SYSTEMS = ("jev", "llm")
 SYSTEM_LABELS = {"jev": "Jev", "llm": "LLM"}
 
-LANGUAGE_LABELS = {
-    "pt_br": "PT-BR (principal)",
-    "en": "EN (exploratório)",
+CONDITION_LABELS = {
+    "C2": "C2 · PT (principal)",
+    "C3": "C3 · PT localizado",
+    "C1": "C1 · EN",
 }
-LANGUAGE_ORDER = ("pt_br", "en")
+CONDITION_ORDER = ("C2", "C3", "C1")
 
 HIGH_CONFIDENCE = 0.9
 
@@ -161,7 +164,7 @@ def _panel_title(
     lang: str,
     n: int | None = None,
 ) -> None:
-    label = LANGUAGE_LABELS.get(lang, lang)
+    label = CONDITION_LABELS.get(lang, lang)
 
     ax.set_title(
         label if n is None else f"{label} · n = {n}",
@@ -201,11 +204,11 @@ def _annotate_bar(
 # Paired data and metrics
 # ---------------------------------------------------------------------
 
-def paired_by_language(
+def paired_by_condition(
     records: list[dict[str, Any]],
 ) -> dict[str, dict[str, list[dict]]]:
     """
-    Return {language: {system: rows}} restricted to example_ids
+    Return {condition: {system: rows}} restricted to example_ids
     where both systems returned valid predictions.
 
     Both systems use exactly the same example ordering.
@@ -217,29 +220,29 @@ def paired_by_language(
 
     for row in records:
         if row.get("error") is None:
-            valid[row["language"]][row["system"]][row["example_id"]] = row
+            valid[row["condition"]][row["system"]][row["example_id"]] = row
 
     out: dict[str, dict[str, list[dict]]] = {}
 
-    languages = (
-        [lang for lang in LANGUAGE_ORDER if lang in valid]
-        + sorted(set(valid) - set(LANGUAGE_ORDER))
+    conditions = (
+        [name for name in CONDITION_ORDER if name in valid]
+        + sorted(set(valid) - set(CONDITION_ORDER))
     )
 
-    for language in languages:
+    for condition in conditions:
         ids = sorted(
             set.intersection(
                 *(
-                    set(valid[language].get(system, {}))
+                    set(valid[condition].get(system, {}))
                     for system in SYSTEMS
                 )
             )
         )
 
         if ids:
-            out[language] = {
+            out[condition] = {
                 system: [
-                    valid[language][system][example_id]
+                    valid[condition][system][example_id]
                     for example_id in ids
                 ]
                 for system in SYSTEMS
@@ -433,7 +436,7 @@ def summary_figure(
     n_bins: int,
 ) -> None:
     """
-    Compare ECE and accuracy across systems and languages.
+    Compare ECE and accuracy across systems and conditions.
 
     Points: observed estimates.
     Error bars: 95% bootstrap confidence intervals.
@@ -550,7 +553,7 @@ def summary_figure(
     axes[0].set_yticks(
         range(len(langs)),
         [
-            LANGUAGE_LABELS.get(lang, lang)
+            CONDITION_LABELS.get(lang, lang)
             for lang in langs
         ],
     )
@@ -740,7 +743,7 @@ def confidence_distribution_figure(
     Confidence histograms split by correct vs incorrect answers.
 
     Rows: systems.
-    Columns: languages.
+    Columns: conditions.
 
     High-confidence region is highlighted.
     """
@@ -827,7 +830,7 @@ def confidence_distribution_figure(
 
             ax.set_title(
                 f"{SYSTEM_LABELS[system]} · "
-                f"{LANGUAGE_LABELS.get(lang, lang)}",
+                f"{CONDITION_LABELS.get(lang, lang)}",
                 loc="left",
                 fontweight="bold",
             )
@@ -1033,7 +1036,7 @@ def selective_figure(
 
 def confusion_pairs(
     paired: dict,
-    language: str,
+    condition: str,
 ) -> list[tuple[str, str, dict[str, int], dict[str, int]]]:
     """
     Return:
@@ -1049,7 +1052,7 @@ def confusion_pairs(
 
     for system in SYSTEMS:
 
-        for r in paired[language][system]:
+        for r in paired[condition][system]:
 
             if not r["correct"]:
 
@@ -1236,7 +1239,7 @@ def write_tables(
 ) -> None:
 
     errors = Counter(
-        (r["language"], r["system"])
+        (r["condition"], r["system"])
         for r in records
         if r.get("error") is not None
     )
@@ -1305,7 +1308,7 @@ def write_tables(
     _write_csv(
         table_dir / "summary.csv",
         [
-            "language",
+            "condition",
             "system",
             "model_id",
             "n_paired",
@@ -1362,7 +1365,7 @@ def write_tables(
     _write_csv(
         table_dir / "reliability_bins.csv",
         [
-            "language",
+            "condition",
             "system",
             "bin_low",
             "bin_high",
@@ -1409,7 +1412,7 @@ def write_tables(
     _write_csv(
         table_dir / "high_confidence_errors.csv",
         [
-            "language",
+            "condition",
             "system",
             "example_id",
             "text",
@@ -1448,7 +1451,7 @@ def write_tables(
     _write_csv(
         table_dir / "confusion_pairs.csv",
         [
-            "language",
+            "condition",
             "true_label",
             "predicted_label",
             "errors_jev",
@@ -1460,57 +1463,64 @@ def write_tables(
     )
 
     # -------------------------------------------------
-    # Language flips
+    # Language flips: baseline C1 (EN) vs each PT condition
     # -------------------------------------------------
 
-    if {"en", "pt_br"} <= set(paired):
+    if "C1" in paired:
 
         flip_rows = []
 
-        for system in SYSTEMS:
+        for pt_condition in ("C2", "C3"):
 
-            en = {
-                r["example_id"]: r["correct"]
-                for r in paired["en"][system]
-            }
+            if pt_condition not in paired:
+                continue
 
-            pt = {
-                r["example_id"]: r["correct"]
-                for r in paired["pt_br"][system]
-            }
+            for system in SYSTEMS:
 
-            ids = sorted(
-                set(en) & set(pt)
-            )
+                en = {
+                    r["example_id"]: r["correct"]
+                    for r in paired["C1"][system]
+                }
 
-            flip_rows.append([
-                system,
-                len(ids),
+                pt = {
+                    r["example_id"]: r["correct"]
+                    for r in paired[pt_condition][system]
+                }
 
-                sum(
-                    en[i] and pt[i]
-                    for i in ids
-                ),
+                ids = sorted(
+                    set(en) & set(pt)
+                )
 
-                sum(
-                    en[i] and not pt[i]
-                    for i in ids
-                ),
+                flip_rows.append([
+                    pt_condition,
+                    system,
+                    len(ids),
 
-                sum(
-                    not en[i] and pt[i]
-                    for i in ids
-                ),
+                    sum(
+                        en[i] and pt[i]
+                        for i in ids
+                    ),
 
-                sum(
-                    not en[i] and not pt[i]
-                    for i in ids
-                ),
-            ])
+                    sum(
+                        en[i] and not pt[i]
+                        for i in ids
+                    ),
+
+                    sum(
+                        not en[i] and pt[i]
+                        for i in ids
+                    ),
+
+                    sum(
+                        not en[i] and not pt[i]
+                        for i in ids
+                    ),
+                ])
 
         _write_csv(
             table_dir / "language_flips.csv",
             [
+                "pt_condition",
                 "system",
                 "n",
                 "both_correct",
@@ -1530,7 +1540,7 @@ def make_report_outputs(
     output_dir: Path,
     records: list[dict],
     n_bins: int,
-    examples: list[dict] | None = None,
+    examples: list[Example] | None = None,
     n_bootstrap: int = 5000,
     seed: int = 42,
 ) -> list[Path]:
@@ -1541,7 +1551,7 @@ def make_report_outputs(
 
     _style()
 
-    paired = paired_by_language(records)
+    paired = paired_by_condition(records)
 
     if not paired:
         raise ValueError(
@@ -1569,15 +1579,12 @@ def make_report_outputs(
 
     for ex in examples or []:
 
-        texts[(ex["example_id"], "en")] = ex.get(
-            "text_en",
-            "",
-        )
+        for condition in CONDITIONS.values():
 
-        texts[(ex["example_id"], "pt_br")] = ex.get(
-            "text_pt_br",
-            "",
-        )
+            texts[(ex.example_id, condition.name)] = ex.text.get(
+                condition.content_language,
+                "",
+            )
 
     # -------------------------------------------------
     # Generate figures

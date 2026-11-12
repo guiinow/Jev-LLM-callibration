@@ -4,6 +4,7 @@ import re
 from typing import Any
 
 from jev_eval.clients.base import ClassifierClient
+from jev_eval.prompts.templates import TaskPrompt
 from jev_eval.types import ClassificationResult
 
 
@@ -27,21 +28,21 @@ class JevClient(ClassifierClient):
         from typesafe_sdk import TypeSafeClient
         self.client = TypeSafeClient(model=self.model)
 
-    def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
+    def classify(self, message: str, criteria: dict[str, str], prompt: TaskPrompt) -> ClassificationResult:
         from typesafe_sdk import Choice
         question_id = "intent"
         response = self.client.system_one(
             state=message,
-            questions={question_id: Choice(instructions="Choose the banking intent.", criteria=criteria)},
+            questions={question_id: Choice(instructions=prompt.instructions, criteria=criteria)},
         )
         answer = response.answers[question_id]
-        return ClassificationResult(answer.choice, float(answer.confidence), answer, self.model, "jev-native")
+        return ClassificationResult(answer.choice, float(answer.confidence), answer, self.model, prompt.version)
 
 
 class MockJevClient(ClassifierClient):
     model_id = "mock-jev"
 
-    def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
+    def classify(self, message: str, criteria: dict[str, str], prompt: TaskPrompt) -> ClassificationResult:
         labels = list(criteria)
         label, confidence, raw = _mock_choice(message, labels)
-        return ClassificationResult(label, confidence, raw, self.model_id, "jev-native")
+        return ClassificationResult(label, confidence, raw, self.model_id, prompt.version)

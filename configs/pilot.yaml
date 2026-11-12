@@ -4,7 +4,7 @@
 seed: 42
 sample_size: 100
 ece_bins: 15
-languages: [en, pt_br]
+conditions: [C1, C2]
 systems: [jev, llm]
 jev:
   model: jev-latest
@@ -13,9 +13,12 @@ llm:
   model: ministral-3:14b
   base_url: http://localhost:11434/v1
   api_key: ollama  # Ollama ignores the key; the OpenAI client just needs a non-empty value
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/pilot/sample_pilot.jsonl
+      intents: data/pilot/intents_pilot.json
 paths:
-  intents: data/pilot/intents_pilot.json
-  sample: data/pilot/sample_pilot.jsonl
-  translations: data/translations_pt_br.jsonl
   raw_predictions: outputs/pilot/raw_predictions.jsonl
-  metrics: outputs/pilot/metrics.json
