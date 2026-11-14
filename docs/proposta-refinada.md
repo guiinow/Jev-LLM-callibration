@@ -10,7 +10,7 @@ Quando a mensagem passa do inglês para o português, a confiança de um modelo 
 
 - **JEV** é um modelo da TypeSafe AI que não gera texto: escolhe entre opções fixas e devolve a probabilidade de cada uma.
 - **Confiança confiável** (calibração) significa que, quando o modelo diz 90%, ele acerta cerca de 90% das vezes. Medimos com o **ECE**: quanto menor, melhor.
-- **O benchmark** (Deußer et al., 2026, "Evaluating and Benchmarking the System One Model Jev") avaliou o JEV em 37 datasets e o comparou com Qwen3.8-27B e Gemma-4-E4B, lidos pelas probabilidades exatas das opções. Ele não inclui uma avaliação específica de exemplos traduzidos para PT-BR.
+- **O benchmark** (Deußer et al., 2026, "Evaluating and Benchmarking the System One Model Jev") já avaliou o JEV em 37 datasets e o comparou com Qwen3.8-27B e Gemma-4-E4B, lidos pelas probabilidades exatas das opções. Ele não inclui uma avaliação específica de exemplos traduzidos para PT-BR.
 
 ## O que mudou em relação à proposta inicial
 
@@ -63,8 +63,6 @@ Q1 e Q2 são respondidas separando modelo de forma de medir:
 | IMDB | Sentimento | [maritaca-ai/imdb_pt](https://huggingface.co/datasets/maritaca-ai/imdb_pt) |
 | BoolQ (opcional) | Sim/não | [PORTULAN/extraglue](https://huggingface.co/datasets/PORTULAN/extraglue) |
 | GoEmotions (opcional) | 28 emoções, várias por frase | [antoniomenezes/go_emotions_ptbr](https://huggingface.co/datasets/antoniomenezes/go_emotions_ptbr) |
-
-Nem toda versão é necessariamente português *brasileiro*; usamos "português" como descrição geral. As fontes serão confirmadas na implementação.
 
 **Pareamento EN↔PT sem revisão manual:** alinhamos por ID ou texto original (ordem só se documentada), checamos contagens, IDs duplicados ou ausentes, campos vazios, rótulos divergentes e opções, e mantemos só pares comprovadamente alinhados. O que for excluído e o motivo ficam num manifesto. Se o alinhamento de um dataset não puder ser comprovado, ele sai da análise pareada principal.
 
