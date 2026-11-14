@@ -11,6 +11,7 @@ from jev_eval.eval.metrics import save_metrics
 from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline, with_baseline_jev
 from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
+from jev_eval.pipeline.benchmark_check import benchmark_check, format_report
 from jev_eval.pipeline.run_inference import run_inference
 
 
@@ -50,6 +51,16 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
             print(out / "ablation.json")
 
 
+def _check_benchmark(config, records, output_dir: Path | None = None) -> None:
+    result = benchmark_check(with_chosen_probability(records), config.ece_bins)
+    report = format_report(result)
+    out = (output_dir or config.output_dir) / "banking77" / "benchmark_check.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(report, encoding="utf-8")
+    print(report)
+    print(out)
+
+
 def _plot(config, records, baseline=None, output_dir: Path | None = None) -> None:
     specs = {spec.name: spec for spec in config.datasets}
     base_by_dataset = _by_dataset(config, baseline) if baseline is not None else {}
@@ -76,7 +87,7 @@ def main() -> None:
     run_parser.add_argument("--mock", action="store_true")
     run_parser.add_argument("--fresh", action="store_true",
                             help="discard existing raw predictions instead of resuming")
-    for name in ("analyze", "plot"):
+    for name in ("analyze", "plot", "check-benchmark"):
         subparsers.add_parser(name).add_argument(
             "--output-dir", type=Path,
             help="write metrics/figures/tables here instead of next to raw_predictions.jsonl "
@@ -99,6 +110,8 @@ def main() -> None:
     elif args.command == "plot":
         records, baseline = _records(config)
         _plot(config, records, baseline, args.output_dir)
+    elif args.command == "check-benchmark":
+        _check_benchmark(config, with_conditions(read_jsonl(config.paths["raw_predictions"])), args.output_dir)
     elif args.command == "probe":
         from jev_eval.pipeline.probe import run_probe
         run_probe(config, skip_jev=args.skip_jev)
