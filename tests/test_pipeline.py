@@ -135,7 +135,7 @@ def test_analyze_reports_errors_and_uses_paired_subset(tmp_path):
                 "correct": correct, "error": error}
     records = [rec("e0", "jev", 0.9, True), rec("e0", "llm", 0.9, True),
                rec("e1", "jev", 0.9, False), rec("e1", "llm", 0.0, False, error="parse")]
-    metrics = analyze(records, 1, tmp_path / "m.json")["conditions"]["C2"]
+    metrics = analyze(records, 1, tmp_path / "m.json", n_bootstrap=50)["conditions"]["C2"]
     assert metrics["errors"]["llm"]["n"] == 1 and metrics["errors"]["jev"]["n"] == 0
     assert metrics["n_paired"] == 1
     assert metrics["paired"]["jev"]["n"] == 1 and metrics["all_valid"]["jev"]["n"] == 2

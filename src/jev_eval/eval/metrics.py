@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -112,3 +113,61 @@ def save_metrics(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
 
+
+
+def expected_risk_by_coverage(confidences: list[float], correct: list[bool]) -> np.ndarray:
+    """Risk (error rate) of the k most confident items, for k = 1..n.
+
+    Items with the same confidence are treated as randomly ordered: inside a tie group the
+    risk grows linearly with the group's error rate, so the result does not depend on the
+    input order (matters for coarse confidences such as Jev's 2 decimals).
+    """
+    confidence = np.asarray(confidences, dtype=float)
+    errors = 1.0 - np.asarray(correct, dtype=float)
+    n = len(confidence)
+    if n == 0:
+        raise ValueError("Cannot compute a risk-coverage curve without items")
+    order = np.argsort(-confidence, kind="stable")
+    ranked_conf, ranked_err = confidence[order], errors[order]
+    starts = np.concatenate(([0], np.flatnonzero(np.diff(ranked_conf) != 0) + 1, [n]))
+    risks = np.empty(n)
+    errors_before = 0.0
+    for start, end in zip(starts[:-1], starts[1:]):
+        group = ranked_err[start:end]
+        steps = np.arange(1, end - start + 1)
+        risks[start:end] = (errors_before + steps * group.mean()) / (start + steps)
+        errors_before += group.sum()
+    return risks
+
+
+def selective_summary(confidences: list[float], correct: list[bool],
+                      coverages: tuple[float, ...] = (0.5, 0.8)) -> dict[str, Any]:
+    """AURC and the accuracy/risk when only the most confident share of answers is accepted."""
+    risks = expected_risk_by_coverage(confidences, correct)
+    n = len(risks)
+    risk_at = {str(c): float(risks[max(1, math.ceil(round(c * n, 9))) - 1]) for c in coverages}
+    return {
+        "aurc": float(risks.mean()),
+        "risk_at_coverage": risk_at,
+        "accuracy_at_coverage": {c: 1.0 - risk for c, risk in risk_at.items()},
+    }
+
+
+def bootstrap_selective_ci(confidences: list[float], correct: list[bool],
+                           coverages: tuple[float, ...] = (0.5, 0.8), n_bootstrap: int = 5000,
+                           seed: int = 42) -> dict[str, list[float]]:
+    """Percentile 95% CIs for AURC and the accuracy at each coverage."""
+    rng = np.random.default_rng(seed)
+    confidence = np.asarray(confidences, dtype=float)
+    hits = np.asarray(correct, dtype=bool)
+    aurc = np.empty(n_bootstrap)
+    accuracy = {str(c): np.empty(n_bootstrap) for c in coverages}
+    for index in range(n_bootstrap):
+        sample = rng.integers(0, len(confidence), len(confidence))
+        summary = selective_summary(confidence[sample].tolist(), hits[sample].tolist(), coverages)
+        aurc[index] = summary["aurc"]
+        for c, values in accuracy.items():
+            values[index] = summary["accuracy_at_coverage"][c]
+    return {"aurc_ci95": [float(np.percentile(aurc, 2.5)), float(np.percentile(aurc, 97.5))],
+            **{f"accuracy_at_{c}_ci95": [float(np.percentile(v, 2.5)), float(np.percentile(v, 97.5))]
+               for c, v in accuracy.items()}}

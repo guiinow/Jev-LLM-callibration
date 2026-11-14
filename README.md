@@ -6,6 +6,16 @@ Projeto final da disciplina de LLMs (UFMG, 2026/2). Comparamos a calibração de
 - **Métrica primária:** ECE com 15 bins uniformes, fixados antes do teste. A acurácia entra como contexto.
 - **Confiança:** no Jev, `probabilities[escolha]` (proposta, seção 4.2). No LLM, o número verbalizado no JSON.
 
+## Perguntas do estudo
+
+O estudo junta a hipótese original com a mudança de idioma. A proposta completa e o que mudou em relação à inicial estão em [docs/proposta-refinada.md](docs/proposta-refinada.md).
+
+| # | Pergunta | Onde sai |
+|---|---|---|
+| **Q1 (H1)** | Em PT-BR, o ECE do Jev é menor que o do LLM? | `metrics.json` → `conditions.<C>.paired_bootstrap` |
+| **Q2** | O ECE e a acurácia mudam de EN para PT, em cada sistema? | `metrics.json` → `language_shift`, `tables/language_shift.csv` |
+| **Q3** | A confiança ainda serve para escolher quando responder? | `metrics.json` → `conditions.<C>.selective`, `tables/selective.csv` |
+
 ## Condições
 
 Cada exemplo roda em três condições de idioma, sempre com os dois sistemas:
@@ -16,7 +26,7 @@ Cada exemplo roda em três condições de idioma, sempre com os dois sistemas:
 | C2 | PT-BR | EN | PT-BR com opções em inglês |
 | C3 | PT-BR | PT-BR | PT-BR com opções em português, o desenho descrito na proposta (seção 4.1) |
 
-Nas figuras, a C2 aparece como "principal". **A condição em que o H1 é testado ainda é decisão do grupo** e precisa constar no relatório. O `metrics.json` traz o ΔECE pareado com IC de todas as condições.
+Nas figuras, a C2 aparece como "principal". **A condição em que o H1 é testado ainda é decisão do grupo** e precisa constar no relatório. O `metrics.json` traz o ΔECE pareado com IC de todas as condições. O efeito do idioma (Q2) é medido como C2 menos C1 (contraste primário, só o conteúdo muda) e C3 menos C1.
 
 Os prompts são templates congelados e versionados em `src/jev_eval/prompts/templates.py`. Editar o texto muda o fingerprint e quebra `tests/test_templates.py` até que a `version` seja incrementada. O prompt principal é o `choice-v1`. A ablação usa a variante `choice-topk-v1`.
 
@@ -81,6 +91,9 @@ jev-eval --config configs/final_timing.yaml run
 jev-eval --config configs/final.yaml run       # retomável; grava cada resposta ao chegar
 jev-eval --config configs/final.yaml analyze   # -> outputs/final/banking77/metrics.json
 jev-eval --config configs/final.yaml plot      # -> outputs/final/banking77/{figures,tables}/
+
+# 5. Conferência: nosso Jev em inglês bate com o benchmark publicado?
+jev-eval --config configs/final.yaml check-benchmark   # -> outputs/final/banking77/benchmark_check.md
 ```
 
 **Ablação de prompt (E1, análise secundária).** O LLM roda de novo com o prompt `choice-topk-v1`, que pede as 3 intenções mais prováveis, cada uma com a probabilidade de estar correta (o "Verb. 1S top-k" de Tian et al., 2023). A previsão é a intenção de maior probabilidade, e a confiança é essa probabilidade. Como em Tian et al., só esse palpite principal precisa ser uma intenção válida. Palpites inferiores com intenção fora das opções são ignorados e contados em `answers_with_invented_lower_guess`.
@@ -148,6 +161,10 @@ Por dataset, em `<saída>/<dataset>/`. As figuras e tabelas usam só os exemplos
 | `../raw_predictions.jsonl` | Uma linha por (dataset, exemplo, condição, sistema): previsão, confiança, acerto, resposta bruta (também nas respostas inválidas), `served_model`, `usage`, `confidence_sdk` (Jev), `input_hash`, `latency_s` |
 | `../run_metadata.json` | Proveniência de cada invocação de `run` |
 | `metrics.json` | Por condição: ECE, acurácia, IC 95% por bootstrap, confiança média, excesso de confiança, erros com confiança ≥ 0,9, ΔECE pareado (5000 reamostragens, seed 42), chamadas que falharam e `jev_confidence_sdk_check` (ECE com o `confidence` do SDK, só como checagem) |
+| `tables/language_shift.csv` | Q2. Por sistema e condição PT: ECE em EN e em PT, ΔECE (PT − EN) e ΔAcurácia com IC 95% pareado por exemplo, fração de previsões que mudam de classe e mudança média da confiança (`analyze` já grava) |
+| `tables/selective.csv` | Q3. Por condição e sistema: AURC e acurácia ao aceitar só os 50% e 80% mais confiantes, com IC 95%. Empates de confiança são tratados como ordem aleatória |
+| `tables/bin_sensitivity.csv` | ΔECE (Jev − LLM) com 10, 15, 20 e 30 faixas, o veredito de cada uma (`jev_lower`, `llm_lower` ou `inconclusive`) e se a conclusão muda com o número de faixas |
+| `benchmark_check.md` | Só com `check-benchmark`: acurácia, ECE, acurácia nos 50% e 80% mais confiantes e AURC do Jev em C1 contra o benchmark publicado (Banking77), e se o valor publicado cai no nosso IC |
 | `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por condição |
 | `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema e condição, com IC 95% |
 | `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM |
