@@ -1,0 +1,21 @@
+﻿label_name;description_en;mt_draft;description_pt_br_final;status;observacao;reviewer
+atm_support;atm support;suporte ao caixa eletrônico;suporte ao caixa eletrônico;;;Bernardo Machado
+beneficiary_not_allowed;beneficiary not allowed;favorecido não permitido;favorecido não permitido;;;Bernardo Machado
+card_arrival;card arrival;chegada do cartão;chegada do cartão;;;Bernardo Machado
+card_payment_fee_charged;card payment fee charged;taxa de pagamento com cartão cobrada;taxa de pagamento com cartão cobrada;;;Bernardo Machado
+cash_withdrawal_charge;cash withdrawal charge;tarifa de saque;tarifa de saque;;;Bernardo Machado
+contactless_not_working;contactless not working;pagamento por aproximação não funcionando;pagamento por aproximação não funcionando;;;Bernardo Machado
+declined_transfer;declined transfer;transferência recusada;transferência recusada;;;Bernardo Machado
+exchange_charge;exchange charge;taxa de câmbio;taxa de câmbio;;"ATENÇÃO: rascunho igual ao de exchange_rate ('taxa de câmbio'); precisam ser diferentes (sugestão: 'tarifa de câmbio'). Combinar com Guilherme.";Bernardo Machado
+failed_transfer;failed transfer;transferência falhou;transferência falhou;;;Bernardo Machado
+getting_spare_card;getting spare card;obter cartão adicional;obter cartão adicional;;;Bernardo Machado
+order_physical_card;order physical card;pedir cartão físico;pedir cartão físico;;;Bernardo Machado
+pending_top_up;pending top up;recarga pendente;recarga pendente;;;Bernardo Machado
+Refund_not_showing_up;Refund not showing up;Reembolso não aparece;Reembolso não aparece;;;Bernardo Machado
+request_refund;request refund;solicitar reembolso;solicitar reembolso;;;Bernardo Machado
+top_up_by_bank_transfer_charge;top up by bank transfer charge;taxa de recarga por transferência bancária;taxa de recarga por transferência bancária;;;Bernardo Machado
+top_up_limits;top up limits;limites de recarga;limites de recarga;;;Bernardo Machado
+transfer_fee_charged;transfer fee charged;taxa de transferência cobrada;taxa de transferência cobrada;;;Bernardo Machado
+unable_to_verify_identity;unable to verify identity;não consigo verificar identidade;não consigo verificar identidade;;;Bernardo Machado
+virtual_card_not_working;virtual card not working;cartão virtual não está funcionando;cartão virtual não está funcionando;;;Bernardo Machado
+wrong_exchange_rate_for_cash_withdrawal;wrong exchange rate for cash withdrawal;taxa de câmbio errada para saque;taxa de câmbio errada para saque;;;Bernardo Machado

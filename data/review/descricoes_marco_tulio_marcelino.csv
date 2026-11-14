@@ -1,0 +1,20 @@
+﻿label_name;description_en;mt_draft;description_pt_br_final;status;observacao;reviewer
+age_limit;age limit;limite de idade;limite de idade;;;Marco Túlio Marcelino
+balance_not_updated_after_bank_transfer;balance not updated after bank transfer;saldo não atualizado após transferência bancária;saldo não atualizado após transferência bancária;;;Marco Túlio Marcelino
+card_about_to_expire;card about to expire;cartão prestes a vencer;cartão prestes a vencer;;;Marco Túlio Marcelino
+card_linking;card linking;vincular cartão;vincular cartão;;;Marco Túlio Marcelino
+card_payment_wrong_exchange_rate;card payment wrong exchange rate;pagamento com cartão taxa de câmbio errada;pagamento com cartão taxa de câmbio errada;;;Marco Túlio Marcelino
+change_pin;change pin;alterar PIN;alterar PIN;;;Marco Túlio Marcelino
+declined_card_payment;declined card payment;pagamento com cartão recusado;pagamento com cartão recusado;;;Marco Túlio Marcelino
+disposable_card_limits;disposable card limits;limites do cartão virtual descartável;limites do cartão virtual descartável;;;Marco Túlio Marcelino
+exchange_via_app;exchange via app;câmbio pelo app;câmbio pelo app;;;Marco Túlio Marcelino
+get_disposable_virtual_card;get disposable virtual card;obter cartão virtual descartável;obter cartão virtual descartável;;;Marco Túlio Marcelino
+lost_or_stolen_card;lost or stolen card;cartão perdido ou roubado;cartão perdido ou roubado;;;Marco Túlio Marcelino
+pending_card_payment;pending card payment;pagamento com cartão pendente;pagamento com cartão pendente;;;Marco Túlio Marcelino
+pin_blocked;pin blocked;PIN bloqueado;PIN bloqueado;;;Marco Túlio Marcelino
+supported_cards_and_currencies;supported cards and currencies;cartões e moedas suportados;cartões e moedas suportados;;;Marco Túlio Marcelino
+top_up_by_cash_or_cheque;top up by cash or cheque;recarga por dinheiro ou cheque;recarga por dinheiro ou cheque;;;Marco Túlio Marcelino
+topping_up_by_card;topping up by card;recarga por cartão;recarga por cartão;;;Marco Túlio Marcelino
+transfer_not_received_by_recipient;transfer not received by recipient;transferização não recebida pelo favorecido;transferização não recebida pelo favorecido;;"Erro: 'transferização' não existe; usar 'transferência'.";Marco Túlio Marcelino
+verify_source_of_funds;verify source of funds;verificar origem dos recursos;verificar origem dos recursos;;;Marco Túlio Marcelino
+why_verify_identity;why verify identity;por que verificar identidade;por que verificar identidade;;;Marco Túlio Marcelino

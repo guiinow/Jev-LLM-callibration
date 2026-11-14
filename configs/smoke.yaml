@@ -4,10 +4,9 @@ ece_bins: 6
 languages: [en, pt_br]
 systems: [jev, llm]
 paths:
-  intents: data/intents.json
+  intents: data/intents_smoke.json
   sample: data/sample_smoke.jsonl
   translations: data/translations_pt_br_smoke.jsonl
   raw_predictions: outputs/smoke/raw_predictions.jsonl
   metrics: outputs/smoke/metrics.json
-  reliability_plot: outputs/smoke/reliability_diagram.png
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +14,8 @@ class EvalConfig:
     systems: list[str]
     paths: dict[str, Path]
     config_path: Path
+    llm: dict[str, Any] = field(default_factory=dict)
+    jev: dict[str, Any] = field(default_factory=dict)
 
 
 def load_config(path: str | Path) -> EvalConfig:
@@ -30,5 +32,7 @@ def load_config(path: str | Path) -> EvalConfig:
         systems=raw["systems"],
         paths=paths,
         config_path=config_path,
+        llm=raw.get("llm") or {},
+        jev=raw.get("jev") or {},
     )
 

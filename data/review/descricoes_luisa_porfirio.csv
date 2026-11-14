@@ -1,0 +1,20 @@
+﻿label_name;description_en;mt_draft;description_pt_br_final;status;observacao;reviewer
+apple_pay_or_google_pay;apple pay or google pay;Apple Pay ou Google Pay;Apple Pay ou Google Pay;;;Luísa Porfírio
+balance_not_updated_after_cheque_or_cash_deposit;balance not updated after cheque or cash deposit;saldo não atualizado após depósito de cheque ou dinheiro;saldo não atualizado após depósito de cheque ou dinheiro;;;Luísa Porfírio
+card_acceptance;card acceptance;aceitação de cartão;aceitação de cartão;;;Luísa Porfírio
+card_not_working;card not working;cartão não funciona;cartão não funciona;;;Luísa Porfírio
+card_swallowed;card swallowed;cartão retido;cartão retido;;;Luísa Porfírio
+compromised_card;compromised card;cartão comprometido;cartão comprometido;;;Luísa Porfírio
+declined_cash_withdrawal;declined cash withdrawal;saque recusado;saque recusado;;;Luísa Porfírio
+edit_personal_details;edit personal details;editar dados pessoais;editar dados pessoais;;;Luísa Porfírio
+extra_charge_on_statement;extra charge on statement;taxa extra no extrato;taxa extra no extrato;;;Luísa Porfírio
+get_physical_card;get physical card;obter cartão físico;obter cartão físico;;;Luísa Porfírio
+lost_or_stolen_phone;lost or stolen phone;celular perdido ou roubado;celular perdido ou roubado;;;Luísa Porfírio
+pending_cash_withdrawal;pending cash withdrawal;saque pendente;saque pendente;;;Luísa Porfírio
+receiving_money;receiving money;receber dinheiro;receber dinheiro;;;Luísa Porfírio
+terminate_account;terminate account;encerrar conta;encerrar conta;;;Luísa Porfírio
+top_up_failed;top up failed;falha na recarga;falha na recarga;;;Luísa Porfírio
+transaction_charged_twice;transaction charged twice;cobrança duplicada;cobrança duplicada;;;Luísa Porfírio
+transfer_timing;transfer timing;prazo de transferência;prazo de transferência;;;Luísa Porfírio
+verify_top_up;verify top up;verificar recarga;verificar recarga;;;Luísa Porfírio
+wrong_amount_of_cash_received;wrong amount of cash received;valor de saque incorreto recebido;valor de saque incorreto recebido;;;Luísa Porfírio

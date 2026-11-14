@@ -9,5 +9,4 @@ paths:
   translations: data/translations_pt_br.jsonl
   raw_predictions: outputs/raw_predictions.jsonl
   metrics: outputs/metrics.json
-  reliability_plot: outputs/reliability_diagram.png
 

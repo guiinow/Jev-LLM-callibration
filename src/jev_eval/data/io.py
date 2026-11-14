@@ -6,6 +6,27 @@ from typing import Any, Iterable
 from jev_eval.types import SampleExample
 
 
+def to_jsonable(value: Any) -> Any:
+    """Best-effort conversion of SDK response objects into JSON-serializable data."""
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, dict):
+        return {str(key): to_jsonable(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple, set)):
+        return [to_jsonable(item) for item in value]
+    if hasattr(value, "__dataclass_fields__"):
+        return to_jsonable(asdict(value))
+    for method in ("model_dump", "dict", "to_dict"):
+        if callable(getattr(value, method, None)):
+            try:
+                return to_jsonable(getattr(value, method)())
+            except Exception:
+                pass
+    if hasattr(value, "__dict__"):
+        return to_jsonable({k: v for k, v in vars(value).items() if not k.startswith("_")})
+    return repr(value)
+
+
 def read_jsonl(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
