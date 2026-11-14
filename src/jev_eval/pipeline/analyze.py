@@ -3,10 +3,12 @@ from collections import Counter, defaultdict
 from typing import Any
 
 from jev_eval.clients.jev_client import chosen_probability
-from jev_eval.eval.metrics import (bootstrap_system_ci, expected_calibration_error, paired_bootstrap_ece,
-                                   save_metrics)
+from jev_eval.eval.metrics import (bootstrap_selective_ci, bootstrap_system_ci, expected_calibration_error,
+                                   paired_bootstrap_ece, save_metrics, selective_summary)
+from jev_eval.pipeline.language_shift import language_shift
 
 HIGH_CONFIDENCE = 0.9
+SENSITIVITY_BINS = (10, 20, 30)  # extra ECE bin counts, to check the H1 conclusion does not hinge on 15
 
 SYSTEMS = ("jev", "llm")
 
@@ -76,13 +78,45 @@ def _summary(rows: list[dict[str, Any]], n_bins: int, with_ci: bool = False) -> 
     return summary
 
 
-def analyze(records: list[dict[str, Any]], n_bins: int, output_path) -> dict[str, Any]:
+def _selective(rows: list[dict[str, Any]], n_bootstrap: int) -> dict[str, Any]:
+    """AURC and accuracy at 50%/80% coverage when only the most confident answers are accepted."""
+    confidences, correct = [r["confidence"] for r in rows], [bool(r["correct"]) for r in rows]
+    return {**selective_summary(confidences, correct),
+            **bootstrap_selective_ci(confidences, correct, n_bootstrap=n_bootstrap)}
+
+
+def _verdict(interval_low: float, interval_high: float) -> str:
+    if interval_high < 0:
+        return "jev_lower"
+    if interval_low > 0:
+        return "llm_lower"
+    return "inconclusive"
+
+
+def _bin_sensitivity(paired: list[dict[str, Any]], n_bins: int, n_bootstrap: int) -> dict[str, Any]:
+    """delta ECE (Jev - LLM) with other bin counts; `conclusion_stable` if the verdict never changes."""
+    by_bins: dict[str, Any] = {}
+    for bins in sorted({n_bins, *SENSITIVITY_BINS}):
+        result = paired_bootstrap_ece(paired, bins, n_bootstrap)
+        by_bins[str(bins)] = {
+            "ece_jev": expected_calibration_error([r["jev"] for r in paired], [r["correct_jev"] for r in paired], bins),
+            "ece_llm": expected_calibration_error([r["llm"] for r in paired], [r["correct_llm"] for r in paired], bins),
+            "delta_ece": result["delta_ece"], "ci95_low": result["ci95_low"], "ci95_high": result["ci95_high"],
+            "verdict": _verdict(result["ci95_low"], result["ci95_high"]),
+        }
+    return {"by_bins": by_bins,
+            "conclusion_stable": len({entry["verdict"] for entry in by_bins.values()}) == 1}
+
+
+def analyze(records: list[dict[str, Any]], n_bins: int, output_path, n_bootstrap: int = 5000) -> dict[str, Any]:
     """Per-condition metrics for one dataset.
 
     The headline numbers (`paired`, `paired_bootstrap`) use only examples where BOTH
     systems returned a valid answer, so ECE_jev and ECE_llm are computed on the same
     items. `all_valid` keeps every valid answer per system, and `errors` counts the
-    failed calls (parse failures, API errors) that were excluded.
+    failed calls (parse failures, API errors) that were excluded. `selective` and
+    `bin_sensitivity` use the same paired examples; `language_shift` compares each PT condition
+    with C1 inside each system.
     """
     records = with_chosen_probability(records)
     by_condition: dict[str, dict[str, dict[str, dict]]] = defaultdict(lambda: defaultdict(dict))
@@ -114,7 +148,10 @@ def analyze(records: list[dict[str, Any]], n_bins: int, output_path) -> dict[str
                 "jev": systems["jev"][i]["confidence"], "llm": systems["llm"][i]["confidence"],
                 "correct_jev": systems["jev"][i]["correct"], "correct_llm": systems["llm"][i]["correct"],
             } for i in paired_ids]
-            condition_metrics["paired_bootstrap"] = paired_bootstrap_ece(paired, n_bins)
+            condition_metrics["paired_bootstrap"] = paired_bootstrap_ece(paired, n_bins, n_bootstrap)
+            condition_metrics["selective"] = {s: _selective([systems[s][i] for i in paired_ids], n_bootstrap)
+                                              for s in SYSTEMS}
+            condition_metrics["bin_sensitivity"] = _bin_sensitivity(paired, n_bins, n_bootstrap)
             sdk = [systems["jev"][i] for i in paired_ids if systems["jev"][i].get("confidence_sdk") is not None]
             # Check only: ECE if Jev's SDK `confidence` statistic were used instead (not the H1 metric).
             condition_metrics["jev_confidence_sdk_check"] = {
@@ -123,5 +160,6 @@ def analyze(records: list[dict[str, Any]], n_bins: int, output_path) -> dict[str
                                                   [bool(r["correct"]) for r in sdk], n_bins) if sdk else None,
             }
         metrics["conditions"][condition] = condition_metrics
+    metrics["language_shift"] = language_shift(records, n_bins, n_bootstrap)
     save_metrics(output_path, metrics)
     return metrics

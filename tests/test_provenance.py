@@ -53,7 +53,7 @@ def test_legacy_records_get_probability_of_choice_and_keep_sdk_value():
 def test_analyze_reports_sdk_confidence_check(tmp_path):
     llm = {"example_id": "e0", "condition": "C3", "system": "llm", "confidence": 1.0, "correct": True,
            "error": None}
-    metrics = analyze([legacy_jev("e0", 0.5, {"a": 0.9, "b": 0.1}), llm], 1, tmp_path / "m.json")
+    metrics = analyze([legacy_jev("e0", 0.5, {"a": 0.9, "b": 0.1}), llm], 1, tmp_path / "m.json", n_bootstrap=50)
     c3 = metrics["conditions"]["C3"]
     assert c3["paired"]["jev"]["ece"] == pytest.approx(0.1)  # |1 - 0.9|, from probabilities[choice]
     assert c3["jev_confidence_sdk_check"]["ece"] == pytest.approx(0.5)  # |1 - 0.5|, SDK field
