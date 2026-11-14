@@ -119,7 +119,7 @@ jev-eval --config configs/open_models.yaml analyze   # + readout.json e tabelas 
 jev-eval --config configs/open_models.yaml check-benchmark   # Gemma e Qwen (prob) contra o publicado
 ```
 
-O `open_models.yaml` grava no mesmo `outputs/final/raw_predictions.jsonl`. As linhas do Jev e do Ministral já calculadas são mantidas (a retomada confere o `input_hash`). Rode a configuração final antes. A leitura por probabilidades **não foi testada com os pesos reais** neste repositório (a máquina de desenvolvimento não os comporta); os testes usam um modelo de mentira. Valide em C1 com o `check-benchmark` antes de confiar nos números.
+O `open_models.yaml` grava no mesmo `outputs/final/raw_predictions.jsonl`. As linhas do Jev e do Ministral já calculadas são mantidas (a retomada confere o `input_hash`). Rode a configuração final antes. As duas leituras foram exercitadas de ponta a ponta só com um modelo pequeno (`Qwen/Qwen2.5-0.5B-Instruct`), porque a máquina de desenvolvimento não comporta o Gemma-4 nem o Qwen3.8; os testes automáticos usam um modelo de mentira. Valide em C1 com o `check-benchmark` antes de confiar nos números.
 
 ```bash
 jev-eval --config configs/ablation_topk.yaml probe     # tokens do prompt top-3

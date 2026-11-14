@@ -27,7 +27,9 @@ class HfBackend:
         import transformers
         self._torch = torch
         self._tokenizer = transformers.AutoTokenizer.from_pretrained(self.hf_id, revision=self.revision)
-        kwargs: dict[str, Any] = {"revision": self.revision, "dtype": getattr(torch, self.dtype),
+        # transformers 5 renamed `torch_dtype` to `dtype`
+        dtype_key = "dtype" if int(transformers.__version__.split(".")[0]) >= 5 else "torch_dtype"
+        kwargs: dict[str, Any] = {"revision": self.revision, dtype_key: getattr(torch, self.dtype),
                                   "device_map": self.device_map}
         if self.quantization in ("4bit", "8bit"):
             kwargs["quantization_config"] = transformers.BitsAndBytesConfig(
