@@ -1,12 +1,14 @@
 seed: 42
 sample_size: 24
 ece_bins: 6
-languages: [en, pt_br]
+conditions: [C1, C2, C3]
 systems: [jev, llm]
+datasets:
+  - name: banking77
+    task: choice
+    paths:
+      sample: data/sample_smoke.jsonl
+      intents: data/intents_smoke.json
 paths:
-  intents: data/intents_smoke.json
-  sample: data/sample_smoke.jsonl
-  translations: data/translations_pt_br_smoke.jsonl
   raw_predictions: outputs/smoke/raw_predictions.jsonl
-  metrics: outputs/smoke/metrics.json
 

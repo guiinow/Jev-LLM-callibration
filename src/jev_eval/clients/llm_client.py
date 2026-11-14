@@ -4,9 +4,7 @@ import re
 from typing import Any
 
 from jev_eval.clients.base import ClassifierClient
-from jev_eval.prompts.llm_prompt import PROMPT_VERSION
-
-LANGUAGE_NAMES = {"en": "English", "pt_br": "Brazilian Portuguese"}
+from jev_eval.prompts.templates import TaskPrompt
 from jev_eval.types import ClassificationResult
 
 
@@ -40,29 +38,25 @@ class LlmClient(ClassifierClient):
         self.model_id = self.model
         self.client = OpenAI(api_key=api_key, base_url=base_url or os.getenv("OPENAI_BASE_URL"))
 
-    def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
-        options = "\n".join(f"- {label}: {description}" for label, description in criteria.items())
+    def classify(self, message: str, criteria: dict[str, str], prompt: TaskPrompt) -> ClassificationResult:
         response = self.client.chat.completions.create(
             model=self.model,
             temperature=0,
-            messages=[{"role": "user", "content": (
-                f"Classify this banking message written in {LANGUAGE_NAMES.get(language, language)}. Return only JSON with exact keys "
-                f'"intent" and "confidence", where confidence is 0 to 1.\nOptions:\n{options}\nMessage: {message}'
-            )}],
+            messages=[{"role": "user", "content": prompt.render_llm(message, criteria)}],
         )
         text = response.choices[0].message.content or ""
         intent, confidence = parse_llm_json(text, set(criteria))
-        return ClassificationResult(intent, confidence, text, self.model, PROMPT_VERSION)
+        return ClassificationResult(intent, confidence, text, self.model, prompt.version)
 
 
 class MockLlmClient(ClassifierClient):
     model_id = "mock-llm"
 
-    def classify(self, message: str, criteria: dict[str, str], language: str) -> ClassificationResult:
+    def classify(self, message: str, criteria: dict[str, str], prompt: TaskPrompt) -> ClassificationResult:
         from jev_eval.clients.jev_client import _mock_choice
         labels = list(criteria)
         label, base, raw = _mock_choice(message, labels)
         confidence = min(0.99, base + 0.25)
         raw["confidence"] = confidence
-        return ClassificationResult(label, confidence, raw, self.model_id, PROMPT_VERSION)
+        return ClassificationResult(label, confidence, raw, self.model_id, prompt.version)
 

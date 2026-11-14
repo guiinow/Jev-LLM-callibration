@@ -3,8 +3,6 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Iterable
 
-from jev_eval.types import SampleExample
-
 
 def to_jsonable(value: Any) -> Any:
     """Best-effort conversion of SDK response objects into JSON-serializable data."""
@@ -40,11 +38,3 @@ def write_jsonl(path: Path, rows: Iterable[Any]) -> None:
         for row in rows:
             file.write(json.dumps(asdict(row) if hasattr(row, "__dataclass_fields__") else row,
                                   ensure_ascii=False) + "\n")
-
-
-def load_examples(path: Path, limit: int | None = None) -> list[SampleExample]:
-    rows = read_jsonl(path)
-    if limit is not None:
-        rows = rows[:limit]
-    return [SampleExample(**row) for row in rows]
-
