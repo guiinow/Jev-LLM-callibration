@@ -52,7 +52,7 @@ def test_config_requires_pinned_revision(tmp_path):
         load_config(write_config(tmp_path, source=source))
 
 
-@pytest.mark.parametrize("name", ["default", "smoke", "pilot", "full_local"])
+@pytest.mark.parametrize("name", ["default", "smoke", "pilot", "full_local", "final", "final_timing", "ablation_topk"])
 def test_shipped_configs_load(name):
     config = load_config(ROOT / "configs" / f"{name}.yaml")
     assert config.datasets and set(config.conditions) <= set(CONDITIONS)

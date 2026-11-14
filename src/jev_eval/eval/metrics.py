@@ -25,6 +25,38 @@ def expected_calibration_error(confidences: list[float], correct: list[bool], n_
     return float(total)
 
 
+def equal_mass_ece(confidences: list[float], correct: list[bool], n_bins: int) -> float:
+    """ECE with bins of (nearly) equal size over the confidence-sorted items (adaptive ECE).
+
+    Ties are split by original order (stable sort), so with coarse confidences (e.g. Jev's
+    2 decimals) tied items can land in neighbouring bins.
+    """
+    if not confidences:
+        return 0.0
+    confidence = np.asarray(confidences, dtype=float)
+    accuracy = np.asarray(correct, dtype=float)
+    order = np.argsort(confidence, kind="stable")
+    return float(sum(len(b) / len(order) * abs(accuracy[b].mean() - confidence[b].mean())
+                     for b in np.array_split(order, min(n_bins, len(order)))))
+
+
+def brier_top1(confidences: list[float], correct: list[bool]) -> float:
+    """Mean squared error of the top-1 confidence against correctness."""
+    return float(np.mean((np.asarray(confidences, dtype=float) - np.asarray(correct, dtype=float)) ** 2))
+
+
+def auroc(confidences: list[float], correct: list[bool]) -> float | None:
+    """P(conf of a correct item > conf of a wrong item), ties count 1/2. None if only one class."""
+    confidence = np.asarray(confidences, dtype=float)
+    hits = np.asarray(correct, dtype=bool)
+    pos, neg = confidence[hits], confidence[~hits]
+    if not len(pos) or not len(neg):
+        return None
+    greater = (pos[:, None] > neg[None, :]).sum()
+    ties = (pos[:, None] == neg[None, :]).sum()
+    return float((greater + 0.5 * ties) / (len(pos) * len(neg)))
+
+
 def bootstrap_delta_samples(records: list[dict[str, Any]], n_bins: int, n_bootstrap: int = 5000,
                             seed: int = 42) -> np.ndarray:
     """Paired bootstrap samples of ECE_jev - ECE_llm (resampling example ids)."""

@@ -6,7 +6,13 @@ outputs/**/*
 !outputs/.gitkeep
 !outputs/mock/
 !outputs/mock/.gitkeep
+# Runs reported in the paper are versioned (spec: saved outputs must back the numbers).
+!outputs/full_ministral/
+!outputs/full_ministral/**
+!outputs/final/
+!outputs/final/**
 data/raw/
 data/processed/
 *.egg-info/
-
+!outputs/ablation_topk/
+!outputs/ablation_topk/**

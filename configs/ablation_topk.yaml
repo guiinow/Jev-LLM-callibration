@@ -1,0 +1,29 @@
+# E1 ABLATION (secondary analysis; H1 stays defined on the main prompt in configs/final.yaml).
+# Same model, num_ctx, inputs and examples as the final run; only the LLM prompt changes to the
+# frozen top-k variant (choice-topk-v1: 3 guesses with probabilities, Tian et al. 2023).
+# Jev is NOT called: analyze/plot take Jev and main-prompt LLM answers from paths.baseline (the
+# final run), after checking each was produced from the same message, options and prompt.
+# Run after the final run is complete.
+seed: 42
+sample_size: 462
+ece_bins: 15
+conditions: [C2, C3]  # the PT-BR conditions; add C1 if time permits (resuming keeps rows already done)
+systems: [llm]
+jev:
+  model: jev-1.14.0  # not called; must match the baseline run
+llm:
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+  prompt: topk
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+paths:
+  baseline: outputs/final/raw_predictions.jsonl
+  raw_predictions: outputs/ablation_topk/raw_predictions.jsonl

@@ -3,9 +3,21 @@ import os
 import re
 from typing import Any
 
-from jev_eval.clients.base import ClassifierClient
+from jev_eval.clients.base import ClassifierClient, InvalidResponse
 from jev_eval.prompts.templates import TaskPrompt
 from jev_eval.types import ClassificationResult
+
+
+def chosen_probability(probabilities: Any, choice: str) -> float:
+    """Proposal 4.2: Jev's confidence is its probability for the chosen option."""
+    if hasattr(probabilities, "items"):
+        probabilities = dict(probabilities.items())
+    if not isinstance(probabilities, dict) or choice not in probabilities:
+        raise ValueError(f"Jev probabilities have no entry for the chosen option {choice!r}")
+    value = float(probabilities[choice])
+    if not 0 <= value <= 1:
+        raise ValueError(f"Jev probability for {choice!r} is outside [0, 1]: {value}")
+    return value
 
 
 def _mock_choice(message: str, labels: list[str]) -> tuple[str, float, dict[str, Any]]:
@@ -14,8 +26,8 @@ def _mock_choice(message: str, labels: list[str]) -> tuple[str, float, dict[str,
     best = max(range(len(labels)), key=lambda index: (scores[index], -index))
     logits = [float(score) for score in scores]
     exps = [math.exp(value) for value in logits]
-    probabilities = [value / sum(exps) for value in exps]
-    return labels[best], probabilities[best], {"choice": labels[best], "probabilities": probabilities}
+    probabilities = {label: value / sum(exps) for label, value in zip(labels, exps)}
+    return labels[best], probabilities[labels[best]], {"choice": labels[best], "probabilities": probabilities}
 
 
 class JevClient(ClassifierClient):
@@ -36,7 +48,13 @@ class JevClient(ClassifierClient):
             questions={question_id: Choice(instructions=prompt.instructions, criteria=criteria)},
         )
         answer = response.answers[question_id]
-        return ClassificationResult(answer.choice, float(answer.confidence), answer, self.model, prompt.version)
+        served = getattr(response, "model", None)
+        try:
+            confidence = chosen_probability(answer.probabilities, answer.choice)
+        except ValueError as error:
+            raise InvalidResponse(str(error), answer, served) from error
+        return ClassificationResult(answer.choice, confidence, answer, self.model, prompt.version,
+                                    confidence_sdk=float(answer.confidence), served_model=served)
 
 
 class MockJevClient(ClassifierClient):
@@ -45,4 +63,5 @@ class MockJevClient(ClassifierClient):
     def classify(self, message: str, criteria: dict[str, str], prompt: TaskPrompt) -> ClassificationResult:
         labels = list(criteria)
         label, confidence, raw = _mock_choice(message, labels)
-        return ClassificationResult(label, confidence, raw, self.model_id, prompt.version)
+        return ClassificationResult(label, confidence, raw, self.model_id, prompt.version,
+                                    confidence_sdk=confidence, served_model=self.model_id)

@@ -1,0 +1,24 @@
+# TIMING TEST ONLY: first 10 examples of the final inputs, same models and prompts as configs/final.yaml.
+# Writes to outputs/final_timing/ (not versioned). Not evidence for anything.
+seed: 42
+sample_size: 10
+ece_bins: 15
+conditions: [C1, C2, C3]
+systems: [jev, llm]
+jev:
+  model: jev-1.14.0  # pinned version instead of the moving alias jev-latest
+llm:
+  # Built from configs/ollama/ministral-3-14b-ctx8k.Modelfile (FROM ministral-3:14b, num_ctx 8192).
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192  # must match the Modelfile; requests using >= 90% of it are recorded as ContextOverflow
+  base_url: http://localhost:11434/v1
+  api_key: ollama  # Ollama ignores the key; the OpenAI client just needs a non-empty value
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+paths:
+  raw_predictions: outputs/final_timing/raw_predictions.jsonl
