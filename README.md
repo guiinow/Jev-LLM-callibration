@@ -137,7 +137,7 @@ Ele gera, em `data/usp/`:
 - `alignment_usp.jsonl`: índice no teste, `alterado` e `modelo_tradutor` por exemplo (28 dos 462 têm `alterado = 1`);
 - `provenance.json`.
 
-**Preliminar: rascunho próprio, não revisado.** Feito com modelo local via Ollama (`gemma4:12b-it-qat`) e glossário fixo (`scripts/translate_local.py`), e montado em `data/pilot/` por `scripts/build_pilot_data.py`. As planilhas de revisão (`scripts/export_review_sheets.py`, `import_review_sheets.py`, `merge_translations.py`, `data/review/`) eram o fluxo de revisão previsto e não são usadas na execução final.
+**Preliminar: rascunho próprio, não revisado.** Feito com modelo local via Ollama (`gemma4:12b-it-qat`) e glossário fixo (`scripts/translate_local.py`), e montado em `data/pilot/` por `scripts/build_pilot_data.py`. A revisão manual pelo grupo (planilhas por revisor) foi dispensada, porque a execução final usa a tradução da USP, já revisada por humanos. Esse fluxo foi removido do repositório.
 
 ## Saídas de uma execução
 
