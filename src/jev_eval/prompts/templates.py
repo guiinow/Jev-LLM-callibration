@@ -2,7 +2,7 @@
 
 Each template is keyed by dataset and holds the instruction text for every instruction
 language. `TEMPLATES` holds the main prompt (one intent + verbalized confidence);
-`VARIANTS` holds secondary prompts for ablations (E1: top-k guesses), keyed by name. Editing a template's text changes its fingerprint: bump `version` and update
+`VARIANTS` holds secondary prompts for ablations (E1: top-k guesses; "codes": option-probability scoring), keyed by name. Editing a template's text changes its fingerprint: bump `version` and update
 `FROZEN_FINGERPRINTS`, otherwise tests/test_templates.py fails.
 """
 import hashlib
@@ -17,7 +17,7 @@ class PromptTemplate:
     version: str
     instructions: dict[str, str]  # short question text sent to Jev
     llm: dict[str, str]  # full LLM prompt with {content_language}, {options}, {message}
-    answer: str = "single"  # LLM answer format: "single" (intent + confidence) or "topk" (guesses)
+    answer: str = "single"  # LLM answer format: "single" (intent + confidence), "topk" (guesses) or "code"
 
 
 # Name of the content language, written in the instruction language.
@@ -68,11 +68,30 @@ VARIANTS: dict[str, dict[str, PromptTemplate]] = {
             answer="topk",
         ),
     },
+    # Option-probability scoring of open models: options are listed with single-token codes
+    # (A, B, ...) and the model answers with the code only; its next-token distribution over the
+    # codes is the probability of each option (as in the Jev benchmark, Deußer et al. 2026, 3.6).
+    "codes": {
+        "banking77": PromptTemplate(
+            version="choice-codes-v1",
+            instructions=TEMPLATES["banking77"].instructions,
+            llm={
+                "en": ("Classify this banking message written in {content_language}. Reply with the code of "
+                       "the correct option only, nothing else.\n"
+                       "Options:\n{options}\nMessage: {message}"),
+                "pt_br": ("Classifique esta mensagem bancária escrita em {content_language}. Responda apenas "
+                          "com o código da opção correta, sem mais nada.\n"
+                          "Opções:\n{options}\nMensagem: {message}"),
+            },
+            answer="code",
+        ),
+    },
 }
 
 FROZEN_FINGERPRINTS = {
     ("banking77", "choice-v1"): "0f9329ed6353",
     ("banking77", "choice-topk-v1"): "11c1d5fc8e77",
+    ("banking77", "choice-codes-v1"): "d73bd5099bd8",
 }
 
 
