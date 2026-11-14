@@ -12,6 +12,7 @@ from jev_eval.config import EvalConfig
 from jev_eval.data.datasets import DatasetAdapter, Example, TaskType, build_adapter
 from jev_eval.data.io import read_jsonl, to_jsonable, write_jsonl
 from jev_eval.pipeline.metadata import append_run_metadata, collect_run_metadata
+from jev_eval.systems import is_open_model_system, system_parts
 from jev_eval.prompts.templates import TaskPrompt, build_task_prompt
 from jev_eval.types import PredictionRecord
 
@@ -62,6 +63,20 @@ def validate_examples(examples: list[Example], conditions: list[Condition]) -> N
                       f"(e.g. {unreviewed[:3]}).", file=sys.stderr)
 
 
+def _open_model_client(system: str, config: EvalConfig, mock: bool, backends: dict) -> ClassifierClient:
+    """"<model>_prob" / "<model>_verb": both readouts of a model share one backend (same weights)."""
+    from jev_eval.clients.open_models import (HfVerbalClient, MockOptionProbClient, MockVerbalClient,
+                                              OptionProbClient)
+    key, readout = system_parts(system)
+    spec = config.open_models[key]
+    if mock:
+        return MockOptionProbClient(key) if readout == "prob" else MockVerbalClient(key)
+    if key not in backends:
+        from jev_eval.clients.hf_backend import HfBackend
+        backends[key] = HfBackend(spec.hf_id, spec.revision, spec.dtype, spec.auto_class, spec.quantization)
+    return OptionProbClient(backends[key]) if readout == "prob" else HfVerbalClient(backends[key], spec.max_new_tokens)
+
+
 def build_clients(mock: bool, config: EvalConfig | None = None) -> dict[str, ClassifierClient]:
     """Only the systems the config asks for, so an LLM-only run needs no TypeSafe key."""
     systems = config.systems if config else ["jev", "llm"]
@@ -74,12 +89,18 @@ def build_clients(mock: bool, config: EvalConfig | None = None) -> dict[str, Cla
             api_key_env=llm.get("api_key_env", "OPENAI_API_KEY"), api_key=llm.get("api_key"),
             num_ctx=llm.get("num_ctx"))),
     }
-    return {system: factories[system]() for system in systems}
+    backends: dict = {}
+    return {system: (_open_model_client(system, config, mock, backends) if is_open_model_system(system)
+                     else factories[system]()) for system in systems}
 
 
 def prompt_for(dataset: str, condition: Condition, system: str, config: EvalConfig) -> TaskPrompt:
-    """Jev always gets the main template; the LLM gets `llm.prompt` (an ablation variant) if set."""
-    variant = (config.llm or {}).get("prompt") if system == "llm" else None
+    """Jev and the verbalized open models get the main template; the LLM gets `llm.prompt` (an
+    ablation variant) if set; option-probability systems get the option-codes template."""
+    if system == "llm":
+        variant = (config.llm or {}).get("prompt")
+    else:
+        variant = "codes" if system_parts(system)[1] == "prob" and is_open_model_system(system) else None
     return build_task_prompt(dataset, condition, variant)
 
 
