@@ -41,99 +41,69 @@ Contribuição em uma linha: *uma avaliação reproduzível de como a mudança E
 
 Falta, em resumo: comparar EN com PT dentro de cada sistema, medir a seleção de respostas, ler a confiança de LLMs pelas probabilidades, e sair do Banking77.
 
-## 5. Plano de PRs
+## 5. Plano de PRs (5 no total: 4 obrigatórios e 1 opcional)
 
-Cada PR faz **uma coisa** e tem um critério de "pronto" que qualquer pessoa do grupo consegue conferir.
+Cada PR entrega **uma parte do artigo** e tem um critério de "pronto" que qualquer pessoa do grupo consegue conferir.
 
-### Fase A: fechar o artigo com o que já existe
+### PR 1 · Responder Q1, Q2 e Q3 com os dados que já existem
 
-**A1 · Registrar o desenho do artigo**
-- **O que muda:** só texto. O README passa a dizer: a pergunta, as hipóteses, qual condição testa cada uma e o que é principal ou secundário.
-- **Para quê:** todos escrevem e falam a mesma coisa. Decisões ficam fixadas *antes* de ver resultados.
-- **Pronto quando:** o README tem a seção "Perguntas e hipóteses" com as decisões da seção 7 deste documento.
+- **O que muda:**
+  - O README passa a registrar o desenho do artigo: a pergunta, as hipóteses e qual condição testa cada uma.
+  - A análise calcula, para cada sistema, quanto o ECE e a acurácia mudam de EN para PT, com intervalo de confiança, e quantas respostas mudam de uma língua para outra (Q2).
+  - Novas métricas de seleção: acurácia ao aceitar só as respostas mais confiantes (50% e 80% do total) e a área sob a curva risco × cobertura (Q3). O ECE também é mostrado com 10, 20 e 30 faixas, para provar que o resultado não depende de 15.
+  - Um script compara nosso Jev em inglês no Banking77 com o benchmark publicado (acurácia 79,7%, ECE 0,087).
+- **Para quê:** já fecha um artigo completo no Banking77, sem nenhuma chamada nova à API. A conferência com o benchmark mostra que nossa configuração funciona antes de confiar nos resultados em PT.
+- **Pronto quando:** `metrics.json` traz, por sistema, a mudança de ECE (PT menos EN) com intervalo de 95%; existe uma tabela de seleção por sistema e condição; e um relatório curto diz se nosso EN "bate" com o publicado.
 
-**A2 · Comparar EN e PT em cada sistema** (responde Q2)
-- **O que muda:** a análise passa a calcular, para cada sistema, quanto o ECE e a acurácia mudam de EN para PT, com intervalo de confiança. Também conta quantas respostas mudam de uma língua para outra.
-- **Para quê:** é o resultado central da Q2, usando as execuções que o grupo já fez. Nenhuma chamada nova à API.
-- **Pronto quando:** `metrics.json` traz, por sistema, a mudança de ECE (PT menos EN) com intervalo de 95%.
-- **Depende de:** A1.
+### PR 2 · Gemma e Qwen com as duas formas de confiança (parte forte do artigo)
 
-**A3 · Medir se a confiança ajuda a escolher quando responder** (responde Q3)
-- **O que muda:** novas métricas: acurácia ao aceitar só as respostas mais confiantes (50% e 80% do total), e a área sob a curva risco × cobertura. Também mostra o ECE com 10, 20 e 30 faixas, para provar que o resultado não depende da escolha de 15.
-- **Para quê:** mostra se a confiança é *útil*, não só bem calibrada.
-- **Pronto quando:** tabela por sistema e condição com essas métricas, e uma linha dizendo se a conclusão muda com o número de faixas.
-- **Depende de:** A1.
+- **O que muda:**
+  - Novos modelos, rodando localmente, que devolvem (a) a probabilidade de cada opção e (b) uma confiança dita por escrito. As duas saem do mesmo modelo e da mesma versão.
+  - A tabela central: dentro de cada LLM, compara a mudança de ECE pelas probabilidades com a mudança pela confiança escrita, e compara o Jev com o LLM *na mesma forma de medir*.
+- **Para quê:** separa o efeito do modelo do efeito da forma de medir. Responde se o resultado do H1 vem do modelo ou da forma de medir.
+- **Pronto quando:** uma tabela com Jev, Gemma e Qwen nas duas formas, em EN e PT, com intervalos; e o resultado em EN do Gemma e do Qwen fica coerente com o benchmark.
+- **Depende de:** PR 1.
 
-**A4 · Conferir nosso resultado em inglês contra o benchmark publicado**
-- **O que muda:** um script compara nossa execução em EN do Jev no Banking77 com o publicado (acurácia 79,7%, ECE 0,087).
-- **Para quê:** mostra que nossa configuração funciona antes de confiar nos resultados em PT.
-- **Pronto quando:** relatório curto: "bate" ou "difere em X, por causa de Y".
-- **Depende de:** nada.
+### PR 3 · Mais datasets: mostrar que não é só o Banking77
 
-### Fase B: separar "modelo" de "forma de medir a confiança"
+- **O que muda:**
+  - Uma ferramenta que pareia EN com PT por ID ou texto, descarta o que não bate e **lista o que foi descartado e por quê**.
+  - Entram CLINC150, SIB-200, IMDB, Belebele e MMLU.
+  - Os resultados passam a ser mostrados **por dataset** e resumidos com média de pesos iguais, sem juntar todas as previsões.
+- **Para quê:** mostra se o padrão se repete em outras tarefas, e garante que comparamos o mesmo exemplo nas duas línguas.
+- **Pronto quando:** cada dataset tem um relatório de pareamento (quantos entraram, quantos saíram, motivos), roda no mesmo comando e aparece na tabela com a média dos datasets.
+- **Depende de:** PR 1. Melhor depois do PR 2, para os datasets novos já rodarem com todos os modelos. Se ficar grande, divida em dois: classificação (CLINC150, SIB-200, IMDB) e múltipla escolha (Belebele, MMLU).
 
-**B1 · Gemma e Qwen, com as duas formas de confiança**
-- **O que muda:** novos modelos que rodam localmente e devolvem (a) a probabilidade de cada opção e (b) uma confiança dita por escrito. Os dois usam o mesmo modelo e a mesma versão.
-- **Para quê:** é o que permite separar o efeito do modelo do efeito da forma de medir.
-- **Pronto quando:** uma execução de teste produz as duas confianças para os mesmos exemplos, e o resultado em EN fica coerente com o benchmark.
-- **Depende de:** A1.
+### PR 4 · (opcional) BoolQ e GoEmotions
 
-**B2 · A tabela central: modelo × forma de medir × idioma**
-- **O que muda:** análise que, dentro de cada LLM, compara a mudança de ECE pelas probabilidades com a mudança pela confiança escrita, e compara o Jev com o LLM *na mesma forma de medir*.
-- **Para quê:** responde se o resultado do H1 vem do modelo ou da forma de medir.
-- **Pronto quando:** uma tabela com Jev, Gemma e Qwen nas duas formas, em EN e PT, com intervalos.
-- **Depende de:** A2, B1.
-
-### Fase C: mostrar que não é só o Banking77
-
-**C1 · Pareamento automático EN↔PT e três datasets de classificação**
-- **O que muda:** uma ferramenta que pareia EN com PT por ID ou texto, descarta o que não bate e **lista o que foi descartado e por quê**. Entram CLINC150, SIB-200 e IMDB.
-- **Para quê:** garante que comparamos o mesmo exemplo nas duas línguas, sem inferir nada que não dá para provar.
-- **Pronto quando:** cada dataset tem um relatório de pareamento (quantos entraram, quantos saíram, motivos) e roda no mesmo comando.
-- **Depende de:** A1.
-
-**C2 · Datasets de múltipla escolha e resumo entre datasets**
-- **O que muda:** entram Belebele e MMLU. Os resultados passam a ser mostrados **por dataset** e resumidos com média de pesos iguais, sem juntar todas as previsões.
-- **Para quê:** mostra se o padrão se repete em outras tarefas.
-- **Pronto quando:** tabela por dataset e a média dos datasets, cada um com intervalo.
-- **Depende de:** C1, B2.
-
-**D1 · (opcional) BoolQ e GoEmotions**
-- **O que muda:** duas tarefas de tipo diferente (sim/não e várias emoções por frase), cada uma com suas métricas.
+- **O que muda:** duas tarefas de tipo diferente (sim/não e várias emoções por frase), cada uma com suas métricas e nunca misturadas com as de escolha.
 - **Para quê:** generalização extra. Se faltar tempo, vira "trabalho futuro" sem prejudicar o artigo.
-- **Pronto quando:** resultados separados dos datasets de escolha, nunca misturados com eles.
-- **Depende de:** C1.
+- **Pronto quando:** resultados separados dos datasets de escolha.
+- **Depende de:** PR 3.
 
-### Fase E: fechar o artigo
+### PR 5 · Figuras, tabelas e reprodutibilidade
 
-**E1 · Figuras e tabelas do artigo**
-- **O que muda:** uma figura por pergunta (Q1, Q2, Q3) e as tabelas principais, no formato que cabe em 2 páginas.
-- **Para quê:** o leitor entende cada resultado só olhando a figura.
-- **Pronto quando:** três figuras e duas tabelas geradas por um comando.
-- **Depende de:** A2, A3 e B2.
-
-**E2 · Reprodutibilidade, limitações e declarações**
-- **O que muda:** README com os comandos exatos, lista das limitações (traduções, contaminação, comparação entre sistemas completos), declaração de uso de IA e contribuição de cada integrante.
-- **Para quê:** a disciplina exige reprodução, declaração de IA e contribuição individual.
-- **Pronto quando:** outra pessoa reproduz a tabela central seguindo só o README.
-- **Depende de:** tudo.
+- **O que muda:**
+  - Uma figura por pergunta (Q1, Q2, Q3) e as tabelas principais, no formato que cabe em 2 páginas.
+  - README com os comandos exatos, lista das limitações, declaração de uso de IA e contribuição de cada integrante.
+- **Para quê:** o leitor entende cada resultado só olhando a figura, e a disciplina exige reprodução, declaração de IA e contribuição individual.
+- **Pronto quando:** três figuras e duas tabelas saem de um comando, e outra pessoa reproduz a tabela central seguindo só o README.
+- **Depende de:** os PRs obrigatórios que entrarem no artigo.
 
 ## 6. Ordem e o que o artigo vira em cada fase
 
 ```
-A1 ──► A2 ──┐
-  ├──► A3 ──┼──► E1 ──► E2
-  └──► B1 ──┴► B2 ──► C2
-A4 (independente)   C1 (depois de A1) ──► C2, D1
+PR 1 ──► PR 2 ──► PR 3 ──► PR 4 (opcional)
+   └──────────────────────────────┴──► PR 5
 ```
 
 | Ao terminar | O artigo já tem |
 |---|---|
-| **A** | Q1, Q2 e Q3 no Banking77, com Jev × Ministral. Já é um artigo completo. |
-| **A + B** | Separa modelo de forma de medir confiança. É o ponto forte. |
-| **A + B + C** | Mostra que vale para outras tarefas (6 datasets). |
+| **PR 1** | Q1, Q2 e Q3 no Banking77, com Jev × Ministral. Já é um artigo completo. |
+| **PR 1 + 2** | Separa modelo de forma de medir confiança. É o ponto forte. |
+| **PR 1 + 2 + 3** | Mostra que vale para outras tarefas (6 datasets). |
 
-Dá para parar depois de qualquer fase com um trabalho coerente.
+Dá para parar depois de qualquer PR com um trabalho coerente. O PR 5 fecha o que tiver entrado.
 
 ## 7. Decisões do grupo (com recomendação)
 
@@ -150,4 +120,4 @@ Dá para parar depois de qualquer fase com um trabalho coerente.
 - A tradução do Banking77 foi revisada por humanos; as dos outros datasets, não. Conclusões entre datasets precisam desse aviso.
 - Com 462 exemplos, os intervalos de confiança serão largos. Um intervalo que inclui zero **não prova** que os idiomas são equivalentes.
 - Comparamos sistemas completos, não arquiteturas. Não dá para concluir causa.
-- Prazos: a especificação da disciplina marca o relatório para 13/11 e as apresentações para 16 a 25/11. A fase A é a que cabe antes da apresentação; B e C são a versão estendida.
+- Prazos: a especificação da disciplina marca o relatório para 13/11 e as apresentações para 16 a 25/11. O PR 1 é o que cabe antes da apresentação; os PRs 2 e 3 são a versão estendida.
