@@ -11,7 +11,7 @@ from jev_eval.eval.metrics import save_metrics
 from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline, with_baseline_jev
 from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
-from jev_eval.pipeline.benchmark_check import benchmark_check, format_report
+from jev_eval.pipeline.benchmark_check import benchmark_check, checkable_systems, format_report
 from jev_eval.pipeline.readout_table import readout_analysis, write_readout_outputs
 from jev_eval.pipeline.run_inference import run_inference
 from jev_eval.systems import is_open_model_system
@@ -57,13 +57,19 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
 
 
 def _check_benchmark(config, records, output_dir: Path | None = None) -> None:
-    result = benchmark_check(with_chosen_probability(records), config.ece_bins)
-    report = format_report(result)
-    out = (output_dir or config.output_dir) / "banking77" / "benchmark_check.md"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(report, encoding="utf-8")
-    print(report)
-    print(out)
+    """One report per system with a published reference (Jev, and Qwen/Gemma read by probabilities)."""
+    records = with_chosen_probability(records)
+    systems = checkable_systems(records)
+    if not systems:
+        raise ValueError("No system with a published Banking77 reference has valid C1 answers in this run.")
+    out_dir = (output_dir or config.output_dir) / "banking77"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for system in systems:
+        report = format_report(benchmark_check(records, config.ece_bins, system=system))
+        out = out_dir / ("benchmark_check.md" if system == "jev" else f"benchmark_check_{system}.md")
+        out.write_text(report, encoding="utf-8")
+        print(report)
+        print(out)
 
 
 def _plot(config, records, baseline=None, output_dir: Path | None = None) -> None:

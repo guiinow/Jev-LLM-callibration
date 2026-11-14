@@ -47,3 +47,31 @@ def test_report_lists_every_metric():
     report = format_report(benchmark_check(jev_rows(), 15, n_bootstrap=50))
     for label in ("Acurácia", "ECE", "AURC", "50% mais confiantes", "80% mais confiantes"):
         assert label in report
+
+
+def open_model_rows(system, n=300, accuracy=0.774, seed=5):
+    rng = random.Random(seed)
+    return [{"example_id": f"e{i}", "dataset": "banking77", "condition": "C1", "system": system,
+             "confidence": 0.77, "correct": rng.random() < accuracy, "error": None} for i in range(n)]
+
+
+def test_open_models_are_checked_on_accuracy_and_ece_only():
+    from jev_eval.pipeline.benchmark_check import checkable_systems
+    rows = jev_rows(50) + open_model_rows("qwen_prob") + open_model_rows("gemma_verb")
+    assert checkable_systems(rows) == ["jev", "qwen_prob"]  # verbalized readout has no published reference
+    result = benchmark_check(rows, 15, n_bootstrap=50, system="qwen_prob")
+    assert set(result["metrics"]) == {"accuracy", "ece"} and result["metrics"]["accuracy"]["published"] == 0.774
+    report = format_report(result)
+    assert "(qwen_prob, Banking77" in report and "AURC" not in report
+
+
+def test_cli_writes_one_report_per_checkable_system(tmp_path):
+    from types import SimpleNamespace
+
+    from jev_eval import cli
+    config = SimpleNamespace(ece_bins=15, output_dir=tmp_path)
+    cli._check_benchmark(config, jev_rows(60) + open_model_rows("gemma_prob", accuracy=0.67))
+    assert (tmp_path / "banking77" / "benchmark_check.md").exists()
+    assert (tmp_path / "banking77" / "benchmark_check_gemma_prob.md").exists()
+    with pytest.raises(ValueError, match="published Banking77 reference"):
+        cli._check_benchmark(config, open_model_rows("gemma_verb"))
