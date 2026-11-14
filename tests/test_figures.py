@@ -42,4 +42,17 @@ def test_make_report_outputs_writes_all_files(tmp_path):
     names = {p.name for p in written}
     assert {"reliability.png", "ece_accuracy_ci.png", "delta_ece_bootstrap.png", "risk_coverage.png",
             "confidence_correct_vs_wrong.png", "top_confusions.png", "summary.csv", "reliability_bins.csv",
-            "high_confidence_errors.csv", "confusion_pairs.csv", "language_flips.csv"} <= names
+            "high_confidence_errors.csv", "confusion_pairs.csv", "language_flips.csv", "robustness.csv"} <= names
+
+
+def test_robustness_rows_add_sdk_check_only_when_present():
+    from jev_eval.eval.figures import robustness_rows
+    rows = fake_records()
+    assert {(r[0], r[1], r[2]) for r in robustness_rows(paired_by_language(rows))} == {
+        (lang, "jev", "probabilities[choice]") for lang in ("en", "pt_br")} | {
+        (lang, "llm", "verbalized") for lang in ("en", "pt_br")}
+    for r in rows:
+        if r.get("system") == "jev":
+            r["confidence_sdk"] = 0.5
+    sdk = [r for r in robustness_rows(paired_by_language(rows)) if r[2] == "sdk_confidence"]
+    assert len(sdk) == 2 and all(r[3] == 40 for r in sdk)

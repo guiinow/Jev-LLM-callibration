@@ -19,8 +19,11 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
 from jev_eval.eval.metrics import (
+    auroc,
     bootstrap_delta_samples,
     bootstrap_system_ci,
+    brier_top1,
+    equal_mass_ece,
     expected_calibration_error,
 )
 
@@ -1520,6 +1523,42 @@ def write_tables(
             ],
             flip_rows,
         )
+
+    _write_csv(table_dir / "robustness.csv", ROBUSTNESS_HEADER, robustness_rows(paired))
+
+
+# ---------------------------------------------------------------------
+# Robustness (E2): same paired items, other binnings and scores
+# ---------------------------------------------------------------------
+
+ROBUSTNESS_BINS = (10, 15, 20)
+ROBUSTNESS_HEADER = (["language", "system", "confidence", "n"] + [f"ece_{b}" for b in ROBUSTNESS_BINS]
+                     + ["ece_equal_mass_15", "brier_top1", "auroc", "distinct_confidence_values"])
+
+
+def _robustness_row(language: str, system: str, source: str, conf: list[float], hit: list[bool]) -> list[Any]:
+    area = auroc(conf, hit)
+    return ([language, system, source, len(conf)]
+            + [round(expected_calibration_error(conf, hit, b), 4) for b in ROBUSTNESS_BINS]
+            + [round(equal_mass_ece(conf, hit, 15), 4), round(brier_top1(conf, hit), 4),
+               None if area is None else round(area, 4), len({round(c, 4) for c in conf})])
+
+
+def robustness_rows(paired: dict[str, dict[str, list[dict]]]) -> list[list[Any]]:
+    """ECE at 10/15/20 uniform bins and 15 equal-mass bins, top-1 Brier and AUROC (correct vs
+    wrong), per language and system on the paired items. Jev also with its SDK `confidence`
+    field when every paired row has it (check only; H1 uses probabilities[choice] at 15 bins)."""
+    rows = []
+    for language, systems in paired.items():
+        for system in SYSTEMS:
+            items = systems[system]
+            hit = [bool(r["correct"]) for r in items]
+            source = "probabilities[choice]" if system == "jev" else "verbalized"
+            rows.append(_robustness_row(language, system, source, [r["confidence"] for r in items], hit))
+            if system == "jev" and all(r.get("confidence_sdk") is not None for r in items):
+                rows.append(_robustness_row(language, system, "sdk_confidence",
+                                            [r["confidence_sdk"] for r in items], hit))
+    return rows
 
 
 # ---------------------------------------------------------------------

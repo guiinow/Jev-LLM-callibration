@@ -13,7 +13,7 @@ from jev_eval.config import EvalConfig
 from jev_eval.data.io import load_examples
 from jev_eval.pipeline.metadata import ollama_root
 from jev_eval.pipeline.run_inference import TEXT_FIELD, criteria_by_language
-from jev_eval.prompts.llm_prompt import build_prompt
+from jev_eval.prompts.llm_prompt import PROMPTS
 
 # Smallest default num_ctx any Ollama release has used; below it no default could truncate.
 SMALLEST_OLLAMA_DEFAULT_CTX = 2048
@@ -33,7 +33,7 @@ def probe_llm(config: EvalConfig) -> list[dict[str, Any]]:
         for language in config.languages:
             field = TEXT_FIELD[language]
             longest = max(examples, key=lambda ex: len(getattr(ex, field)))
-            prompt = build_prompt(getattr(longest, field), criteria[language], language)
+            prompt = PROMPTS[llm.get("prompt", "v1")][1](getattr(longest, field), criteria[language], language)
             client.post(f"{root}/api/generate", json={"model": model, "keep_alive": 0}).raise_for_status()
             reply = client.post(f"{root}/api/chat", json={
                 "model": model, "stream": False, "keep_alive": 0, "options": {"temperature": 0},

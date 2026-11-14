@@ -1,0 +1,19 @@
+# TIMING TEST ONLY: first 10 examples of the final inputs, same models and prompt as configs/final.yaml.
+# Writes to outputs/final_timing/ (not versioned). Not evidence for anything.
+seed: 42
+sample_size: 10
+ece_bins: 15
+languages: [en, pt_br]
+systems: [jev, llm]
+jev:
+  model: jev-1.14.0
+llm:
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+paths:
+  intents: data/usp/intents_usp.json
+  sample: data/usp/sample_usp.jsonl
+  raw_predictions: outputs/final_timing/raw_predictions.jsonl
+  metrics: outputs/final_timing/metrics.json

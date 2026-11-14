@@ -38,6 +38,7 @@ class PredictionRecord:
     served_model: str | None = None  # model/version the API reports it actually used
     usage: dict[str, Any] | None = None  # token counts reported by the LLM server
     input_hash: str | None = None  # fingerprint of (message, options, model, prompt); resume key
+    latency_s: float | None = None  # wall time of the call, retries included
 
 
 @dataclass

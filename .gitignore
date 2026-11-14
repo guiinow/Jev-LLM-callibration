@@ -14,3 +14,5 @@ outputs/**/*
 data/raw/
 data/processed/
 *.egg-info/
+!outputs/ablation_topk/
+!outputs/ablation_topk/**

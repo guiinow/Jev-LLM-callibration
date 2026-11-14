@@ -1,0 +1,24 @@
+{
+  "en": {
+    "dataset": "PolyAI/banking77",
+    "revision": "1846984189f2bc0ac51c6fc3a600fa9e1714e0c6",
+    "license": "CC BY 4.0",
+    "test_rows": 3080
+  },
+  "pt_br": {
+    "dataset": "c2d-usp/banking77-pt-br",
+    "revision": "85f51c4a36c69482fae32ec31afec784f9722a7e",
+    "license": "CC BY 4.0",
+    "citation": "Dimant et al., 2025",
+    "test_rows_raw": 3082,
+    "test_rows_used": 3080,
+    "dropped_empty_tail_rows": 2
+  },
+  "checks": {
+    "label_order_identical": true,
+    "length_correlation_en_pt": 0.9721,
+    "sample_matched": 462,
+    "sample_alterado": 28,
+    "descriptions_distinct": true
+  }
+}

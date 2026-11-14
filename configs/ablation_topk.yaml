@@ -1,0 +1,24 @@
+# E1 ABLATION (secondary analysis; H1 stays defined on the frozen v1 prompt in configs/final.yaml).
+# Same model, num_ctx, inputs and examples as the final run; only the LLM prompt changes to
+# llm-intent-topk-v1 (3 guesses with probabilities, Tian et al. 2023). Jev is NOT called:
+# analyze/plot take Jev and v1-LLM answers from paths.baseline (the final run), after checking
+# each was produced from the same message and options. Run after the final run is complete.
+seed: 42
+sample_size: 462
+ece_bins: 15
+languages: [pt_br]  # add en if time permits; resuming keeps the PT-BR rows already done
+systems: [llm]
+jev:
+  model: jev-1.14.0  # not called; must match the baseline run
+llm:
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+  prompt: topk
+paths:
+  intents: data/usp/intents_usp.json
+  sample: data/usp/sample_usp.jsonl
+  baseline: outputs/final/raw_predictions.jsonl
+  raw_predictions: outputs/ablation_topk/raw_predictions.jsonl
+  metrics: outputs/ablation_topk/metrics.json

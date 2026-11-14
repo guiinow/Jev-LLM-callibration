@@ -4,16 +4,32 @@ from pathlib import Path
 from jev_eval.config import load_config
 from jev_eval.data.io import read_jsonl
 from jev_eval.env import load_env
-from jev_eval.eval.figures import make_report_outputs
+from jev_eval.eval.figures import _write_csv, make_report_outputs
+from jev_eval.eval.metrics import save_metrics
+from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline, with_baseline_jev
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability
 from jev_eval.pipeline.run_inference import run_inference
 
 
-def _plot(config, records, output_dir: Path | None = None) -> None:
+def _records(config) -> tuple[list[dict], list[dict] | None]:
+    """This run's records; with paths.baseline (E1 ablation), plus the baseline's Jev rows."""
+    records = read_jsonl(config.paths["raw_predictions"])
+    if "baseline" not in config.paths:
+        return records, None
+    baseline = with_chosen_probability(load_baseline(config))
+    return with_baseline_jev(records, baseline), baseline
+
+
+def _plot(config, records, output_dir: Path | None = None, baseline=None) -> None:
     examples = read_jsonl(config.paths["sample"])
-    written = make_report_outputs(output_dir or config.paths["raw_predictions"].parent,
-                                  with_chosen_probability(records), config.ece_bins,
+    output_dir = output_dir or config.paths["raw_predictions"].parent
+    written = make_report_outputs(output_dir, with_chosen_probability(records), config.ece_bins,
                                   examples=examples, seed=config.seed)
+    if baseline is not None:
+        header, rows, delta_header, deltas = ablation_tables(ablation(records, baseline, config.ece_bins))
+        _write_csv(output_dir / "tables" / "ablation.csv", header, rows)
+        _write_csv(output_dir / "tables" / "ablation_deltas.csv", delta_header, deltas)
+        written += [output_dir / "tables" / "ablation.csv", output_dir / "tables" / "ablation_deltas.csv"]
     for path in written:
         print(path)
 
@@ -44,15 +60,20 @@ def main() -> None:
     elif args.command == "run":
         run_inference(config, mock=args.mock, fresh=args.fresh)
     elif args.command == "analyze":
-        records = read_jsonl(config.paths["raw_predictions"])
+        records, baseline = _records(config)
         metrics_path = args.output_dir / "metrics.json" if args.output_dir else config.paths["metrics"]
         analyze(records, config.ece_bins, metrics_path)
         print(metrics_path)
+        if baseline is not None:
+            ablation_path = metrics_path.with_name("ablation.json")
+            save_metrics(ablation_path, ablation(records, baseline, config.ece_bins))
+            print(ablation_path)
     elif args.command == "probe":
         from jev_eval.pipeline.probe import run_probe
         run_probe(config, skip_jev=args.skip_jev)
     elif args.command == "plot":
-        _plot(config, read_jsonl(config.paths["raw_predictions"]), args.output_dir)
+        records, baseline = _records(config)
+        _plot(config, records, args.output_dir, baseline)
 
 
 if __name__ == "__main__":

@@ -70,9 +70,10 @@ def build_clients(mock: bool, config: EvalConfig | None = None) -> dict[str, Cla
     jev = (config.jev if config else {}) or {}
     factories = {
         "jev": (lambda: MockJevClient()) if mock else (lambda: JevClient(model=jev.get("model"))),
-        "llm": (lambda: MockLlmClient()) if mock else (lambda: LlmClient(
+        "llm": (lambda: MockLlmClient(llm.get("prompt", "v1"))) if mock else (lambda: LlmClient(
             model=llm.get("model"), base_url=llm.get("base_url"), api_key_env=llm.get("api_key_env", "OPENAI_API_KEY"),
-            api_key=llm.get("api_key"), num_ctx=llm.get("num_ctx"))),
+            api_key=llm.get("api_key"), num_ctx=llm.get("num_ctx"),
+            prompt=llm.get("prompt", "v1"))),
     }
     return {system: factories[system]() for system in systems}
 
@@ -139,6 +140,7 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
                         continue
                     client = clients[system]
                     fingerprint = expected[(example.example_id, language, system)]
+                    started = time.perf_counter()
                     try:
                         result = _classify_with_retry(client, message, criteria[language], language)
                         record = PredictionRecord(
@@ -147,6 +149,7 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
                             result.predicted_label == example.label_name, to_jsonable(result.raw_response),
                             result.model_id, result.prompt_version, None,
                             result.confidence_sdk, result.served_model, result.usage, fingerprint,
+                            round(time.perf_counter() - started, 3),
                         )
                     except Exception as error:
                         # InvalidResponse carries the server's raw output; keep it for auditing.
@@ -156,6 +159,7 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
                             getattr(client, "model_id", ""), getattr(client, "prompt_version", ""),
                             f"{type(error).__name__}: {error}",
                             None, getattr(error, "served_model", None), getattr(error, "usage", None), fingerprint,
+                            round(time.perf_counter() - started, 3),
                         )
                     row = asdict(record)
                     file.write(json.dumps(row, ensure_ascii=False) + "\n")
