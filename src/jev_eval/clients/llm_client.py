@@ -1,6 +1,5 @@
 import json
 import os
-import re
 
 from jev_eval.clients.base import ClassifierClient, InvalidResponse
 from jev_eval.prompts.templates import TOPK, TaskPrompt
@@ -11,18 +10,25 @@ from jev_eval.types import ClassificationResult
 CONTEXT_GUARD = 0.9
 
 
-def _json_object(text: str) -> dict:
-    match = re.search(r"\{[\s\S]*\}", text)
-    if not match:
+def first_json_object(text: str) -> dict:
+    """The first complete JSON object in the answer; later blocks and notes are ignored.
+
+    (The model sometimes appends a note and a second "corrected" JSON block; joining the
+    first `{` to the last `}` would make the whole answer invalid.)"""
+    start = text.find("{")
+    if start < 0:
         raise ValueError("LLM response does not contain a JSON object")
     try:
-        return json.loads(match.group(0))
+        payload, _ = json.JSONDecoder().raw_decode(text, start)
     except json.JSONDecodeError as error:
         raise ValueError("LLM response contains invalid JSON") from error
+    if not isinstance(payload, dict):
+        raise ValueError("LLM response JSON is not an object")
+    return payload
 
 
 def parse_llm_json(text: str, labels: set[str]) -> tuple[str, float]:
-    payload = _json_object(text)
+    payload = first_json_object(text)
     intent = payload.get("intent")
     confidence = payload.get("confidence")
     if intent not in labels:
@@ -35,24 +41,36 @@ def parse_llm_json(text: str, labels: set[str]) -> tuple[str, float]:
 def parse_topk_json(text: str, labels: set[str]) -> tuple[str, float]:
     """Top-k answer -> (guess with the highest probability, its probability); first wins ties.
 
-    Every guess must be a distinct valid intent with a probability in [0, 1]; the list may be
-    shorter than k. Probabilities are not required to sum to 1 (Tian et al. do not either).
+    As in Tian et al., only the top guess is used, so only it must be a valid intent; lower
+    guesses with invented intents are ignored (ablation tables count them). Every guess still
+    needs an intent string and a probability in [0, 1]; the list may be shorter than k.
+    Probabilities are not required to sum to 1 (Tian et al. do not either).
     """
-    guesses = _json_object(text).get("guesses")
+    guesses = first_json_object(text).get("guesses")
     if not isinstance(guesses, list) or not 1 <= len(guesses) <= TOPK:
         raise ValueError(f"LLM 'guesses' must be a list of 1 to {TOPK} objects")
     parsed = []
     for guess in guesses:
         intent = guess.get("intent") if isinstance(guess, dict) else None
         probability = guess.get("probability") if isinstance(guess, dict) else None
-        if intent not in labels:
-            raise ValueError(f"Invalid intent returned by LLM: {intent!r}")
+        if not isinstance(intent, str):
+            raise ValueError("LLM guess without an intent string")
         if not isinstance(probability, (int, float)) or isinstance(probability, bool) or not 0 <= probability <= 1:
             raise ValueError("LLM probability must be a number between 0 and 1")
         parsed.append((intent, float(probability)))
-    if len({intent for intent, _ in parsed}) != len(parsed):
-        raise ValueError("LLM repeated an intent among its guesses")
-    return max(parsed, key=lambda guess: guess[1])
+    intent, probability = max(parsed, key=lambda guess: guess[1])
+    if intent not in labels:
+        raise ValueError(f"Invalid intent returned by LLM: {intent!r}")
+    return intent, probability
+
+
+def invalid_lower_guesses(text: str, labels: set[str]) -> int:
+    """How many guesses of an accepted top-k answer name an intent outside the options."""
+    try:
+        guesses = first_json_object(text).get("guesses") or []
+    except ValueError:
+        return 0
+    return sum(1 for g in guesses if isinstance(g, dict) and g.get("intent") not in labels)
 
 
 PARSERS = {"single": parse_llm_json, "topk": parse_topk_json}

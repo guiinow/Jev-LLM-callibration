@@ -10,6 +10,7 @@ from collections import Counter
 from typing import Any
 
 from jev_eval.conditions import get_condition
+from jev_eval.clients.llm_client import invalid_lower_guesses
 from jev_eval.config import EvalConfig
 from jev_eval.data.datasets import build_adapter
 from jev_eval.data.io import read_jsonl
@@ -66,9 +67,10 @@ def _scores(rows: list[dict[str, Any]], n_bins: int) -> dict[str, Any]:
 
 
 def ablation(records: list[dict[str, Any]], baseline: list[dict[str, Any]], n_bins: int,
-             n_bootstrap: int = 5000, seed: int = 42) -> dict[str, Any]:
+             n_bootstrap: int = 5000, seed: int = 42, labels: set[str] | None = None) -> dict[str, Any]:
     """For one dataset, per condition: each variant's scores on the items all three answered
-    validly, failed calls per variant, and paired-bootstrap ΔECE (a - b) for each comparison."""
+    validly, failed calls per variant, and paired-bootstrap ΔECE (a - b) for each comparison.
+    With `labels`, also how many accepted top-k answers had a lower guess outside the options."""
     tagged = ([(r, "llm_topk") for r in records if r["system"] == "llm"]
               + [(r, "jev" if r["system"] == "jev" else "llm_main") for r in baseline])
     valid: dict[str, dict[str, dict[str, dict]]] = {}
@@ -90,6 +92,9 @@ def ablation(records: list[dict[str, Any]], baseline: list[dict[str, Any]], n_bi
         if not ids:
             continue
         result = {"n_common": len(ids),
+                  "topk_answers_with_invalid_lower_guess": None if labels is None else sum(
+                      invalid_lower_guesses(r["raw_response"], labels) > 0
+                      for r in by_variant.get("llm_topk", {}).values() if isinstance(r.get("raw_response"), str)),
                   "variants": {v: {**_scores([by_variant[v][i] for i in ids], n_bins),
                                    "n_failed_calls": failed[(condition, v)]} for v in VARIANTS},
                   "comparisons": {}}
@@ -108,9 +113,10 @@ def ablation_tables(result: dict[str, Any]) -> tuple[list[str], list[list[Any]],
     rows, deltas = [], []
     for condition, res in result["conditions"].items():
         for variant, scores in res["variants"].items():
-            rows.append([condition, variant, res["n_common"]] + [scores[k] for k in score_keys])
+            rows.append([condition, variant, res["n_common"]] + [scores[k] for k in score_keys]
+                        + [res.get("topk_answers_with_invalid_lower_guess") if variant == "llm_topk" else None])
         for name, d in res["comparisons"].items():
             deltas.append([condition, name, res["n_common"], round(d["delta_ece"], 4),
                            round(d["ci95_low"], 4), round(d["ci95_high"], 4)])
-    return (["condition", "variant", "n_common"] + score_keys, rows,
+    return (["condition", "variant", "n_common"] + score_keys + ["answers_with_invented_lower_guess"], rows,
             ["condition", "comparison", "n_common", "delta_ece", "ci95_low", "ci95_high"], deltas)

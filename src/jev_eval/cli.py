@@ -23,6 +23,10 @@ def _records(config) -> tuple[list[dict], list[dict] | None]:
     return with_baseline_jev(records, baseline), baseline
 
 
+def _labels(config, name: str) -> set[str]:
+    return set(build_adapter(next(s for s in config.datasets if s.name == name)).options("en"))
+
+
 def _by_dataset(config, records) -> dict[str, list[dict]]:
     """Metrics are never pooled across datasets: split the records and report each on its own."""
     grouped = defaultdict(list)
@@ -38,7 +42,8 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
         analyze(rows, config.ece_bins, out / "metrics.json")
         print(out / "metrics.json")
         if baseline is not None:
-            save_metrics(out / "ablation.json", ablation(rows, base_by_dataset.get(name, []), config.ece_bins))
+            save_metrics(out / "ablation.json", ablation(rows, base_by_dataset.get(name, []), config.ece_bins,
+                                                         labels=_labels(config, name)))
             print(out / "ablation.json")
 
 
@@ -52,7 +57,7 @@ def _plot(config, records, baseline=None, output_dir: Path | None = None) -> Non
                                       examples=examples, seed=config.seed)
         if baseline is not None:
             header, table, delta_header, deltas = ablation_tables(
-                ablation(rows, base_by_dataset.get(name, []), config.ece_bins))
+                ablation(rows, base_by_dataset.get(name, []), config.ece_bins, labels=_labels(config, name)))
             _write_csv(out / "tables" / "ablation.csv", header, table)
             _write_csv(out / "tables" / "ablation_deltas.csv", delta_header, deltas)
             written += [out / "tables" / "ablation.csv", out / "tables" / "ablation_deltas.csv"]

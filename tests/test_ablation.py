@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from jev_eval.clients.llm_client import parse_topk_json
+from jev_eval.clients.llm_client import invalid_lower_guesses, parse_llm_json, parse_topk_json
 from jev_eval.conditions import CONDITIONS
 from jev_eval.data.io import read_jsonl, write_jsonl
 from jev_eval.pipeline import run_inference as ri
@@ -34,10 +34,24 @@ def test_topk_parser_takes_highest_probability_guess():
     assert parse_topk_json(topk(("b", 0.2), ("c", 0.5), ("a", 0.5)), LABELS) == ("c", 0.5)  # first max wins
 
 
+def test_topk_parser_uses_only_the_top_guess():
+    # Lower guesses with invented or repeated intents are ignored (Tian et al. use the top guess only).
+    assert parse_topk_json(topk(("a", 0.6), ("zzz", 0.3)), LABELS) == ("a", 0.6)
+    assert parse_topk_json(topk(("a", 0.6), ("a", 0.3)), LABELS) == ("a", 0.6)
+    assert invalid_lower_guesses(topk(("a", 0.6), ("zzz", 0.3), ("yyy", 0.1)), LABELS) == 2
+
+
+def test_parsers_read_only_the_first_json_block():
+    # Real ministral answer shape: a block with an invented intent, a note, then a "corrected" block.
+    text = ("```json\n" + topk(("a", 0.85), ("fraudulent_activity", 0.75)) + "\n```\n\n*(Nota: ...)*\n"
+            "**Correção:**\n```json\n" + topk(("a", 0.85), ("b", 0.7)) + "\n```")
+    assert parse_topk_json(text, LABELS) == ("a", 0.85)
+    assert parse_llm_json('{"intent": "a", "confidence": 0.9} e depois {"intent": "b"}', LABELS) == ("a", 0.9)
+
+
 @pytest.mark.parametrize("text", [
-    topk(("a", 0.6), ("zzz", 0.3)),          # invalid intent anywhere
-    topk(("a", 0.6), ("a", 0.3)),            # repeated intent
-    topk(("a", 1.2)),                        # probability out of range
+    topk(("zzz", 0.6), ("a", 0.3)),          # invented top guess
+    topk(("a", 0.6), ("b", 1.3)),            # probability out of range, any guess
     topk(("a", 0.5), ("b", 0.2), ("c", 0.1), ("a", 0.1)),  # more than k guesses
     '{"intent": "a", "confidence": 0.9}',    # single-answer format
 ])
@@ -69,7 +83,8 @@ def test_ablation_reuses_baseline_without_calling_jev(tmp_path):
     baseline = load_baseline(abl)
     merged = with_baseline_jev(own, baseline)
     assert sorted({r["system"] for r in merged}) == ["jev", "llm"] and len(merged) == 8
-    result = ablation(own, baseline, abl.ece_bins, n_bootstrap=50)
+    result = ablation(own, baseline, abl.ece_bins, n_bootstrap=50, labels={"a", "b"})
+    assert result["conditions"]["C3"]["topk_answers_with_invalid_lower_guess"] == 0
     assert set(result["conditions"]) == {"C1", "C3"}
     assert set(result["conditions"]["C3"]["comparisons"]) == {"llm_topk - llm_main", "jev - llm_topk",
                                                               "jev - llm_main"}

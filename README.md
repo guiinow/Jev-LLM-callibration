@@ -83,7 +83,7 @@ jev-eval --config configs/final.yaml analyze   # -> outputs/final/banking77/metr
 jev-eval --config configs/final.yaml plot      # -> outputs/final/banking77/{figures,tables}/
 ```
 
-**Ablação de prompt (E1, análise secundária).** O LLM roda de novo com o prompt `choice-topk-v1`, que pede as 3 intenções mais prováveis, cada uma com a probabilidade de estar correta (o "Verb. 1S top-k" de Tian et al., 2023). A previsão é a intenção de maior probabilidade, e a confiança é essa probabilidade.
+**Ablação de prompt (E1, análise secundária).** O LLM roda de novo com o prompt `choice-topk-v1`, que pede as 3 intenções mais prováveis, cada uma com a probabilidade de estar correta (o "Verb. 1S top-k" de Tian et al., 2023). A previsão é a intenção de maior probabilidade, e a confiança é essa probabilidade. Como em Tian et al., só esse palpite principal precisa ser uma intenção válida. Palpites inferiores com intenção fora das opções são ignorados e contados em `answers_with_invented_lower_guess`.
 - Modelo, `num_ctx`, entradas e exemplos são os mesmos da execução final. A ablação roda as condições C2 e C3; dá para acrescentar a C1.
 - O Jev **não é chamado de novo**. O `analyze` e o `plot` usam as respostas do Jev e do LLM com o prompt principal de `outputs/final/raw_predictions.jsonl` (`paths.baseline`). Antes, conferem pelo `input_hash` que cada uma foi produzida com a mesma mensagem, as mesmas opções e o mesmo prompt. Por isso a ablação exige a execução final completa.
 - O H1 continua definido sobre o prompt principal.
@@ -112,7 +112,7 @@ Para refazer a análise sem tocar nas saídas originais: `jev-eval --config conf
   - algum texto PT-BR estiver vazio ou idêntico ao inglês.
 
   Ele também avisa enquanto houver traduções não revisadas.
-- Respostas inválidas guardam o texto bruto do LLM.
+- Respostas inválidas guardam o texto bruto do LLM. O parser lê só o primeiro objeto JSON da resposta, porque o modelo às vezes acrescenta uma nota e um segundo bloco "corrigido".
 
 **Teste sem APIs:** `jev-eval --config configs/smoke.yaml smoke` ou `jev-eval --config configs/default.yaml run --mock`. Os mocks são determinísticos e servem só para testar o pipeline. O smoke usa descrições PT-BR marcadas `[SMOKE-PLACEHOLDER]`.
 
