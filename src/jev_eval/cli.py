@@ -9,6 +9,7 @@ from jev_eval.env import load_env
 from jev_eval.eval.figures import _write_csv, make_report_outputs
 from jev_eval.eval.metrics import save_metrics
 from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline, with_baseline_jev
+from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
 from jev_eval.pipeline.run_inference import run_inference
 
@@ -39,8 +40,10 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
     base_by_dataset = _by_dataset(config, baseline) if baseline is not None else {}
     for name, rows in _by_dataset(config, records).items():
         out = (output_dir or config.output_dir) / name
-        analyze(rows, config.ece_bins, out / "metrics.json")
+        metrics = analyze(rows, config.ece_bins, out / "metrics.json")
         print(out / "metrics.json")
+        for path in write_analysis_tables(metrics, out / "tables"):
+            print(path)
         if baseline is not None:
             save_metrics(out / "ablation.json", ablation(rows, base_by_dataset.get(name, []), config.ece_bins,
                                                          labels=_labels(config, name)))

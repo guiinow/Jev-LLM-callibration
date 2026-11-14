@@ -51,3 +51,15 @@ def test_verdict_labels():
     assert _verdict(-0.2, -0.01) == "jev_lower"
     assert _verdict(0.01, 0.2) == "llm_lower"
     assert _verdict(-0.05, 0.05) == "inconclusive"
+
+
+def test_analysis_tables_are_written_from_metrics(tmp_path):
+    from jev_eval.pipeline.analysis_tables import write_analysis_tables
+    metrics = analyze(fake_records(30), 15, tmp_path / "m.json", n_bootstrap=20)
+    written = write_analysis_tables(metrics, tmp_path / "tables")
+    assert [p.name for p in written] == ["language_shift.csv", "selective.csv", "bin_sensitivity.csv"]
+    lines = {p.name: p.read_text(encoding="utf-8-sig").splitlines() for p in written}
+    assert lines["language_shift.csv"][0].startswith("system;pt_condition;n;ece_en")
+    assert len(lines["language_shift.csv"]) == 1 + 2  # jev and llm, each C1 vs C2
+    assert len(lines["selective.csv"]) == 1 + 2 * 2   # 2 conditions x 2 systems
+    assert len(lines["bin_sensitivity.csv"]) == 1 + 2 * 4  # 2 conditions x bins {10, 15, 20, 30}
