@@ -86,3 +86,31 @@ def test_prompts_differ_by_readout_and_resume_keeps_rows(tmp_path):
     ri.run_inference(config, mock=True)
     again = ri.run_inference(config, mock=True)  # same inputs: nothing recomputed, nothing mixed
     assert len(again) == 6 * 2 * 4
+
+
+def fast_bootstrap(monkeypatch):
+    from jev_eval import cli
+    analyze, readout = cli.analyze, cli.readout_analysis
+    monkeypatch.setattr(cli, "analyze", lambda *a, **k: analyze(*a, n_bootstrap=20, **k))
+    monkeypatch.setattr(cli, "readout_analysis", lambda *a, **k: readout(*a, n_bootstrap=20, **k))
+    return cli
+
+
+def test_analyze_writes_the_readout_comparison_when_open_models_ran(tmp_path, monkeypatch):
+    cli = fast_bootstrap(monkeypatch)
+    config = mock_open_config(tmp_path)
+    records = ri.run_inference(config, mock=True)
+    cli._analyze(config, records)
+    out = tmp_path / "banking77"
+    assert (out / "readout.json").exists() and (out / "tables" / "readout_contrasts.csv").exists()
+    shift_systems = {line.split(";")[0] for line in
+                     (out / "tables" / "language_shift.csv").read_text(encoding="utf-8-sig").splitlines()[1:]}
+    assert {"gemma_prob", "gemma_verb"} <= shift_systems  # the EN->PT table already covers every system
+
+
+def test_analyze_without_open_models_writes_no_readout_files(tmp_path, monkeypatch):
+    cli = fast_bootstrap(monkeypatch)
+    config = mock_open_config(tmp_path)
+    config.systems = ["jev", "llm"]
+    cli._analyze(config, ri.run_inference(config, mock=True))
+    assert not (tmp_path / "banking77" / "readout.json").exists()

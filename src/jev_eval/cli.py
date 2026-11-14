@@ -12,7 +12,9 @@ from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline,
 from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
 from jev_eval.pipeline.benchmark_check import benchmark_check, format_report
+from jev_eval.pipeline.readout_table import readout_analysis, write_readout_outputs
 from jev_eval.pipeline.run_inference import run_inference
+from jev_eval.systems import is_open_model_system
 
 
 def _records(config) -> tuple[list[dict], list[dict] | None]:
@@ -45,6 +47,9 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
         print(out / "metrics.json")
         for path in write_analysis_tables(metrics, out / "tables"):
             print(path)
+        if any(is_open_model_system(row["system"]) for row in rows):
+            for path in write_readout_outputs(readout_analysis(with_chosen_probability(rows), config.ece_bins), out):
+                print(path)
         if baseline is not None:
             save_metrics(out / "ablation.json", ablation(rows, base_by_dataset.get(name, []), config.ece_bins,
                                                          labels=_labels(config, name)))
