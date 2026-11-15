@@ -94,6 +94,9 @@ jev-eval --config configs/final.yaml plot      # -> outputs/final/banking77/{fig
 
 # 5. Conferência: nosso Jev em inglês bate com o benchmark publicado?
 jev-eval --config configs/final.yaml check-benchmark   # -> outputs/final/banking77/benchmark_check.md
+
+# 6. Figuras do relatório, uma por pergunta (rode o analyze antes). --lang en para rótulos em inglês
+jev-eval --config configs/final.yaml report --lang pt  # -> outputs/final/banking77/report/pt/
 ```
 
 **Ablação de prompt (E1, análise secundária).** O LLM roda de novo com o prompt `choice-topk-v1`, que pede as 3 intenções mais prováveis, cada uma com a probabilidade de estar correta (o "Verb. 1S top-k" de Tian et al., 2023). A previsão é a intenção de maior probabilidade, e a confiança é essa probabilidade. Como em Tian et al., só esse palpite principal precisa ser uma intenção válida. Palpites inferiores com intenção fora das opções são ignorados e contados em `answers_with_invented_lower_guess`.
@@ -186,6 +189,7 @@ Por dataset, em `<saída>/<dataset>/`. As figuras e tabelas usam só os exemplos
 | `tables/bin_sensitivity.csv` | ΔECE (Jev − LLM) com 10, 15, 20 e 30 faixas, o veredito de cada uma (`jev_lower`, `llm_lower` ou `inconclusive`) e se a conclusão muda com o número de faixas |
 | `benchmark_check.md`, `benchmark_check_<sistema>.md` | Só com `check-benchmark`: o Jev em C1 contra o benchmark publicado (Banking77): acurácia, ECE, acurácia nos 50% e 80% mais confiantes e AURC. Para `gemma_prob` e `qwen_prob`, só acurácia e ECE. Diz se o valor publicado cai no nosso IC |
 | `readout.json`, `tables/readout_cells.csv`, `tables/readout_contrasts.csv` | Só com modelos abertos. Por modelo, forma de medir e condição: acurácia e ECE com IC. Contrastes pareados: ECE(escrita) − ECE(probabilidades) por condição; se a mudança EN→PT do ECE depende da forma de medir; Jev contra cada outro sistema |
+| `report/<idioma>/q1_h1`, `q2_en_pt`, `q3_selection` (`.png` e `.pdf`) | Só com `report`. Uma figura por pergunta, na largura de uma coluna ACM (o PDF é vetorial, para o LaTeX). Q1: ECE do Jev e do LLM por condição, com o ΔECE e seu IC. Q2: mudança de ECE e de acurácia de EN para cada condição PT, por sistema. Q3: acurácia ao aceitar só as respostas mais confiantes, com o AURC de cada sistema. Os números vêm do `metrics.json`, os mesmos das tabelas |
 | `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por condição |
 | `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema e condição, com IC 95% |
 | `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM |

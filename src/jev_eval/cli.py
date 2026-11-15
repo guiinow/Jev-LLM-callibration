@@ -1,4 +1,5 @@
 import argparse
+import json
 from collections import defaultdict
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from jev_eval.eval.metrics import save_metrics
 from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline, with_baseline_jev
 from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
+from jev_eval.eval.report_figures import make_report_figures
 from jev_eval.pipeline.benchmark_check import benchmark_check, checkable_systems, format_report
 from jev_eval.pipeline.readout_table import readout_analysis, write_readout_outputs
 from jev_eval.pipeline.run_inference import run_inference
@@ -72,6 +74,18 @@ def _check_benchmark(config, records, output_dir: Path | None = None) -> None:
         print(out)
 
 
+def _report(config, records, lang: str = "pt", output_dir: Path | None = None) -> None:
+    """Figures for Q1, Q2 and Q3 (png + pdf) from the metrics.json that `analyze` wrote."""
+    for name, rows in _by_dataset(config, records).items():
+        out = (output_dir or config.output_dir) / name
+        metrics_path = out / "metrics.json"
+        if not metrics_path.exists():
+            raise FileNotFoundError(f"{metrics_path} not found: run `analyze` first.")
+        metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+        for path in make_report_figures(out / "report" / lang, metrics, with_chosen_probability(rows), lang):
+            print(path)
+
+
 def _plot(config, records, baseline=None, output_dir: Path | None = None) -> None:
     specs = {spec.name: spec for spec in config.datasets}
     base_by_dataset = _by_dataset(config, baseline) if baseline is not None else {}
@@ -103,6 +117,9 @@ def main() -> None:
             "--output-dir", type=Path,
             help="write metrics/figures/tables here instead of next to raw_predictions.jsonl "
                  "(re-analysis without overwriting a run's saved outputs)")
+    report_parser = subparsers.add_parser("report", help="figures for Q1, Q2 and Q3 (run `analyze` first)")
+    report_parser.add_argument("--lang", choices=["pt", "en"], default="pt", help="language of the figure labels")
+    report_parser.add_argument("--output-dir", type=Path, help="where analyze wrote metrics.json (default: the run's)")
     subparsers.add_parser("smoke")
     probe_parser = subparsers.add_parser("probe", help="pre-flight: prompt token count (Ollama) and one Jev call")
     probe_parser.add_argument("--skip-jev", action="store_true")
@@ -123,6 +140,8 @@ def main() -> None:
         _plot(config, records, baseline, args.output_dir)
     elif args.command == "check-benchmark":
         _check_benchmark(config, with_conditions(read_jsonl(config.paths["raw_predictions"])), args.output_dir)
+    elif args.command == "report":
+        _report(config, with_conditions(read_jsonl(config.paths["raw_predictions"])), args.lang, args.output_dir)
     elif args.command == "probe":
         from jev_eval.pipeline.probe import run_probe
         run_probe(config, skip_jev=args.skip_jev)
