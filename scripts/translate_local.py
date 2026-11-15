@@ -1,8 +1,9 @@
 """Draft EN -> PT-BR translations with a local model served by Ollama.
 
-Drafts are marked `translation_status: "machine_draft"` and MUST be reviewed by the group
-before the main run (see scripts/export_review_sheets.py). The model used to draft is a
-different family from the evaluated LLM, to avoid biasing the comparison.
+Drafts are marked `translation_status: "machine_draft"` and are NOT reviewed: they only feed
+the preliminary run (scripts/build_pilot_data.py). The final run uses the public, human-reviewed
+USP translation (scripts/build_usp_data.py). The model used to draft is a different family from
+the evaluated LLM, to avoid biasing the comparison.
 
 Usage:
     python scripts/translate_local.py                       # messages + intent descriptions
