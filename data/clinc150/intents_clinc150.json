@@ -1,0 +1,1052 @@
+[
+  {
+    "label_id": 0,
+    "label_name": "restaurant_reviews",
+    "description_en": "restaurant reviews",
+    "description_pt_br": "avaliações de restaurante",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 1,
+    "label_name": "nutrition_info",
+    "description_en": "nutrition info",
+    "description_pt_br": "informação nutricional",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 2,
+    "label_name": "account_blocked",
+    "description_en": "account blocked",
+    "description_pt_br": "conta bloqueada",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 3,
+    "label_name": "oil_change_how",
+    "description_en": "oil change how",
+    "description_pt_br": "como trocar o óleo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 4,
+    "label_name": "time",
+    "description_en": "time",
+    "description_pt_br": "hora atual",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 5,
+    "label_name": "weather",
+    "description_en": "weather",
+    "description_pt_br": "previsão do tempo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 6,
+    "label_name": "redeem_rewards",
+    "description_en": "redeem rewards",
+    "description_pt_br": "resgatar recompensas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 7,
+    "label_name": "interest_rate",
+    "description_en": "interest rate",
+    "description_pt_br": "taxa de juros",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 8,
+    "label_name": "gas_type",
+    "description_en": "gas type",
+    "description_pt_br": "tipo de combustível",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 9,
+    "label_name": "accept_reservations",
+    "description_en": "accept reservations",
+    "description_pt_br": "aceita reservas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 10,
+    "label_name": "smart_home",
+    "description_en": "smart home",
+    "description_pt_br": "casa inteligente",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 11,
+    "label_name": "user_name",
+    "description_en": "user name",
+    "description_pt_br": "nome do usuário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 12,
+    "label_name": "report_lost_card",
+    "description_en": "report lost card",
+    "description_pt_br": "comunicar perda de cartão",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 13,
+    "label_name": "repeat",
+    "description_en": "repeat",
+    "description_pt_br": "repetir",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 14,
+    "label_name": "whisper_mode",
+    "description_en": "whisper mode",
+    "description_pt_br": "modo sussurro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 15,
+    "label_name": "what_are_your_hobbies",
+    "description_en": "what are your hobbies",
+    "description_pt_br": "quais são seus hobbies",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 16,
+    "label_name": "order",
+    "description_en": "order",
+    "description_pt_br": "fazer pedido",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 17,
+    "label_name": "jump_start",
+    "description_en": "jump start",
+    "description_pt_br": "fazer chupeta na bateria do carro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 18,
+    "label_name": "schedule_meeting",
+    "description_en": "schedule meeting",
+    "description_pt_br": "agendar reunião",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 19,
+    "label_name": "meeting_schedule",
+    "description_en": "meeting schedule",
+    "description_pt_br": "agenda de reuniões",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 20,
+    "label_name": "freeze_account",
+    "description_en": "freeze account",
+    "description_pt_br": "congelar conta",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 21,
+    "label_name": "what_song",
+    "description_en": "what song",
+    "description_pt_br": "que música é essa",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 22,
+    "label_name": "meaning_of_life",
+    "description_en": "meaning of life",
+    "description_pt_br": "sentido da vida",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 23,
+    "label_name": "restaurant_reservation",
+    "description_en": "restaurant reservation",
+    "description_pt_br": "reserva em restaurante",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 24,
+    "label_name": "traffic",
+    "description_en": "traffic",
+    "description_pt_br": "trânsito",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 25,
+    "label_name": "make_call",
+    "description_en": "make call",
+    "description_pt_br": "fazer ligação",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 26,
+    "label_name": "text",
+    "description_en": "text",
+    "description_pt_br": "enviar mensagem de texto",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 27,
+    "label_name": "bill_balance",
+    "description_en": "bill balance",
+    "description_pt_br": "valor da conta a pagar",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 28,
+    "label_name": "improve_credit_score",
+    "description_en": "improve credit score",
+    "description_pt_br": "melhorar pontuação de crédito",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 29,
+    "label_name": "change_language",
+    "description_en": "change language",
+    "description_pt_br": "mudar idioma",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 30,
+    "label_name": "no",
+    "description_en": "no",
+    "description_pt_br": "não",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 31,
+    "label_name": "measurement_conversion",
+    "description_en": "measurement conversion",
+    "description_pt_br": "conversão de medidas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 32,
+    "label_name": "timer",
+    "description_en": "timer",
+    "description_pt_br": "temporizador",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 33,
+    "label_name": "flip_coin",
+    "description_en": "flip coin",
+    "description_pt_br": "jogar cara ou coroa",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 34,
+    "label_name": "do_you_have_pets",
+    "description_en": "do you have pets",
+    "description_pt_br": "você tem animais de estimação",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 35,
+    "label_name": "balance",
+    "description_en": "balance",
+    "description_pt_br": "saldo da conta",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 36,
+    "label_name": "tell_joke",
+    "description_en": "tell joke",
+    "description_pt_br": "contar piada",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 37,
+    "label_name": "last_maintenance",
+    "description_en": "last maintenance",
+    "description_pt_br": "última manutenção do carro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 38,
+    "label_name": "exchange_rate",
+    "description_en": "exchange rate",
+    "description_pt_br": "taxa de câmbio",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 39,
+    "label_name": "uber",
+    "description_en": "uber",
+    "description_pt_br": "chamar uber",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 40,
+    "label_name": "car_rental",
+    "description_en": "car rental",
+    "description_pt_br": "aluguel de carro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 41,
+    "label_name": "credit_limit",
+    "description_en": "credit limit",
+    "description_pt_br": "limite de crédito",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 43,
+    "label_name": "shopping_list",
+    "description_en": "shopping list",
+    "description_pt_br": "lista de compras",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 44,
+    "label_name": "expiration_date",
+    "description_en": "expiration date",
+    "description_pt_br": "data de validade do cartão",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 45,
+    "label_name": "routing",
+    "description_en": "routing",
+    "description_pt_br": "número de roteamento bancário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 46,
+    "label_name": "meal_suggestion",
+    "description_en": "meal suggestion",
+    "description_pt_br": "sugestão de refeição",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 47,
+    "label_name": "tire_change",
+    "description_en": "tire change",
+    "description_pt_br": "trocar pneu",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 48,
+    "label_name": "todo_list",
+    "description_en": "todo list",
+    "description_pt_br": "lista de tarefas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 49,
+    "label_name": "card_declined",
+    "description_en": "card declined",
+    "description_pt_br": "cartão recusado",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 50,
+    "label_name": "rewards_balance",
+    "description_en": "rewards balance",
+    "description_pt_br": "saldo de recompensas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 51,
+    "label_name": "change_accent",
+    "description_en": "change accent",
+    "description_pt_br": "mudar sotaque",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 52,
+    "label_name": "vaccines",
+    "description_en": "vaccines",
+    "description_pt_br": "vacinas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 53,
+    "label_name": "reminder_update",
+    "description_en": "reminder update",
+    "description_pt_br": "atualizar lembrete",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 54,
+    "label_name": "food_last",
+    "description_en": "food last",
+    "description_pt_br": "validade de alimentos",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 55,
+    "label_name": "change_ai_name",
+    "description_en": "change ai name",
+    "description_pt_br": "mudar nome do assistente",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 56,
+    "label_name": "bill_due",
+    "description_en": "bill due",
+    "description_pt_br": "vencimento da conta",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 57,
+    "label_name": "who_do_you_work_for",
+    "description_en": "who do you work for",
+    "description_pt_br": "para quem você trabalha",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 58,
+    "label_name": "share_location",
+    "description_en": "share location",
+    "description_pt_br": "compartilhar localização",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 59,
+    "label_name": "international_visa",
+    "description_en": "international visa",
+    "description_pt_br": "visto internacional",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 60,
+    "label_name": "calendar",
+    "description_en": "calendar",
+    "description_pt_br": "consultar calendário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 61,
+    "label_name": "translate",
+    "description_en": "translate",
+    "description_pt_br": "traduzir",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 62,
+    "label_name": "carry_on",
+    "description_en": "carry on",
+    "description_pt_br": "bagagem de mão",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 63,
+    "label_name": "book_flight",
+    "description_en": "book flight",
+    "description_pt_br": "reservar voo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 64,
+    "label_name": "insurance_change",
+    "description_en": "insurance change",
+    "description_pt_br": "alterar seguro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 65,
+    "label_name": "todo_list_update",
+    "description_en": "todo list update",
+    "description_pt_br": "atualizar lista de tarefas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 66,
+    "label_name": "timezone",
+    "description_en": "timezone",
+    "description_pt_br": "fuso horário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 67,
+    "label_name": "cancel_reservation",
+    "description_en": "cancel reservation",
+    "description_pt_br": "cancelar reserva",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 68,
+    "label_name": "transactions",
+    "description_en": "transactions",
+    "description_pt_br": "transações",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 69,
+    "label_name": "credit_score",
+    "description_en": "credit score",
+    "description_pt_br": "pontuação de crédito",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 70,
+    "label_name": "report_fraud",
+    "description_en": "report fraud",
+    "description_pt_br": "comunicar fraude",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 71,
+    "label_name": "spending_history",
+    "description_en": "spending history",
+    "description_pt_br": "histórico de gastos",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 72,
+    "label_name": "directions",
+    "description_en": "directions",
+    "description_pt_br": "como chegar",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 73,
+    "label_name": "spelling",
+    "description_en": "spelling",
+    "description_pt_br": "soletrar",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 74,
+    "label_name": "insurance",
+    "description_en": "insurance",
+    "description_pt_br": "seguro",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 75,
+    "label_name": "what_is_your_name",
+    "description_en": "what is your name",
+    "description_pt_br": "qual é o seu nome",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 76,
+    "label_name": "reminder",
+    "description_en": "reminder",
+    "description_pt_br": "lembrete",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 77,
+    "label_name": "where_are_you_from",
+    "description_en": "where are you from",
+    "description_pt_br": "de onde você é",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 78,
+    "label_name": "distance",
+    "description_en": "distance",
+    "description_pt_br": "distância",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 79,
+    "label_name": "payday",
+    "description_en": "payday",
+    "description_pt_br": "dia do pagamento",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 80,
+    "label_name": "flight_status",
+    "description_en": "flight status",
+    "description_pt_br": "situação do voo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 81,
+    "label_name": "find_phone",
+    "description_en": "find phone",
+    "description_pt_br": "encontrar celular",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 82,
+    "label_name": "greeting",
+    "description_en": "greeting",
+    "description_pt_br": "cumprimento",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 83,
+    "label_name": "alarm",
+    "description_en": "alarm",
+    "description_pt_br": "alarme",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 84,
+    "label_name": "order_status",
+    "description_en": "order status",
+    "description_pt_br": "situação do pedido",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 85,
+    "label_name": "confirm_reservation",
+    "description_en": "confirm reservation",
+    "description_pt_br": "confirmar reserva",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 86,
+    "label_name": "cook_time",
+    "description_en": "cook time",
+    "description_pt_br": "tempo de cozimento",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 87,
+    "label_name": "damaged_card",
+    "description_en": "damaged card",
+    "description_pt_br": "cartão danificado",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 88,
+    "label_name": "reset_settings",
+    "description_en": "reset settings",
+    "description_pt_br": "restaurar configurações",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 89,
+    "label_name": "pin_change",
+    "description_en": "pin change",
+    "description_pt_br": "alterar senha do cartão",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 90,
+    "label_name": "replacement_card_duration",
+    "description_en": "replacement card duration",
+    "description_pt_br": "prazo para cartão substituto",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 91,
+    "label_name": "new_card",
+    "description_en": "new card",
+    "description_pt_br": "novo cartão",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 92,
+    "label_name": "roll_dice",
+    "description_en": "roll dice",
+    "description_pt_br": "jogar dados",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 93,
+    "label_name": "income",
+    "description_en": "income",
+    "description_pt_br": "renda",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 94,
+    "label_name": "taxes",
+    "description_en": "taxes",
+    "description_pt_br": "impostos",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 95,
+    "label_name": "date",
+    "description_en": "date",
+    "description_pt_br": "data de hoje",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 96,
+    "label_name": "who_made_you",
+    "description_en": "who made you",
+    "description_pt_br": "quem criou você",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 97,
+    "label_name": "pto_request",
+    "description_en": "pto request",
+    "description_pt_br": "pedir folga remunerada",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 98,
+    "label_name": "tire_pressure",
+    "description_en": "tire pressure",
+    "description_pt_br": "pressão dos pneus",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 99,
+    "label_name": "how_old_are_you",
+    "description_en": "how old are you",
+    "description_pt_br": "quantos anos você tem",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 100,
+    "label_name": "rollover_401k",
+    "description_en": "rollover 401k",
+    "description_pt_br": "transferir plano de previdência 401k",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 101,
+    "label_name": "pto_request_status",
+    "description_en": "pto request status",
+    "description_pt_br": "situação do pedido de folga",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 102,
+    "label_name": "how_busy",
+    "description_en": "how busy",
+    "description_pt_br": "quão movimentado está",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 103,
+    "label_name": "application_status",
+    "description_en": "application status",
+    "description_pt_br": "situação da solicitação",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 104,
+    "label_name": "recipe",
+    "description_en": "recipe",
+    "description_pt_br": "receita culinária",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 105,
+    "label_name": "calendar_update",
+    "description_en": "calendar update",
+    "description_pt_br": "atualizar calendário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 106,
+    "label_name": "play_music",
+    "description_en": "play music",
+    "description_pt_br": "tocar música",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 107,
+    "label_name": "yes",
+    "description_en": "yes",
+    "description_pt_br": "sim",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 108,
+    "label_name": "direct_deposit",
+    "description_en": "direct deposit",
+    "description_pt_br": "depósito direto do salário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 109,
+    "label_name": "credit_limit_change",
+    "description_en": "credit limit change",
+    "description_pt_br": "alterar limite de crédito",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 110,
+    "label_name": "gas",
+    "description_en": "gas",
+    "description_pt_br": "nível de combustível",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 111,
+    "label_name": "pay_bill",
+    "description_en": "pay bill",
+    "description_pt_br": "pagar conta",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 112,
+    "label_name": "ingredients_list",
+    "description_en": "ingredients list",
+    "description_pt_br": "lista de ingredientes",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 113,
+    "label_name": "lost_luggage",
+    "description_en": "lost luggage",
+    "description_pt_br": "bagagem extraviada",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 114,
+    "label_name": "goodbye",
+    "description_en": "goodbye",
+    "description_pt_br": "despedida",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 115,
+    "label_name": "what_can_i_ask_you",
+    "description_en": "what can i ask you",
+    "description_pt_br": "o que posso perguntar a você",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 116,
+    "label_name": "book_hotel",
+    "description_en": "book hotel",
+    "description_pt_br": "reservar hotel",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 117,
+    "label_name": "are_you_a_bot",
+    "description_en": "are you a bot",
+    "description_pt_br": "você é um robô",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 118,
+    "label_name": "next_song",
+    "description_en": "next song",
+    "description_pt_br": "próxima música",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 119,
+    "label_name": "change_speed",
+    "description_en": "change speed",
+    "description_pt_br": "mudar velocidade da fala",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 120,
+    "label_name": "plug_type",
+    "description_en": "plug type",
+    "description_pt_br": "tipo de tomada",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 121,
+    "label_name": "maybe",
+    "description_en": "maybe",
+    "description_pt_br": "talvez",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 122,
+    "label_name": "w2",
+    "description_en": "w2",
+    "description_pt_br": "formulário de rendimentos W-2",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 123,
+    "label_name": "oil_change_when",
+    "description_en": "oil change when",
+    "description_pt_br": "quando trocar o óleo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 124,
+    "label_name": "thank_you",
+    "description_en": "thank you",
+    "description_pt_br": "agradecimento",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 125,
+    "label_name": "shopping_list_update",
+    "description_en": "shopping list update",
+    "description_pt_br": "atualizar lista de compras",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 126,
+    "label_name": "pto_balance",
+    "description_en": "pto balance",
+    "description_pt_br": "saldo de folgas remuneradas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 127,
+    "label_name": "order_checks",
+    "description_en": "order checks",
+    "description_pt_br": "pedir talão de cheques",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 128,
+    "label_name": "travel_alert",
+    "description_en": "travel alert",
+    "description_pt_br": "alerta de viagem",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 129,
+    "label_name": "fun_fact",
+    "description_en": "fun fact",
+    "description_pt_br": "curiosidade",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 130,
+    "label_name": "sync_device",
+    "description_en": "sync device",
+    "description_pt_br": "sincronizar dispositivo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 131,
+    "label_name": "schedule_maintenance",
+    "description_en": "schedule maintenance",
+    "description_pt_br": "agendar manutenção",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 132,
+    "label_name": "apr",
+    "description_en": "apr",
+    "description_pt_br": "taxa anual de juros (CET)",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 133,
+    "label_name": "transfer",
+    "description_en": "transfer",
+    "description_pt_br": "transferência",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 134,
+    "label_name": "ingredient_substitution",
+    "description_en": "ingredient substitution",
+    "description_pt_br": "substituir ingrediente",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 135,
+    "label_name": "calories",
+    "description_en": "calories",
+    "description_pt_br": "calorias",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 136,
+    "label_name": "current_location",
+    "description_en": "current location",
+    "description_pt_br": "localização atual",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 137,
+    "label_name": "international_fees",
+    "description_en": "international fees",
+    "description_pt_br": "tarifas internacionais",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 138,
+    "label_name": "calculator",
+    "description_en": "calculator",
+    "description_pt_br": "calculadora",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 139,
+    "label_name": "definition",
+    "description_en": "definition",
+    "description_pt_br": "definição de palavra",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 140,
+    "label_name": "next_holiday",
+    "description_en": "next holiday",
+    "description_pt_br": "próximo feriado",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 141,
+    "label_name": "update_playlist",
+    "description_en": "update playlist",
+    "description_pt_br": "atualizar playlist",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 142,
+    "label_name": "mpg",
+    "description_en": "mpg",
+    "description_pt_br": "consumo de combustível",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 143,
+    "label_name": "min_payment",
+    "description_en": "min payment",
+    "description_pt_br": "pagamento mínimo",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 144,
+    "label_name": "change_user_name",
+    "description_en": "change user name",
+    "description_pt_br": "mudar nome de usuário",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 145,
+    "label_name": "restaurant_suggestion",
+    "description_en": "restaurant suggestion",
+    "description_pt_br": "sugestão de restaurante",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 146,
+    "label_name": "travel_notification",
+    "description_en": "travel notification",
+    "description_pt_br": "avisar o banco sobre viagem",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 147,
+    "label_name": "cancel",
+    "description_en": "cancel",
+    "description_pt_br": "cancelar",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 148,
+    "label_name": "pto_used",
+    "description_en": "pto used",
+    "description_pt_br": "folgas remuneradas usadas",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 149,
+    "label_name": "travel_suggestion",
+    "description_en": "travel suggestion",
+    "description_pt_br": "sugestão de viagem",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  },
+  {
+    "label_id": 150,
+    "label_name": "change_volume",
+    "description_en": "change volume",
+    "description_pt_br": "mudar volume",
+    "description_pt_br_status": "llm_translated_not_reviewed"
+  }
+]

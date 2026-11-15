@@ -13,6 +13,7 @@ from jev_eval.pipeline.ablation import ablation, ablation_tables, load_baseline,
 from jev_eval.pipeline.analysis_tables import write_analysis_tables
 from jev_eval.pipeline.analyze import analyze, with_chosen_probability, with_conditions
 from jev_eval.eval.report_figures import make_report_figures
+from jev_eval.pipeline.dataset_summary import write_dataset_summary
 from jev_eval.pipeline.benchmark_check import benchmark_check, checkable_systems, format_report
 from jev_eval.pipeline.readout_table import readout_analysis, write_readout_outputs
 from jev_eval.pipeline.run_inference import run_inference
@@ -56,6 +57,11 @@ def _analyze(config, records, baseline=None, output_dir: Path | None = None) -> 
             save_metrics(out / "ablation.json", ablation(rows, base_by_dataset.get(name, []), config.ece_bins,
                                                          labels=_labels(config, name)))
             print(out / "ablation.json")
+    by_dataset = _by_dataset(config, records)
+    if baseline is None and len(by_dataset) > 1:  # equal-weight mean over datasets, never pooled
+        rows = with_chosen_probability([row for rows in by_dataset.values() for row in rows])
+        for path in write_dataset_summary(rows, config.ece_bins, output_dir or config.output_dir):
+            print(path)
 
 
 def _check_benchmark(config, records, output_dir: Path | None = None) -> None:
@@ -104,6 +110,32 @@ def _plot(config, records, baseline=None, output_dir: Path | None = None) -> Non
             print(path)
 
 
+def _error_sheet_path(config, dataset: str, condition: str) -> Path:
+    return config.output_dir / dataset / "error_analysis" / f"error_annotation_{condition}.csv"
+
+
+def _error_sheet(config, dataset: str, condition: str, systems: list[str], force: bool) -> None:
+    from jev_eval.pipeline.error_sheet import error_rows, write_sheet
+    spec = next((s for s in config.datasets if s.name == dataset), None)
+    if spec is None:
+        raise ValueError(f"Dataset {dataset!r} is not in this config.")
+    records = with_chosen_probability(with_conditions(read_jsonl(config.paths["raw_predictions"])))
+    rows = error_rows(records, build_adapter(spec).load_examples(config.sample_size), dataset, condition, systems)
+    path = _error_sheet_path(config, dataset, condition)
+    write_sheet(path, rows, force)
+    print(f"{len(rows)} errors -> {path}")
+
+
+def _error_summary(config, dataset: str, condition: str) -> None:
+    from jev_eval.pipeline.error_sheet import read_sheet, summarize, summary_table
+    path = _error_sheet_path(config, dataset, condition)
+    summary = summarize(read_sheet(path))
+    save_metrics(path.with_name(f"error_categories_{condition}.json"), summary)
+    header, rows = summary_table(summary)
+    _write_csv(path.with_name(f"error_categories_{condition}.csv"), header, rows)
+    print(path.with_name(f"error_categories_{condition}.csv"))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(prog="jev-eval")
     parser.add_argument("--config", required=True)
@@ -121,6 +153,14 @@ def main() -> None:
     report_parser.add_argument("--lang", choices=["pt", "en"], default="pt", help="language of the figure labels")
     report_parser.add_argument("--output-dir", type=Path, help="where analyze wrote metrics.json (default: the run's)")
     subparsers.add_parser("smoke")
+    for name, help_text in (("error-sheet", "write the error sheet the group categorizes by hand (E3)"),
+                            ("error-summary", "count the categories of a filled error sheet")):
+        sub = subparsers.add_parser(name, help=help_text)
+        sub.add_argument("--dataset", default="banking77")
+        sub.add_argument("--condition", default="C3", help="default C3, the H1 condition")
+        if name == "error-sheet":
+            sub.add_argument("--systems", nargs="+", default=["jev", "llm"])
+            sub.add_argument("--force", action="store_true", help="overwrite an existing (maybe filled) sheet")
     probe_parser = subparsers.add_parser("probe", help="pre-flight: prompt token count (Ollama) and one Jev call")
     probe_parser.add_argument("--skip-jev", action="store_true")
     args = parser.parse_args()
@@ -142,6 +182,10 @@ def main() -> None:
         _check_benchmark(config, with_conditions(read_jsonl(config.paths["raw_predictions"])), args.output_dir)
     elif args.command == "report":
         _report(config, with_conditions(read_jsonl(config.paths["raw_predictions"])), args.lang, args.output_dir)
+    elif args.command == "error-sheet":
+        _error_sheet(config, args.dataset, args.condition, args.systems, args.force)
+    elif args.command == "error-summary":
+        _error_summary(config, args.dataset, args.condition)
     elif args.command == "probe":
         from jev_eval.pipeline.probe import run_probe
         run_probe(config, skip_jev=args.skip_jev)

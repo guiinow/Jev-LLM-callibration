@@ -57,7 +57,7 @@ def validate_examples(examples: list[Example], conditions: list[Condition]) -> N
                     f"(e.g. {untranslated[:3]}); they look untranslated."
                 )
             unreviewed = [ex.example_id for ex in examples
-                          if ex.translation_status not in (None, "human_reviewed")]
+                          if ex.translation_status not in (None, "human_reviewed", "human_translated")]
             if unreviewed:
                 print(f"WARNING: {len(unreviewed)} PT-BR translations are not 'human_reviewed' "
                       f"(e.g. {unreviewed[:3]}).", file=sys.stderr)
@@ -159,7 +159,10 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
     if any("condition" not in row for row in existing):
         raise ValueError(f"{output} was written by an older version (no 'dataset'/'condition' fields); "
                          "rerun with --fresh.")
-    done = [row for row in existing if row.get("error") is None]
+    # Failed rows of THIS config's keys are dropped and retried; rows of other systems/datasets
+    # (e.g. Jev errors when only an open model runs) are kept untouched.
+    kept = [row for row in existing if row.get("error") is None or _key(row) not in expected]
+    done = [row for row in kept if row.get("error") is None]
     stale = [row for row in done if _key(row) in expected and row.get("input_hash") != expected[_key(row)]]
     if stale:
         raise ValueError(
@@ -167,10 +170,10 @@ def run_inference(config: EvalConfig, mock: bool = False, fresh: bool = False) -
             f"pipeline without input_hash (e.g. {[_key(r) for r in stale[:3]]}). Point the config to a new "
             "output directory (or use --fresh) instead of mixing them."
         )
-    write_jsonl(output, done)  # drop stale error rows so they get retried
+    write_jsonl(output, kept)
     append_run_metadata(output.parent / "run_metadata.json", collect_run_metadata(config, mock))
     done_keys = {_key(row) for row in done}
-    records = list(done)
+    records = list(kept)
 
     with output.open("a", encoding="utf-8") as file:
         for adapter, examples, criteria in loaded:

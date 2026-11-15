@@ -51,18 +51,24 @@ def probe_llm(config: EvalConfig) -> list[dict[str, Any]]:
     return rows
 
 
-def probe_jev(config: EvalConfig) -> dict[str, Any]:
+def probe_jev(config: EvalConfig) -> list[dict[str, Any]]:
+    """One C1 call per dataset (the shortest message): checks the served version and that Jev
+    accepts that dataset's option set (e.g. 150 options in CLINC150)."""
     from jev_eval.clients.jev_client import JevClient
-    spec = config.datasets[0]
-    adapter = build_adapter(spec)
+    client = JevClient(model=(config.jev or {}).get("model"))
     c1 = get_condition("C1")
-    example = min(adapter.load_examples(config.sample_size), key=lambda ex: len(ex.text["en"]))
-    result = JevClient(model=(config.jev or {}).get("model")).classify(
-        example.text["en"], criteria_by_language(adapter, [c1])["en"], prompt_for(spec.name, c1, "jev", config))
-    return {"example_id": example.example_id, "message": example.text["en"], "label": example.label,
-            "requested_model": result.model_id, "served_model": result.served_model,
-            "choice": result.predicted_label, "probabilities[choice]": result.confidence,
-            "sdk_confidence": result.confidence_sdk}
+    rows = []
+    for spec in config.datasets:
+        adapter = build_adapter(spec)
+        example = min(adapter.load_examples(config.sample_size), key=lambda ex: len(ex.text["en"]))
+        options = criteria_by_language(adapter, [c1])["en"]
+        result = client.classify(example.text["en"], options, prompt_for(spec.name, c1, "jev", config))
+        rows.append({"dataset": spec.name, "n_options": len(options), "example_id": example.example_id,
+                     "message": example.text["en"], "label": example.label,
+                     "requested_model": result.model_id, "served_model": result.served_model,
+                     "choice": result.predicted_label, "probabilities[choice]": result.confidence,
+                     "sdk_confidence": result.confidence_sdk})
+    return rows
 
 
 def run_probe(config: EvalConfig, skip_jev: bool = False) -> None:
@@ -75,4 +81,5 @@ def run_probe(config: EvalConfig, skip_jev: bool = False) -> None:
                   f"< {SMALLEST_OLLAMA_DEFAULT_CTX} (smallest Ollama default): {total < SMALLEST_OLLAMA_DEFAULT_CTX}; "
                   f"num_ctx in config = {num_ctx}")
     if "jev" in config.systems and not skip_jev:
-        print(probe_jev(config))
+        for row in probe_jev(config):
+            print(row)

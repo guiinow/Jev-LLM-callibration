@@ -92,6 +92,14 @@ def test_ablation_reuses_baseline_without_calling_jev(tmp_path):
     assert len(rows) == 2 * 3 and len(deltas) == 2 * 3 and rows[0][2] == 2
 
 
+def test_ablation_ignores_other_systems_in_the_baseline(tmp_path):
+    base, abl = run_baseline_and_ablation(tmp_path)
+    other = dict(read_jsonl(base.paths["raw_predictions"])[0], system="gemma_prob", input_hash="other-prompt")
+    with base.paths["raw_predictions"].open("a", encoding="utf-8") as file:
+        file.write(json.dumps(other) + "\n")
+    assert {r["system"] for r in load_baseline(abl)} == {"jev", "llm"}
+
+
 def test_ablation_refuses_baseline_from_other_inputs_or_incomplete(tmp_path):
     base, abl = run_baseline_and_ablation(tmp_path)
     sample = abl.datasets[0].paths["sample"]

@@ -1,0 +1,52 @@
+# QWEN ONLY, for a machine with a large GPU (Qwen3.8-27B is ~56 GB in bf16; it does not fit the 36 GB
+# Mac, and quantizing would break the comparison with the benchmark). Copy the repository and
+# outputs/final/raw_predictions.jsonl to that machine, run this config there, copy the file back.
+# If the Mac wrote to its own copy meanwhile (e.g. Gemma), join both with
+# scripts/merge_raw_predictions.py. Needs: pip install -e ".[open-models]".
+seed: 42
+sample_size: 462
+ece_bins: 15
+conditions: [C1, C2, C3]
+systems: [qwen_prob, qwen_verb]  # only Qwen: Jev/Ministral/Gemma rows already in the file are kept
+jev:
+  model: jev-1.14.0
+llm:
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+open_models:
+  gemma:
+    hf_id: google/gemma-4-E4B-it
+    revision: 4ecc2ba63bcac23ba4a767fc87025b1450f84c9c
+    dtype: bfloat16
+    auto_class: AutoModelForMultimodalLM  # as in the model card
+  qwen:
+    hf_id: Qwen/Qwen3.8-27B
+    revision: 37561816e66b5b9153b1b64c10968c18c1e6f4a0
+    dtype: bfloat16
+    auto_class: AutoModelForCausalLM  # not yet checked against this checkpoint
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+  - name: clinc150
+    task: choice
+    source: {hf_id: tech4humans/clinc_oos_pt, split: test, revision: e45fe5519bdeac1b7d8de0e335d5c8573d627520}
+    paths:
+      sample: data/clinc150/sample_clinc150.jsonl
+      intents: data/clinc150/intents_clinc150.json
+  - name: sib200
+    task: choice
+    source: {hf_id: Davlan/sib200, config: por_Latn, split: test, revision: 38977a667f6fc264d5c26ec57a01e16db040b358}
+    paths:
+      sample: data/sib200/sample_sib200.jsonl
+      intents: data/sib200/intents_sib200.json
+paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+paths:
+  raw_predictions: outputs/final/raw_predictions.jsonl

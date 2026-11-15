@@ -1,7 +1,8 @@
-# FINAL RUN (evidence for H1): all 462 sample examples, conditions C1/C2/C3, pinned versions.
-# PT-BR: public human-reviewed translation c2d-usp/banking77-pt-br (Dimant et al., 2025),
-# aligned to our sample by scripts/build_usp_data.py (data/usp/). Never resumes over records
-# made from other inputs.
+# FINAL RUN (evidence for H1 = Q1 in C3, plus Q2/Q3): Jev and the Ministral LLM on Banking77, CLINC150
+# and SIB-200, conditions C1/C2/C3, pinned versions. Inputs are built by scripts/build_usp_data.py,
+# build_clinc150_data.py and build_sib200_data.py (versioned under data/). sample_size caps each dataset
+# (Banking77 462, CLINC150 450, SIB-200 204). Never resumes over records made from other inputs.
+# Open models (Gemma/Qwen) extend this same output with configs/open_models.yaml.
 seed: 42
 sample_size: 462
 ece_bins: 15
@@ -20,6 +21,21 @@ datasets:
     task: choice
     source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
     paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+  - name: clinc150
+    task: choice
+    source: {hf_id: tech4humans/clinc_oos_pt, split: test, revision: e45fe5519bdeac1b7d8de0e335d5c8573d627520}
+    paths:
+      sample: data/clinc150/sample_clinc150.jsonl
+      intents: data/clinc150/intents_clinc150.json
+  - name: sib200
+    task: choice
+    source: {hf_id: Davlan/sib200, config: por_Latn, split: test, revision: 38977a667f6fc264d5c26ec57a01e16db040b358}
+    paths:
+      sample: data/sib200/sample_sib200.jsonl
+      intents: data/sib200/intents_sib200.json
+paths:
       sample: data/usp/sample_usp.jsonl
       intents: data/usp/intents_usp.json
 paths:

@@ -1,0 +1,33 @@
+{
+  "source": {
+    "dataset": "Davlan/sib200",
+    "configs": [
+      "eng_Latn",
+      "por_Latn"
+    ],
+    "split": "test",
+    "revision": "38977a667f6fc264d5c26ec57a01e16db040b358",
+    "license": "CC BY-SA 4.0",
+    "translation": "FLORES-200 professional human translation (por_Latn; variety not marked)"
+  },
+  "checks": {
+    "rows_en": 204,
+    "rows_pt": 204,
+    "same_index_ids": true,
+    "same_categories": true
+  },
+  "excluded": [],
+  "sample": {
+    "n": 204,
+    "seed": 42,
+    "per_topic": {
+      "science_technology": 51,
+      "travel": 40,
+      "politics": 30,
+      "sports": 25,
+      "health": 22,
+      "entertainment": 19,
+      "geography": 17
+    }
+  }
+}

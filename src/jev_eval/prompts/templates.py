@@ -42,6 +42,38 @@ TEMPLATES: dict[str, PromptTemplate] = {
                       "número de 0 a 1.\nOpções:\n{options}\nMensagem: {message}"),
         },
     ),
+    # CLINC150 (150 in-scope intents of a virtual assistant) and SIB-200 (7 topics): same layout
+    # and JSON keys as Banking77, so the same parsers apply ("intent" holds the chosen topic in SIB-200).
+    "clinc150": PromptTemplate(
+        version="clinc-choice-v1",
+        instructions={
+            "en": "Choose the intent of the message to the virtual assistant.",
+            "pt_br": "Escolha a intenção da mensagem para o assistente virtual.",
+        },
+        llm={
+            "en": ("Classify this message to a virtual assistant, written in {content_language}. Return only "
+                   'JSON with exact keys "intent" and "confidence", where confidence is 0 to 1.\n'
+                   "Options:\n{options}\nMessage: {message}"),
+            "pt_br": ("Classifique esta mensagem para um assistente virtual, escrita em {content_language}. "
+                      'Retorne apenas JSON com as chaves exatas "intent" e "confidence", em que confidence é '
+                      "um número de 0 a 1.\nOpções:\n{options}\nMensagem: {message}"),
+        },
+    ),
+    "sib200": PromptTemplate(
+        version="sib-choice-v1",
+        instructions={
+            "en": "Choose the topic of the sentence.",
+            "pt_br": "Escolha o tópico da frase.",
+        },
+        llm={
+            "en": ("Classify the topic of this sentence written in {content_language}. Return only JSON with "
+                   'exact keys "intent" (the chosen option) and "confidence", where confidence is 0 to 1.\n'
+                   "Options:\n{options}\nSentence: {message}"),
+            "pt_br": ("Classifique o tópico desta frase escrita em {content_language}. Retorne apenas JSON com "
+                      'as chaves exatas "intent" (a opção escolhida) e "confidence", em que confidence é um '
+                      "número de 0 a 1.\nOpções:\n{options}\nFrase: {message}"),
+        },
+    ),
 }
 
 TOPK = 3
@@ -85,6 +117,32 @@ VARIANTS: dict[str, dict[str, PromptTemplate]] = {
             },
             answer="code",
         ),
+        "clinc150": PromptTemplate(
+            version="clinc-codes-v1",
+            instructions=TEMPLATES["clinc150"].instructions,
+            llm={
+                "en": ("Classify this message to a virtual assistant, written in {content_language}. Reply with "
+                       "the code of the correct option only, nothing else.\n"
+                       "Options:\n{options}\nMessage: {message}"),
+                "pt_br": ("Classifique esta mensagem para um assistente virtual, escrita em {content_language}. "
+                          "Responda apenas com o código da opção correta, sem mais nada.\n"
+                          "Opções:\n{options}\nMensagem: {message}"),
+            },
+            answer="code",
+        ),
+        "sib200": PromptTemplate(
+            version="sib-codes-v1",
+            instructions=TEMPLATES["sib200"].instructions,
+            llm={
+                "en": ("Classify the topic of this sentence written in {content_language}. Reply with the code "
+                       "of the correct option only, nothing else.\n"
+                       "Options:\n{options}\nSentence: {message}"),
+                "pt_br": ("Classifique o tópico desta frase escrita em {content_language}. Responda apenas com "
+                          "o código da opção correta, sem mais nada.\n"
+                          "Opções:\n{options}\nFrase: {message}"),
+            },
+            answer="code",
+        ),
     },
 }
 
@@ -92,6 +150,10 @@ FROZEN_FINGERPRINTS = {
     ("banking77", "choice-v1"): "0f9329ed6353",
     ("banking77", "choice-topk-v1"): "11c1d5fc8e77",
     ("banking77", "choice-codes-v1"): "d73bd5099bd8",
+    ("clinc150", "clinc-choice-v1"): "dc7b907f5631",
+    ("sib200", "sib-choice-v1"): "d62f29514672",
+    ("clinc150", "clinc-codes-v1"): "1d823dae3d7d",
+    ("sib200", "sib-codes-v1"): "b4b80753eb38",
 }
 
 

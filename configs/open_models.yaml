@@ -36,5 +36,20 @@ datasets:
     paths:
       sample: data/usp/sample_usp.jsonl
       intents: data/usp/intents_usp.json
+  - name: clinc150
+    task: choice
+    source: {hf_id: tech4humans/clinc_oos_pt, split: test, revision: e45fe5519bdeac1b7d8de0e335d5c8573d627520}
+    paths:
+      sample: data/clinc150/sample_clinc150.jsonl
+      intents: data/clinc150/intents_clinc150.json
+  - name: sib200
+    task: choice
+    source: {hf_id: Davlan/sib200, config: por_Latn, split: test, revision: 38977a667f6fc264d5c26ec57a01e16db040b358}
+    paths:
+      sample: data/sib200/sample_sib200.jsonl
+      intents: data/sib200/intents_sib200.json
+paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
 paths:
   raw_predictions: outputs/final/raw_predictions.jsonl

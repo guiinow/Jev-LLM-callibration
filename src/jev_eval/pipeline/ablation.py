@@ -19,6 +19,7 @@ from jev_eval.pipeline.run_inference import criteria_by_language, input_hash
 from jev_eval.prompts.templates import build_task_prompt
 
 VARIANTS = ("jev", "llm_main", "llm_topk")
+BASELINE_SYSTEMS = ("jev", "llm")
 COMPARISONS = (("llm_topk", "llm_main"), ("jev", "llm_topk"), ("jev", "llm_main"))
 
 
@@ -34,8 +35,9 @@ def load_baseline(config: EvalConfig) -> list[dict[str, Any]]:
             for c in conditions:
                 expected[(spec.name, ex.example_id, c.name)] = (
                     ex.text[c.content_language], criteria[c.instruction_language], build_task_prompt(spec.name, c))
+    # Only Jev and the main-prompt LLM are reused; other systems in the file (e.g. open models) are ignored.
     rows = [r for r in read_jsonl(config.paths["baseline"])
-            if (r.get("dataset"), r["example_id"], r.get("condition")) in expected]
+            if r["system"] in BASELINE_SYSTEMS and (r.get("dataset"), r["example_id"], r.get("condition")) in expected]
     stale = []
     for r in rows:
         message, options, prompt = expected[(r["dataset"], r["example_id"], r["condition"])]

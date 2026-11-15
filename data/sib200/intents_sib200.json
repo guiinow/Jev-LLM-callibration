@@ -1,0 +1,51 @@
+[
+  {
+    "label_id": 0,
+    "label_name": "science_technology",
+    "description_en": "science/technology",
+    "description_pt_br": "ciência/tecnologia",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 1,
+    "label_name": "travel",
+    "description_en": "travel",
+    "description_pt_br": "viagem",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 2,
+    "label_name": "politics",
+    "description_en": "politics",
+    "description_pt_br": "política",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 3,
+    "label_name": "sports",
+    "description_en": "sports",
+    "description_pt_br": "esportes",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 4,
+    "label_name": "health",
+    "description_en": "health",
+    "description_pt_br": "saúde",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 5,
+    "label_name": "entertainment",
+    "description_en": "entertainment",
+    "description_pt_br": "entretenimento",
+    "description_pt_br_status": "translated_by_us"
+  },
+  {
+    "label_id": 6,
+    "label_name": "geography",
+    "description_en": "geography",
+    "description_pt_br": "geografia",
+    "description_pt_br_status": "translated_by_us"
+  }
+]
