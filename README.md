@@ -101,6 +101,26 @@ jev-eval --config configs/final.yaml check-benchmark   # -> outputs/final/bankin
 - O Jev **não é chamado de novo**. O `analyze` e o `plot` usam as respostas do Jev e do LLM com o prompt principal de `outputs/final/raw_predictions.jsonl` (`paths.baseline`). Antes, conferem pelo `input_hash` que cada uma foi produzida com a mesma mensagem, as mesmas opções e o mesmo prompt. Por isso a ablação exige a execução final completa.
 - O H1 continua definido sobre o prompt principal.
 
+### Modelos abertos: Gemma e Qwen, com duas formas de medir a confiança
+
+O Jev dá probabilidades e o Ministral escreve a confiança, então um "Jev ganhou" não diz se foi o modelo ou a forma de medir. Por isso cada modelo aberto é medido **das duas formas, com os mesmos pesos** (um só modelo carregado serve os dois sistemas):
+
+| Sistema | Como a confiança sai |
+|---|---|
+| `<modelo>_prob` | O prompt lista as opções com códigos de uma letra (A, B, ... AA, AB). O modelo responde só o código. A distribuição do próximo token, restrita aos códigos e renormalizada, é a probabilidade de cada opção, e a confiança é a da opção escolhida. É o método do benchmark do Jev. Nada é gerado |
+| `<modelo>_verb` | O modelo escreve o JSON com intenção e confiança (0 a 1), com o mesmo prompt principal do Ministral |
+
+Os modelos são **de pesos abertos** (Hugging Face, sem custo por chamada de API; o custo é o hardware). Verifique os termos de licença de cada um antes de publicar resultados. `configs/open_models.yaml` usa `google/gemma-4-E4B-it` e `Qwen/Qwen3.8-27B`, os mesmos do benchmark, em revisões fixadas. O Gemma-4-E4B ocupa cerca de 16 GB em bf16 (cabe num Mac de 36 GB). O Qwen3.8-27B ocupa cerca de 56 GB e precisa de GPU grande; quantizar mudaria os pesos e quebraria a comparação com o benchmark.
+
+```bash
+pip install -e ".[open-models]"                      # torch, transformers, accelerate
+jev-eval --config configs/open_models.yaml run       # estende outputs/final: só calcula o que falta
+jev-eval --config configs/open_models.yaml analyze   # + readout.json e tabelas readout_*.csv
+jev-eval --config configs/open_models.yaml check-benchmark   # Gemma e Qwen (prob) contra o publicado
+```
+
+O `open_models.yaml` grava no mesmo `outputs/final/raw_predictions.jsonl`. As linhas do Jev e do Ministral já calculadas são mantidas (a retomada confere o `input_hash`). Rode a configuração final antes. As duas leituras foram exercitadas de ponta a ponta só com um modelo pequeno (`Qwen/Qwen2.5-0.5B-Instruct`), porque a máquina de desenvolvimento não comporta o Gemma-4 nem o Qwen3.8; os testes automáticos usam um modelo de mentira. Valide em C1 com o `check-benchmark` antes de confiar nos números.
+
 ```bash
 jev-eval --config configs/ablation_topk.yaml probe     # tokens do prompt top-3
 jev-eval --config configs/ablation_topk.yaml run       # só LLM
@@ -164,7 +184,8 @@ Por dataset, em `<saída>/<dataset>/`. As figuras e tabelas usam só os exemplos
 | `tables/language_shift.csv` | Q2. Por sistema e condição PT: ECE em EN e em PT, ΔECE (PT − EN) e ΔAcurácia com IC 95% pareado por exemplo, fração de previsões que mudam de classe e mudança média da confiança (`analyze` já grava) |
 | `tables/selective.csv` | Q3. Por condição e sistema: AURC e acurácia ao aceitar só os 50% e 80% mais confiantes, com IC 95%. Empates de confiança são tratados como ordem aleatória |
 | `tables/bin_sensitivity.csv` | ΔECE (Jev − LLM) com 10, 15, 20 e 30 faixas, o veredito de cada uma (`jev_lower`, `llm_lower` ou `inconclusive`) e se a conclusão muda com o número de faixas |
-| `benchmark_check.md` | Só com `check-benchmark`: acurácia, ECE, acurácia nos 50% e 80% mais confiantes e AURC do Jev em C1 contra o benchmark publicado (Banking77), e se o valor publicado cai no nosso IC |
+| `benchmark_check.md`, `benchmark_check_<sistema>.md` | Só com `check-benchmark`: o Jev em C1 contra o benchmark publicado (Banking77): acurácia, ECE, acurácia nos 50% e 80% mais confiantes e AURC. Para `gemma_prob` e `qwen_prob`, só acurácia e ECE. Diz se o valor publicado cai no nosso IC |
+| `readout.json`, `tables/readout_cells.csv`, `tables/readout_contrasts.csv` | Só com modelos abertos. Por modelo, forma de medir e condição: acurácia e ECE com IC. Contrastes pareados: ECE(escrita) − ECE(probabilidades) por condição; se a mudança EN→PT do ECE depende da forma de medir; Jev contra cada outro sistema |
 | `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por condição |
 | `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema e condição, com IC 95% |
 | `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM |

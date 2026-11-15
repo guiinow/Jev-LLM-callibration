@@ -20,6 +20,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest==9.2.0"]
+# Only to run Gemma/Qwen locally; needs a large GPU or Apple-silicon memory.
+open-models = ["torch==2.15.0", "transformers==5.23.0", "accelerate==1.15.0"]
 
 [project.scripts]
 jev-eval = "jev_eval.cli:main"

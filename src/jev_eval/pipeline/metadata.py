@@ -14,7 +14,7 @@ from typing import Any
 from jev_eval.config import EvalConfig
 from jev_eval.env import REPO_ROOT
 
-PACKAGES = ("typesafe-sdk", "openai", "numpy", "httpx")
+PACKAGES = ("typesafe-sdk", "openai", "numpy", "httpx", "torch", "transformers", "accelerate")
 
 
 def _cmd(*args: str) -> str | None:
@@ -100,6 +100,7 @@ def collect_run_metadata(config: EvalConfig, mock: bool) -> dict[str, Any]:
                                  "paths": {k: str(v) for k, v in d.paths.items()},
                                  "source": vars(d.source) if d.source else None} for d in config.datasets],
                    "jev": _redacted(config.jev or {}), "llm": _redacted(llm),
+                   "open_models": {key: vars(spec) for key, spec in config.open_models.items()},
                    "paths": {k: str(v) for k, v in config.paths.items()}},
         "machine": _machine(),
         "packages": _packages(),

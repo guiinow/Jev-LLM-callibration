@@ -1,0 +1,40 @@
+# OPEN MODELS (Gemma, Qwen), each read two ways from the SAME weights:
+#   <model>_prob  probability of each option (next-token distribution over the option codes)
+#   <model>_verb  confidence written by the model as JSON (same main prompt as the other LLM)
+# This config EXTENDS the final run: it writes to the same outputs/final/raw_predictions.jsonl, and the
+# Jev and Ministral rows already there are kept (resume checks their input_hash), so only the open
+# models are computed. Run configs/final.yaml first. Needs: pip install -e ".[open-models]"
+# and a machine that fits the weights (Gemma-4-E4B ~16 GB in bf16; Qwen3.8-27B ~56 GB in bf16, so it
+# needs a large GPU; quantization changes the weights and breaks comparability with the benchmark).
+seed: 42
+sample_size: 462
+ece_bins: 15
+conditions: [C1, C2, C3]
+systems: [jev, llm, gemma_prob, gemma_verb]  # add qwen_prob, qwen_verb where Qwen fits
+jev:
+  model: jev-1.14.0
+llm:
+  model: ministral-3-14b-ctx8k
+  num_ctx: 8192
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+open_models:
+  gemma:
+    hf_id: google/gemma-4-E4B-it
+    revision: 4ecc2ba63bcac23ba4a767fc87025b1450f84c9c
+    dtype: bfloat16
+    auto_class: AutoModelForMultimodalLM  # as in the model card
+  qwen:
+    hf_id: Qwen/Qwen3.8-27B
+    revision: 37561816e66b5b9153b1b64c10968c18c1e6f4a0
+    dtype: bfloat16
+    auto_class: AutoModelForCausalLM  # not yet checked against this checkpoint
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+paths:
+  raw_predictions: outputs/final/raw_predictions.jsonl
