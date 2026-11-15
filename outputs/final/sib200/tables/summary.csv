@@ -1,0 +1,7 @@
+﻿condition;system;model_id;n_paired;n_failed_calls;ece;ece_ci95_low;ece_ci95_high;accuracy;accuracy_ci95_low;accuracy_ci95_high;mean_confidence;overconfidence;errors_conf_ge_0.9;distinct_confidence_values
+C2;jev;jev-1.14.0;203;0;0.0248;0.0227;0.0724;0.9212;0.8818;0.9557;0.9306;0.0095;4;38
+C2;llm;ministral-3-14b-ctx8k;203;1;0.0843;0.0448;0.1313;0.8719;0.8276;0.9163;0.9563;0.0843;24;5
+C3;jev;jev-1.14.0;203;0;0.0497;0.0301;0.0874;0.9212;0.8818;0.9557;0.9336;0.0125;4;43
+C3;llm;ministral-3-14b-ctx8k;203;1;0.1122;0.0664;0.1594;0.8473;0.798;0.8966;0.9526;0.1053;26;8
+C1;jev;jev-1.14.0;203;0;0.0283;0.0251;0.0792;0.9113;0.8719;0.9458;0.9316;0.0203;6;36
+C1;llm;ministral-3-14b-ctx8k;203;1;0.0785;0.0376;0.1213;0.8818;0.8374;0.9261;0.9568;0.075;22;6

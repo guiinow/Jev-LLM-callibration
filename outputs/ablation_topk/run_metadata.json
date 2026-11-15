@@ -1,0 +1,94 @@
+[
+  {
+    "started_at": "2026-11-15T21:59:02+00:00",
+    "mock": false,
+    "argv": [
+      "/workspace/envs/jev/bin/jev-eval",
+      "--config",
+      "configs/ablation_topk.yaml",
+      "run"
+    ],
+    "git": {
+      "commit": "929ef901d0c1771d5db1c947ca5ebed14e49dd72",
+      "dirty": true
+    },
+    "config_path": "configs/ablation_topk.yaml",
+    "config": {
+      "seed": 42,
+      "sample_size": 462,
+      "ece_bins": 15,
+      "conditions": [
+        "C2",
+        "C3"
+      ],
+      "systems": [
+        "llm"
+      ],
+      "datasets": [
+        {
+          "name": "banking77",
+          "task": "choice",
+          "paths": {
+            "sample": "data/usp/sample_usp.jsonl",
+            "intents": "data/usp/intents_usp.json"
+          },
+          "source": {
+            "hf_id": "PolyAI/banking77",
+            "split": "test",
+            "revision": "1846984189f2bc0ac51c6fc3a600fa9e1714e0c6",
+            "config": null
+          }
+        }
+      ],
+      "jev": {
+        "model": "jev-1.14.0"
+      },
+      "llm": {
+        "model": "ministral-3-14b-ctx8k",
+        "num_ctx": 8192,
+        "base_url": "http://localhost:11434/v1",
+        "api_key": "<redacted>",
+        "prompt": "topk"
+      },
+      "open_models": {},
+      "paths": {
+        "baseline": "outputs/final/raw_predictions.jsonl",
+        "raw_predictions": "outputs/ablation_topk/raw_predictions.jsonl"
+      }
+    },
+    "machine": {
+      "platform": "Linux-4.18.0-477.27.1.el8_8.x86_64-x86_64-with-glibc2.35",
+      "machine": "x86_64",
+      "python": "3.12.16"
+    },
+    "packages": {
+      "typesafe-sdk": "0.7.5",
+      "openai": "3.46.0",
+      "numpy": "2.5.4",
+      "httpx": "0.28.1",
+      "torch": "2.10.0+cu128",
+      "transformers": "5.23.0",
+      "accelerate": "1.15.0"
+    },
+    "ollama": {
+      "url": "http://localhost:11434",
+      "model": "ministral-3-14b-ctx8k",
+      "version": "0.40.16",
+      "digest": null,
+      "details": {
+        "parent_model": "ministral-3:14b",
+        "format": "gguf",
+        "family": "mistral3",
+        "families": [
+          "mistral3"
+        ],
+        "parameter_size": "13.9B",
+        "quantization_level": "Q4_K_M",
+        "runner": "ggml"
+      },
+      "parameters": "num_ctx                        8192\ntemperature                    0.15",
+      "modelfile_from": "FROM /root/.ollama/models/blobs/sha256-bfb40fc6bb9c3b2ed529b480e04f824c005ea8f86733d4ebbf0c204de484891e",
+      "context_length": 262144
+    }
+  }
+]

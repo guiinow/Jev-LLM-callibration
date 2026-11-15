@@ -1,0 +1,13 @@
+﻿model;readout;system;condition;n;accuracy;ece;ece_ci_low;ece_ci_high;mean_confidence
+gemma;prob;gemma_prob;C1;462;0.6732;0.2469;0.2113;0.2883;0.9201
+gemma;prob;gemma_prob;C2;462;0.6732;0.2498;0.2144;0.2929;0.9201
+gemma;prob;gemma_prob;C3;462;0.6407;0.2748;0.2372;0.3168;0.9154
+gemma;verb;gemma_verb;C1;458;0.6965;0.2288;0.1886;0.2696;0.9253
+gemma;verb;gemma_verb;C2;461;0.6833;0.254;0.2122;0.2951;0.9373
+gemma;verb;gemma_verb;C3;458;0.69;0.2349;0.1947;0.2761;0.9248
+jev;prob;jev;C1;462;0.7835;0.0972;0.0728;0.1323;0.8753
+jev;prob;jev;C2;462;0.79;0.0873;0.0672;0.1266;0.8704
+jev;prob;jev;C3;462;0.7965;0.085;0.0686;0.1284;0.8813
+llm;verb;llm;C1;458;0.7402;0.2287;0.1897;0.2681;0.9689
+llm;verb;llm;C2;461;0.7115;0.2605;0.2207;0.3011;0.972
+llm;verb;llm;C3;456;0.7215;0.2496;0.2105;0.2895;0.9711

@@ -1,0 +1,15 @@
+﻿contrast;model;condition;a;b;n;a_minus_b;ci_low;ci_high;ci_excludes_zero
+verb_minus_prob_ece;gemma;C1;verb;prob;458;-0.0205;-0.0578;0.011;False
+verb_minus_prob_ece;gemma;C2;verb;prob;461;0.0045;-0.0312;0.0326;False
+verb_minus_prob_ece;gemma;C3;verb;prob;458;-0.0423;-0.0774;-0.0101;True
+verb_minus_prob_shift;gemma;C2 vs C1;verb;prob;457;0.0259;-0.0115;0.0598;False
+verb_minus_prob_shift;gemma;C3 vs C1;verb;prob;457;-0.0218;-0.0583;0.0182;False
+jev_minus_system_ece;gemma_prob;C1;jev;gemma_prob;462;-0.1497;-0.1859;-0.1115;True
+jev_minus_system_ece;gemma_prob;C2;jev;gemma_prob;462;-0.1625;-0.1946;-0.1217;True
+jev_minus_system_ece;gemma_prob;C3;jev;gemma_prob;462;-0.1897;-0.2178;-0.1426;True
+jev_minus_system_ece;gemma_verb;C1;jev;gemma_verb;458;-0.1309;-0.1657;-0.0855;True
+jev_minus_system_ece;gemma_verb;C2;jev;gemma_verb;461;-0.1685;-0.2008;-0.1216;True
+jev_minus_system_ece;gemma_verb;C3;jev;gemma_verb;458;-0.1481;-0.1733;-0.1008;True
+jev_minus_system_ece;llm;C1;jev;llm;458;-0.1354;-0.1649;-0.0967;True
+jev_minus_system_ece;llm;C2;jev;llm;461;-0.1731;-0.199;-0.1315;True
+jev_minus_system_ece;llm;C3;jev;llm;456;-0.1645;-0.1894;-0.12;True

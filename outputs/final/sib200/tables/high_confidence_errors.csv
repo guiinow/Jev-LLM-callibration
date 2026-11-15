@@ -1,0 +1,87 @@
+﻿condition;system;example_id;text;true_label;predicted_label;confidence
+C2;jev;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C2;jev;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.99
+C2;jev;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.98
+C2;jev;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.92
+C2;llm;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C2;llm;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;1.0
+C2;llm;sib-0138;Os humanos podem ser afetados pela respiração aquática, carregada para o ar pelo vento e pelas ondas.;health;science_technology;0.95
+C2;llm;sib-0289;O mapa de terremotos internacional do Serviço Geológico dos Estados Unidos não indicou nenhum tremor de terra na Islândia na semana anterior.;geography;science_technology;0.95
+C2;llm;sib-0344;Já comunicando em inglês e japonês, a organização global está lançando programas em espanhol, italiano e coreano para televisão, internet e aparelhos móveis.;entertainment;science_technology;0.95
+C2;llm;sib-0433;As partes atuais da Bélgica faziam parte do Luxemburgo no passado, mas tornaram-se belgas após a Revolução Belga de 1830.;politics;geography;0.95
+C2;llm;sib-0459;"Uma das adversidade mais presentes quando tentam converter um filme para o formato de DVD é o ""overscan"".";science_technology;entertainment;0.95
+C2;llm;sib-0480;Para ter mais volume no acordeão, use o fole com mais pressão ou velocidade.;entertainment;science_technology;0.95
+C2;llm;sib-0495;Os doutores começaram a ser recrutados pelo imperador Augusto e até formaram o primeiro Corpo Médico Romano para uso após as batalhas.;health;science_technology;0.95
+C2;llm;sib-0520;Algumas pessoas acreditam que ter vários sonhos lúcidos induzidos artificialmente muitas vezes pode ser bem exaustivo.;health;science_technology;0.95
+C2;llm;sib-0551;A nutrição adequada por si só não gera desempenhos de alta performance, mas pode afetar significativamente o bem-estar geral dos atletas mais jovens.;sports;health;0.95
+C2;llm;sib-0552;Mantendo um equilíbrio energético saudável, praticar hábitos eficazes de hidratação e compreender os vários aspectos das práticas de suplementação podem ajudar os atletas a melhorar seu desempenho e a aumentar seu prazer pelo esporte.;sports;health;0.95
+C2;llm;sib-0777;Há diversos vários formatos de filme que têm sido utilizados com ao recorrer do tempo. O filme de 35 mm padrão (negativo de 36 por 24 mm) é o formato mais comum.;entertainment;science_technology;0.95
+C2;llm;sib-0814;As famílias com crianças pequenas talvez precisem estar mais bem preparadas, mas um dia do lado de fora é bem possível, mesmo com bebês e crianças em idade pré-escolar.;travel;health;0.95
+C2;llm;sib-0905;Provedores de VPN (rede privada virtual) pessoal são uma excelente forma de contornar a censura política e a filtragem geográfica de IP comercial.;science_technology;politics;0.95
+C2;llm;sib-1235;Com isso, os jogadores poderão controlar ações e movimentos no videogame movendo o dispositivo no ar.;entertainment;science_technology;0.95
+C2;llm;sib-1317;"Tommy Dreamer disse que ""Luna foi a primeira Rainha do Extremo. Minha primeira empresária. Luna faleceu em uma noite com duas luas. Algo excepcional, assim como ela. Mulher forte"".";sports;entertainment;0.95
+C2;llm;sib-1324;Ele não conseguiu tomar os medicamentos necessários para superar a dor, uma vez que estes são proibidos nos Jogos.;sports;health;0.95
+C2;llm;sib-1602;Exemplos de atividades locais incluem a pescaria, tirar fotografias, ver pássaros, visitar os parques e estudar sobre o ecossistema.;entertainment;geography;0.95
+C2;llm;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.95
+C2;llm;sib-1715;Hoje, Timbuktu é uma cidade empobrecida apesar de sua reputação torná-la uma atração turística, e ela tem um aeroporto.;travel;geography;0.95
+C2;llm;sib-1801;Durante as nevascas, é possível cair neve suficiente para deixar você preso em muito pouco tempo.;travel;geography;0.95
+C2;llm;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.95
+C2;llm;sib-1947;Também ao norte, visite o grande Santuário de Nossa Senhora de Fátima (Relicário), um lugar famoso no mundo todo por aparições marianas.;travel;geography;0.95
+C3;jev;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C3;jev;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.99
+C3;jev;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.97
+C3;jev;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.93
+C3;llm;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C3;llm;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;1.0
+C3;llm;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.99
+C3;llm;sib-0138;Os humanos podem ser afetados pela respiração aquática, carregada para o ar pelo vento e pelas ondas.;health;science_technology;0.95
+C3;llm;sib-0344;Já comunicando em inglês e japonês, a organização global está lançando programas em espanhol, italiano e coreano para televisão, internet e aparelhos móveis.;entertainment;science_technology;0.95
+C3;llm;sib-0433;As partes atuais da Bélgica faziam parte do Luxemburgo no passado, mas tornaram-se belgas após a Revolução Belga de 1830.;politics;geography;0.95
+C3;llm;sib-0459;"Uma das adversidade mais presentes quando tentam converter um filme para o formato de DVD é o ""overscan"".";science_technology;entertainment;0.95
+C3;llm;sib-0480;Para ter mais volume no acordeão, use o fole com mais pressão ou velocidade.;entertainment;science_technology;0.95
+C3;llm;sib-0495;Os doutores começaram a ser recrutados pelo imperador Augusto e até formaram o primeiro Corpo Médico Romano para uso após as batalhas.;health;science_technology;0.95
+C3;llm;sib-0520;Algumas pessoas acreditam que ter vários sonhos lúcidos induzidos artificialmente muitas vezes pode ser bem exaustivo.;health;science_technology;0.95
+C3;llm;sib-0551;A nutrição adequada por si só não gera desempenhos de alta performance, mas pode afetar significativamente o bem-estar geral dos atletas mais jovens.;sports;health;0.95
+C3;llm;sib-0552;Mantendo um equilíbrio energético saudável, praticar hábitos eficazes de hidratação e compreender os vários aspectos das práticas de suplementação podem ajudar os atletas a melhorar seu desempenho e a aumentar seu prazer pelo esporte.;sports;health;0.95
+C3;llm;sib-0678;Cada país também tem leis exclusivas que determinam quais itens de emergência que devem estar no veículo.;travel;geography;0.95
+C3;llm;sib-0777;Há diversos vários formatos de filme que têm sido utilizados com ao recorrer do tempo. O filme de 35 mm padrão (negativo de 36 por 24 mm) é o formato mais comum.;entertainment;science_technology;0.95
+C3;llm;sib-0809;O canyoning (ou canionismo) diz respeito a ir até o fundo de um cânion, que pode ser seco ou repleto de água.;sports;geography;0.95
+C3;llm;sib-1235;Com isso, os jogadores poderão controlar ações e movimentos no videogame movendo o dispositivo no ar.;entertainment;science_technology;0.95
+C3;llm;sib-1317;"Tommy Dreamer disse que ""Luna foi a primeira Rainha do Extremo. Minha primeira empresária. Luna faleceu em uma noite com duas luas. Algo excepcional, assim como ela. Mulher forte"".";sports;entertainment;0.95
+C3;llm;sib-1324;Ele não conseguiu tomar os medicamentos necessários para superar a dor, uma vez que estes são proibidos nos Jogos.;sports;health;0.95
+C3;llm;sib-1360;Os bandos consistem de um a três machos adultos da mesma família, junto com até 30 fêmeas e filhotes.;science_technology;geography;0.95
+C3;llm;sib-1519;Particularmente, alega-se que uma pessoa consegue detectar se outra pessoa está mentindo através da interpretação correta de microexpressões.;science_technology;health;0.95
+C3;llm;sib-1602;Exemplos de atividades locais incluem a pescaria, tirar fotografias, ver pássaros, visitar os parques e estudar sobre o ecossistema.;entertainment;geography;0.95
+C3;llm;sib-1715;Hoje, Timbuktu é uma cidade empobrecida apesar de sua reputação torná-la uma atração turística, e ela tem um aeroporto.;travel;geography;0.95
+C3;llm;sib-1801;Durante as nevascas, é possível cair neve suficiente para deixar você preso em muito pouco tempo.;travel;geography;0.95
+C3;llm;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.95
+C3;llm;sib-1898;A Esfinge é definida como pano de fundo e narradora de uma longa história.;entertainment;geography;0.95
+C3;llm;sib-1947;Também ao norte, visite o grande Santuário de Nossa Senhora de Fátima (Relicário), um lugar famoso no mundo todo por aparições marianas.;travel;geography;0.95
+C1;jev;sib-0117;Enceladus is the most reflective object in the solar system, reflecting about 90 percent of the sunlight that hits it.;geography;science_technology;1.0
+C1;jev;sib-1226;Potro received treatment to his shoulder at this point but managed to return to the game.;health;sports;0.99
+C1;jev;sib-1254;The two compounds react with one another to form crystals that may block kidney function, researchers at the university said.;science_technology;health;0.94
+C1;jev;sib-1840;They provide greater stability for the rider but can have safety concerns due to the potential for a rider's feet to get stuck in them.;travel;sports;0.94
+C1;jev;sib-1648;The crust is about 70 km thick on the near side and 100 km thick on the far side.;geography;science_technology;0.92
+C1;jev;sib-1432;The much-abused and often-ridiculed rule of thirds is a simple guideline creating dynamism while keeping a measure of order in an image.;science_technology;entertainment;0.9
+C1;llm;sib-0117;Enceladus is the most reflective object in the solar system, reflecting about 90 percent of the sunlight that hits it.;geography;science_technology;1.0
+C1;llm;sib-1226;Potro received treatment to his shoulder at this point but managed to return to the game.;health;sports;1.0
+C1;llm;sib-1648;The crust is about 70 km thick on the near side and 100 km thick on the far side.;geography;science_technology;1.0
+C1;llm;sib-0139;At its peak, Tropical Cyclone Gonu, named for a bag of palm leaves in the language of the Maldives, reached sustained winds of 240 kilometers an hour (149 miles per hour) .;geography;science_technology;0.95
+C1;llm;sib-0289;The United States Geological Survey international earthquake map showed no earthquakes in Iceland in the week prior.;geography;science_technology;0.95
+C1;llm;sib-0433;Present-day parts of Belgium were part of Luxembourg in the past but became Belgian after the 1830s Belgian Revolution.;politics;geography;0.95
+C1;llm;sib-0459;One of the most common problems when trying to convert a movie to DVD format is the overscan.;science_technology;entertainment;0.95
+C1;llm;sib-0480;On the accordion, to get extra volume, you use the bellows with more pressure or speed.;entertainment;science_technology;0.95
+C1;llm;sib-0551;Proper nutritional practices alone cannot generate elite performances, but they can significantly affect young athletes' overall wellness.;sports;health;0.95
+C1;llm;sib-0552;Maintaining a healthy energy balance, practicing effective hydration habits, and understanding the various aspects of supplementation practices can help athletes improve their performance and increase their enjoyment of the sport.;sports;health;0.95
+C1;llm;sib-0678;Each country also has unique laws requiring what emergency items need to be in the car.;travel;geography;0.95
+C1;llm;sib-0809;Canyoning (or: canyoneering) is about going in a bottom of a canyon, which is either dry or full of water.;sports;geography;0.95
+C1;llm;sib-0978;In the heat of the day, travelers can experience mirages that give the illusion of water (or other things).;travel;science_technology;0.95
+C1;llm;sib-0997;"""We now have 4-month-old mice that are non-diabetic that used to be diabetic,"" he added.";health;science_technology;0.95
+C1;llm;sib-1235;This will allow players to control actions and movements in video games by moving the device through the air.;entertainment;science_technology;0.95
+C1;llm;sib-1254;The two compounds react with one another to form crystals that may block kidney function, researchers at the university said.;science_technology;health;0.95
+C1;llm;sib-1317;"Tommy Dreamer said ""Luna was the first Queen of Extreme. My first manager. Luna passed away on the night of two moons. Pretty unique just like her. Strong woman.""";sports;entertainment;0.95
+C1;llm;sib-1602;Examples of on-site activities include hunting, fishing, photography, bird watching, and visiting parks and studying information about the ecosystem.;entertainment;geography;0.95
+C1;llm;sib-1649;It is thinner under the maria and thicker under the highlands.;geography;science_technology;0.95
+C1;llm;sib-1715;Today, Timbuktu is an impoverished town, although its reputation makes it a tourist attraction, and it has an airport.;travel;geography;0.95
+C1;llm;sib-1801;During blizzards, enough snow to get you stuck can fall in very little time.;travel;geography;0.95
+C1;llm;sib-1840;They provide greater stability for the rider but can have safety concerns due to the potential for a rider's feet to get stuck in them.;travel;sports;0.95

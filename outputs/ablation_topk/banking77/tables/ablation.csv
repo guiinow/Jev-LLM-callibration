@@ -1,0 +1,7 @@
+﻿condition;variant;n_common;ece;accuracy;mean_confidence;brier_top1;auroc;n_failed_calls;answers_with_invented_lower_guess
+C2;jev;460;0.0885;0.7891;0.8707;0.1347;0.8201;0;
+C2;llm_main;460;0.2612;0.7109;0.972;0.2616;0.76;1;
+C2;llm_topk;460;0.196;0.7152;0.9112;0.2215;0.6984;2;19
+C3;jev;453;0.0853;0.7969;0.8819;0.1369;0.8083;0;
+C3;llm_main;453;0.2449;0.7263;0.9712;0.2449;0.7709;6;
+C3;llm_topk;453;0.2227;0.713;0.9358;0.2445;0.6231;5;21

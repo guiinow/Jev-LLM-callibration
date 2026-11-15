@@ -1,0 +1,7 @@
+﻿condition;comparison;n_common;delta_ece;ci95_low;ci95_high
+C2;llm_topk - llm_main;460;-0.0652;-0.0867;-0.0439
+C2;jev - llm_topk;460;-0.1075;-0.1332;-0.0672
+C2;jev - llm_main;460;-0.1727;-0.1993;-0.1306
+C3;llm_topk - llm_main;453;-0.0222;-0.0447;0.001
+C3;jev - llm_topk;453;-0.1374;-0.1623;-0.0907
+C3;jev - llm_main;453;-0.1596;-0.1836;-0.1152

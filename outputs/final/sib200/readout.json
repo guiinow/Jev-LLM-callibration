@@ -1,0 +1,389 @@
+{
+  "n_bins": 15,
+  "cells": [
+    {
+      "model": "gemma",
+      "readout": "prob",
+      "system": "gemma_prob",
+      "condition": "C1",
+      "n": 204,
+      "accuracy": 0.8431372549019608,
+      "ece": 0.1219523758122551,
+      "ece_ci95": [
+        0.08840308569545582,
+        0.1772626450813787
+      ],
+      "mean_confidence": 0.9597933486595642
+    },
+    {
+      "model": "gemma",
+      "readout": "prob",
+      "system": "gemma_prob",
+      "condition": "C2",
+      "n": 204,
+      "accuracy": 0.8529411764705882,
+      "ece": 0.11167430471518489,
+      "ece_ci95": [
+        0.07563048727413008,
+        0.16010195148251347
+      ],
+      "mean_confidence": 0.9573240764509581
+    },
+    {
+      "model": "gemma",
+      "readout": "prob",
+      "system": "gemma_prob",
+      "condition": "C3",
+      "n": 204,
+      "accuracy": 0.8627450980392157,
+      "ece": 0.10859243536660464,
+      "ece_ci95": [
+        0.0731699178635586,
+        0.15579972058148395
+      ],
+      "mean_confidence": 0.9462570444500287
+    },
+    {
+      "model": "gemma",
+      "readout": "verb",
+      "system": "gemma_verb",
+      "condition": "C1",
+      "n": 204,
+      "accuracy": 0.8725490196078431,
+      "ece": 0.05044117647058832,
+      "ece_ci95": [
+        0.023037990196078266,
+        0.09583578431372541
+      ],
+      "mean_confidence": 0.9229901960784315
+    },
+    {
+      "model": "gemma",
+      "readout": "verb",
+      "system": "gemma_verb",
+      "condition": "C2",
+      "n": 203,
+      "accuracy": 0.8866995073891626,
+      "ece": 0.037635467980295434,
+      "ece_ci95": [
+        0.017043103448275823,
+        0.08374630541871905
+      ],
+      "mean_confidence": 0.9243349753694582
+    },
+    {
+      "model": "gemma",
+      "readout": "verb",
+      "system": "gemma_verb",
+      "condition": "C3",
+      "n": 204,
+      "accuracy": 0.8970588235294118,
+      "ece": 0.018382352941176273,
+      "ece_ci95": [
+        0.014313725490196064,
+        0.06706004901960785
+      ],
+      "mean_confidence": 0.9154411764705884
+    },
+    {
+      "model": "jev",
+      "readout": "prob",
+      "system": "jev",
+      "condition": "C1",
+      "n": 204,
+      "accuracy": 0.9068627450980392,
+      "ece": 0.031862745098039234,
+      "ece_ci95": [
+        0.02593137254901956,
+        0.08225612745098045
+      ],
+      "mean_confidence": 0.9307843137254902
+    },
+    {
+      "model": "jev",
+      "readout": "prob",
+      "system": "jev",
+      "condition": "C2",
+      "n": 204,
+      "accuracy": 0.9166666666666666,
+      "ece": 0.02210784313725485,
+      "ece_ci95": [
+        0.0226960784313726,
+        0.07049264705882366
+      ],
+      "mean_confidence": 0.9291666666666667
+    },
+    {
+      "model": "jev",
+      "readout": "prob",
+      "system": "jev",
+      "condition": "C3",
+      "n": 204,
+      "accuracy": 0.9166666666666666,
+      "ece": 0.0521078431372549,
+      "ece_ci95": [
+        0.03235294117647063,
+        0.08911887254901955
+      ],
+      "mean_confidence": 0.9317156862745097
+    },
+    {
+      "model": "llm",
+      "readout": "verb",
+      "system": "llm",
+      "condition": "C1",
+      "n": 203,
+      "accuracy": 0.8817733990147784,
+      "ece": 0.07847290640394071,
+      "ece_ci95": [
+        0.03797906403940881,
+        0.12206896551724117
+      ],
+      "mean_confidence": 0.95679802955665
+    },
+    {
+      "model": "llm",
+      "readout": "verb",
+      "system": "llm",
+      "condition": "C2",
+      "n": 203,
+      "accuracy": 0.8719211822660099,
+      "ece": 0.08433497536945794,
+      "ece_ci95": [
+        0.04270812807881751,
+        0.13271059113300487
+      ],
+      "mean_confidence": 0.9562561576354679
+    },
+    {
+      "model": "llm",
+      "readout": "verb",
+      "system": "llm",
+      "condition": "C3",
+      "n": 203,
+      "accuracy": 0.8472906403940886,
+      "ece": 0.11216748768472892,
+      "ece_ci95": [
+        0.06729064039408865,
+        0.16088793103448268
+      ],
+      "mean_confidence": 0.9525615763546796
+    }
+  ],
+  "readout_within_model": [
+    {
+      "model": "gemma",
+      "condition": "C1",
+      "n": 204,
+      "estimate": -0.0715111993416667,
+      "ci95": [
+        -0.1105956146694477,
+        -0.038777287461733444
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42,
+      "ece_prob": 0.1219523758122551,
+      "ece_verb": 0.05044117647058839
+    },
+    {
+      "model": "gemma",
+      "condition": "C2",
+      "n": 203,
+      "estimate": -0.07054736613391165,
+      "ci95": [
+        -0.10014603834745872,
+        -0.03038800083155003
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42,
+      "ece_prob": 0.10818283411420722,
+      "ece_verb": 0.03763546798029557
+    },
+    {
+      "model": "gemma",
+      "condition": "C3",
+      "n": 204,
+      "estimate": -0.0902100824254283,
+      "ci95": [
+        -0.11334689591935662,
+        -0.03523166514626175
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42,
+      "ece_prob": 0.10859243536660464,
+      "ece_verb": 0.018382352941176336
+    }
+  ],
+  "readout_shift_within_model": [
+    {
+      "model": "gemma",
+      "pt_condition": "C2",
+      "n": 203,
+      "estimate": 0.0011999334611373091,
+      "ci95": [
+        -0.03228362560056234,
+        0.0508723639902873
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42,
+      "shift_prob": -0.0145004260719747,
+      "shift_verb": -0.013300492610837392
+    },
+    {
+      "model": "gemma",
+      "pt_condition": "C3",
+      "n": 204,
+      "estimate": -0.018698883083761594,
+      "ci95": [
+        -0.0451222323368146,
+        0.04607685484985976
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42,
+      "shift_prob": -0.013359940445650462,
+      "shift_verb": -0.032058823529412056
+    }
+  ],
+  "jev_vs_system": [
+    {
+      "system": "gemma_prob",
+      "model": "gemma",
+      "readout": "prob",
+      "condition": "C1",
+      "n": 204,
+      "estimate": -0.09008963071421588,
+      "ci95": [
+        -0.12617455881126102,
+        -0.03571187931522189
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemma_prob",
+      "model": "gemma",
+      "readout": "prob",
+      "condition": "C2",
+      "n": 204,
+      "estimate": -0.08956646157793022,
+      "ci95": [
+        -0.11349842975574165,
+        -0.030745322806108484
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemma_prob",
+      "model": "gemma",
+      "readout": "prob",
+      "condition": "C3",
+      "n": 204,
+      "estimate": -0.056484592229349664,
+      "ci95": [
+        -0.09489827135870138,
+        -0.014925657054792445
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemma_verb",
+      "model": "gemma",
+      "readout": "verb",
+      "condition": "C1",
+      "n": 204,
+      "estimate": -0.01857843137254917,
+      "ci95": [
+        -0.042698529411764635,
+        0.030735294117646902
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemma_verb",
+      "model": "gemma",
+      "readout": "verb",
+      "condition": "C2",
+      "n": 203,
+      "estimate": -0.01507389162561584,
+      "ci95": [
+        -0.036996305418719545,
+        0.033302955665024676
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemma_verb",
+      "model": "gemma",
+      "readout": "verb",
+      "condition": "C3",
+      "n": 204,
+      "estimate": 0.033725490196078636,
+      "ci95": [
+        -0.012011029411764825,
+        0.05397058823529405
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "llm",
+      "model": "llm",
+      "readout": "verb",
+      "condition": "C1",
+      "n": 203,
+      "estimate": -0.050197044334975405,
+      "ci95": [
+        -0.07014901477832501,
+        0.010987684729064117
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "llm",
+      "model": "llm",
+      "readout": "verb",
+      "condition": "C2",
+      "n": 203,
+      "estimate": -0.05950738916256157,
+      "ci95": [
+        -0.0838940886699506,
+        -0.0005394088669949469
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "llm",
+      "model": "llm",
+      "readout": "verb",
+      "condition": "C3",
+      "n": 203,
+      "estimate": -0.062463054187191905,
+      "ci95": [
+        -0.10068965517241357,
+        -0.010689655172413782
+      ],
+      "ci_excludes_zero": true,
+      "n_bootstrap": 5000,
+      "seed": 42
+    }
+  ]
+}

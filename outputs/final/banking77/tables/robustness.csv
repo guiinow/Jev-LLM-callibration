@@ -1,0 +1,10 @@
+﻿condition;system;confidence;n;ece_10;ece_15;ece_20;ece_equal_mass_15;brier_top1;auroc;distinct_confidence_values
+C2;jev;probabilities[choice];461;0.0837;0.0874;0.0966;0.0805;0.1347;0.819;64
+C2;jev;sdk_confidence;461;0.0853;0.0847;0.0954;0.0791;0.1345;0.819;64
+C2;llm;verbalized;461;0.2605;0.2605;0.2605;0.2605;0.2611;0.7588;6
+C3;jev;probabilities[choice];456;0.0848;0.085;0.0926;0.0848;0.1377;0.8072;62
+C3;jev;sdk_confidence;456;0.0851;0.0922;0.0899;0.0835;0.1377;0.8072;62
+C3;llm;verbalized;456;0.2496;0.2496;0.2496;0.2496;0.2493;0.7738;6
+C1;jev;probabilities[choice];458;0.0877;0.0933;0.0918;0.0877;0.1267;0.8423;66
+C1;jev;sdk_confidence;458;0.0862;0.0919;0.0941;0.0862;0.1262;0.8423;66
+C1;llm;verbalized;458;0.2287;0.2287;0.2287;0.2287;0.2314;0.7665;7
