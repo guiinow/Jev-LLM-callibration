@@ -14,7 +14,7 @@
 
 \begin{document}
 
-\title{A confiança sobrevive à tradução? Calibração do Jev e de LLMs abertos de EN para PT em três tarefas de classificação}
+\title{LLMs abertos ou um classificador calibrado? A confiança do Jev em português em três tarefas de classificação}
 
 \newcommand{\ufmg}{\affiliation{\institution{Universidade Federal de Minas Gerais}\city{Belo Horizonte}\country{Brasil}}}
 \author{Bernardo Machado}\ufmg
@@ -24,56 +24,54 @@
 \renewcommand{\shortauthors}{Machado, Ferreira, Marcelino e Porfírio}
 
 \begin{abstract}
-A confiança de um classificador baseado em LLM continua calibrada quando a entrada passa do inglês para o português? Isso depende do modelo ou da forma de ler a confiança? Comparamos o Jev (probabilidades das opções), o Ministral-3 14B (confiança verbalizada) e o Gemma-4-E4B lido das duas formas, em Banking77, CLINC150 e SIB-200, sob três condições de idioma. Em PT (C3), o Jev tem ECE menor que o Ministral nos três datasets (média $-0{,}093$, IC 95\% $[-0{,}105;\,-0{,}062]$). A mudança EN$\to$PT não altera o ECE de forma consistente em nenhum sistema. A forma de leitura importa: no Gemma, a confiança verbalizada é mais bem calibrada que as probabilidades das opções e, no SIB-200, não se distingue da do Jev.
+LLMs de uso geral conseguem classificar mensagens, mas sua confiança, pedida por escrito, tende a ser exagerada, o que limita quanto se pode automatizar. O Jev (TypeSafe AI) é um classificador que apenas escolhe entre opções fixas e devolve probabilidades descritas como calibradas. Comparamos o Jev com dois LLMs abertos, o Ministral-3 14B e o Gemma-4-E4B, em três bases (intenções de clientes de banco, pedidos a assistentes virtuais e tópicos de frases), em inglês e em português. Em português, o Jev é mais bem calibrado que o Ministral nas três bases, e sua confiança separa melhor acertos de erros, o que permite automatizar mais mensagens com a mesma exigência de acerto. Não encontramos variação consistente da calibração com a troca de idioma em nenhum sistema; como os ICs têm meia-largura de cerca de 0,03 de ECE, variações dessa ordem não seriam detectadas.
 \end{abstract}
 
 \maketitle
 
 \section{Problema e motivação}
-Ao encaminhar mensagens automaticamente, um erro com confiança alta passa sem revisão; por isso importa a \emph{calibração}: quando o sistema diz 90\%, deve acertar cerca de 90\% das vezes~\cite{guo2017calibration}. O Jev (TypeSafe AI) não gera texto: escolhe entre opções fixas e devolve probabilidades descritas como calibradas, e foi avaliado em 37 datasets, mas não em entradas traduzidas para o português~\cite{deusser2026jev}. LLMs generativos costumam ser lidos por confiança verbalizada, de calibração variável~\cite{tian2023justask,xiong2024uncertainty}; compará-los ao Jev mistura o modelo com a forma de ler a confiança. Perguntas: \textbf{Q1 (H1, pré-definida)}: em PT-BR, o ECE do Jev é menor que o do LLM? \textbf{Q2}: o ECE muda de EN para PT, e em quais sistemas? \textbf{Q3}: a confiança ainda serve para decidir quando responder?
+Em atendimento automatizado, cada mensagem que precisa passar por um humano tem um \emph{custo por toque}. Um classificador reduz esse custo quando sua confiança indica quais respostas podem ser aceitas sem revisão, o que exige \emph{calibração}: entre as respostas dadas com 90\% de confiança, cerca de 90\% devem estar certas~\cite{guo2017calibration}. Medimos o desvio com o erro de calibração esperado (ECE), a diferença média entre confiança e acurácia em faixas de confiança (0 é calibração perfeita)~\cite{naeini2015ece}.
 
-\section{Abordagem}
-\textbf{Sistemas.} (i) \emph{Jev} (\texttt{jev-1.14.0}): confiança $=$ probabilidade da opção escolhida. (ii) \emph{Ministral} (\texttt{ministral-3:14b}, GGUF Q4\_K\_M, Ollama, \texttt{num\_ctx} 8192, temperatura 0): JSON com intenção e confiança de 0 a 1. (iii) \emph{Gemma-4-E4B-it} (bf16), com os mesmos pesos lidos de duas formas: \emph{prob.}, em que as opções recebem códigos de um token e a distribuição do próximo token restrita aos códigos dá a probabilidade de cada opção (método do benchmark~\cite{deusser2026jev}); e \emph{verb.}, com o prompt JSON do Ministral e decodificação gulosa. Todos recebem as mesmas mensagens e opções. O Qwen3.8-27B, previsto na proposta, não foi executado.
-
-\textbf{Condições.} C1: tudo em EN. C2: mensagem em PT, instruções e opções em EN (isola o conteúdo; contraste principal de Q2: C2$-$C1). C3: tudo em PT (teste de H1).
-
-\textbf{Dados.} Banking77~\cite{casanueva2020banking77}: 462 itens do teste (6 por intenção, semente 42), tradução da USP revisada por humanos~\cite{dimant2025banking77pt}, alinhamento conferido nas 3.080 linhas. CLINC150~\cite{larson2019clinc}: 450 itens (3 por intenção, sem a classe fora de escopo), tradução automática não revisada~\cite{tech4humans_clinc_pt} e nomes das intenções traduzidos por LLM. SIB-200~\cite{adelani2024sib}: as 204 frases do teste, PT do FLORES-200~\cite{nllb2022}.
-
-\textbf{Métricas.} Primária: ECE com 15 faixas uniformes~\cite{naeini2015ece}, fixadas antes da execução. Secundárias: acurácia, ECE com 10/20/30 faixas, AURC e acurácia nos 50\%/80\% mais confiantes~\cite{geifman2017selective}, AUROC acerto$\times$erro. IC 95\% por bootstrap percentil pareado por exemplo (5.000 reamostragens). H1 é apoiada se o IC de ECE$_{\text{Jev}}-$ECE$_{\text{LLM}}$ ficar abaixo de zero. Entre datasets, média com pesos iguais, sem juntar previsões.
-
-\section{Configuração experimental}
-Foram 3.348 chamadas por sistema (1.116 itens $\times$ 3 condições) numa GPU NVIDIA L40S. Respostas com intenção inválida (Ministral 18, Gemma verb.\ 11, demais 0) são excluídas; cada contraste usa os itens válidos nos dois lados. Prompts congelados e versionados; cada resposta bruta guarda versão servida e \emph{hash} da entrada. \textbf{Validação:} em C1/Banking77, os valores publicados~\cite{deusser2026jev} caem nos nossos ICs (Jev: acurácia 0,784 \ci{0{,}745}{0{,}823} vs.\ 0,797; ECE 0,097 \ci{0{,}073}{0{,}132} vs.\ 0,087; Gemma prob.: 0,673 vs.\ 0,670 e 0,247 vs.\ 0,267).
+A solução mais comum hoje é um LLM generativo: o prompt lista as opções e pede-se que o modelo escreva também um número entre 0 e 1 (confiança \emph{verbalizada}), de calibração variável~\cite{tian2023justask,xiong2024uncertainty}. O Jev segue outro desenho: não gera texto, só escolhe entre opções fixas e devolve uma probabilidade para cada uma, a US\$\,0,042 por milhão de tokens de entrada; em seu benchmark, 346 mil requisições em 37 bases custaram US\$\,9,15~\cite{deusser2026jev}, nenhuma com entradas traduzidas para o português. Perguntamos: \textbf{Q1} (hipótese H1, definida antes dos experimentos): em português, o ECE do Jev é menor que o do Ministral-3 14B com confiança verbalizada? \textbf{Q2}: a calibração muda do inglês para o português? \textbf{Q3}: em português, quantas mensagens cada sistema permite automatizar sem perder acurácia, e a que custo?
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{figs/ece_datasets.pdf}
-  \caption{ECE (15 faixas) e IC 95\% por dataset (nº de opções), sistema e condição, sobre todas as respostas válidas de cada sistema (barra estendida até a estimativa quando esta cai fora do IC percentil). C1: EN/EN; C2: PT/EN; C3: PT/PT.}
+  \caption{ECE (15 faixas) e IC 95\% por base (nº de opções), sistema e condição.}
   \label{fig:ece}
 \end{figure}
 
-\begin{table}[t]
-  \caption{Q1 e leitura da confiança em C3: $\Delta$ECE pareado e IC 95\%. Negativo favorece o primeiro termo.}
+\begin{table*}[t]
+  \caption{ECE em C3 e $\Delta$ECE pareado [IC 95\%] sobre os itens válidos nos dois sistemas (pode diferir da subtração das colunas). Negativo favorece o primeiro; —: não calculada.}
   \label{tab:h1}
-  \setlength{\tabcolsep}{2.5pt}
-  \resizebox{\linewidth}{!}{%
+  \footnotesize
   \begin{tabular}{lcccc}
     \toprule
-    Contraste & Banking77 & CLINC150 & SIB-200 & Média \\
+     & Banking77 & CLINC150 & SIB-200 & Média \\
     \midrule
-    Jev $-$ Ministral (H1) & $-$0,165 & $-$0,053 & $-$0,063 & $-$0,093 \\
-     & \ci{$-$0,189}{$-$0,120} & \ci{$-$0,070}{$-$0,014} & \ci{$-$0,101}{$-$0,011} & \ci{$-$0,105}{$-$0,062} \\
-    Jev $-$ Gemma verb. & $-$0,148 & $-$0,039 & $+$0,034 & $-$0,051 \\
-     & \ci{$-$0,173}{$-$0,101} & \ci{$-$0,058}{0,000} & \ci{$-$0,012}{0,054} & \ci{$-$0,067}{$-$0,029} \\
-    Jev $-$ Gemma prob. & $-$0,190 & $-$0,091 & $-$0,057 & $-$0,112 \\
-     & \ci{$-$0,218}{$-$0,143} & \ci{$-$0,114}{$-$0,054} & \ci{$-$0,095}{$-$0,015} & \ci{$-$0,127}{$-$0,085} \\
-    Gemma verb. $-$ prob. & $-$0,042 & $-$0,052 & $-$0,090 & --- \\
-     & \ci{$-$0,077}{$-$0,010} & \ci{$-$0,079}{$-$0,031} & \ci{$-$0,113}{$-$0,035} & \\
+    ECE Jev / Ministral / Gemma verb. / prob. & 0,085 / 0,250 / 0,235 / 0,275 & 0,036 / 0,088 / 0,074 / 0,127 & 0,052 / 0,112 / 0,018 / 0,109 & 0,058 / 0,150 / 0,109 / 0,170 \\
+    \midrule
+    $\Delta$ Jev $-$ Ministral (H1) & $-$0,165\ci{$-$0,189}{$-$0,120} & $-$0,053\ci{$-$0,070}{$-$0,014} & $-$0,063\ci{$-$0,101}{$-$0,011} & $-$0,093\ci{$-$0,105}{$-$0,062} \\
+    $\Delta$ Jev $-$ Gemma verb. & $-$0,148\ci{$-$0,173}{$-$0,101} & $-$0,039\ci{$-$0,058}{0,000} & $+$0,034\ci{$-$0,012}{0,054} & $-$0,051\ci{$-$0,067}{$-$0,029} \\
+    $\Delta$ Jev $-$ Gemma prob. & $-$0,190\ci{$-$0,218}{$-$0,143} & $-$0,091\ci{$-$0,114}{$-$0,054} & $-$0,057\ci{$-$0,095}{$-$0,015} & $-$0,112\ci{$-$0,127}{$-$0,085} \\
+    $\Delta$ Gemma verb. $-$ prob. & $-$0,042\ci{$-$0,077}{$-$0,010} & $-$0,052\ci{$-$0,079}{$-$0,031} & $-$0,090\ci{$-$0,113}{$-$0,035} & --- \\
     \bottomrule
-  \end{tabular}}
-\end{table}
+  \end{tabular}
+\end{table*}
+
+\section{Abordagem}
+\textbf{Sistemas.} (i) \emph{Jev} (1.14.0, via API): a confiança é a probabilidade da opção escolhida. (ii) \emph{Ministral-3 14B}, LLM aberto local (Ollama, 4 bits, temperatura 0), que responde em JSON a intenção e a confiança. (iii) \emph{Gemma-4-E4B}, em bf16 como no benchmark, lido de duas formas, o que separa modelo e forma de leitura: \emph{prob.}, em que cada opção recebe um código de um único token e a confiança é a probabilidade do próximo token, renormalizada sobre os códigos (método do benchmark~\cite{deusser2026jev}); e \emph{verb.}, com o prompt do Ministral. O Ministral representa o uso prático, quantizado. O Qwen3.8-27B previsto não foi executado: em bf16 não cabe nos 48\,GB da GPU.
+
+\textbf{Condições.} C1: tudo em inglês. C2: só a mensagem em português, isolando o idioma do conteúdo (contraste principal de Q2). C3: tudo em português, o uso real e a condição de H1.
+
+\textbf{Bases.} \emph{Banking77}~\cite{casanueva2020banking77}: mensagens de clientes de banco em 77 intenções muito próximas; 6 por intenção, com tradução revisada por humanos~\cite{dimant2025banking77pt}. \emph{CLINC150}~\cite{larson2019clinc}: pedidos a assistentes virtuais em 150 intenções de 10 domínios, sem a classe fora de escopo; 3 por intenção, com tradução automática não revisada~\cite{tech4humans_clinc_pt}. \emph{SIB-200}~\cite{adelani2024sib}: frases em 7 tópicos; o teste inteiro (204), com a tradução profissional do FLORES-200~\cite{nllb2022}. As amostras foram estratificadas por classe (semente 42), por limite de tempo de GPU.
+
+\textbf{Métricas.} Primária: ECE com 15 faixas, fixadas antes da execução (10, 20 e 30 como verificação). Secundárias: acurácia, AURC (área sob a curva do erro em função da fração de respostas aceitas; menor é melhor)~\cite{geifman2017selective} e fração de mensagens automatizável mantendo 90\% ou 95\% de acerto. ICs de 95\% vêm de \emph{bootstrap} pareado (5.000 reamostragens dos mesmos itens para os dois sistemas). H1 é apoiada se todo o IC de ECE$_{\text{Jev}}-$ECE$_{\text{Ministral}}$ ficar abaixo de zero; médias entre bases dão peso igual a cada uma.
+
+\textbf{Execução.} Cada sistema classificou 1.116 itens nas três condições: os LLMs numa GPU NVIDIA L40S, o Jev pela API. Respostas fora da lista de opções (menos de 1\%) foram descartadas, e cada comparação pareada usa os itens válidos nos dois sistemas. \textbf{Validação:} em inglês, no Banking77, obtivemos para o Jev acurácia 0,784 \ci{0{,}745}{0{,}823} e ECE 0,097 \ci{0{,}073}{0{,}132}, contra 0,797 e 0,087 publicados~\cite{deusser2026jev}; para o Gemma \emph{prob.}, 0,673 e 0,247, contra 0,670 e 0,267. Código, prompts e respostas brutas: \url{https://github.com/guiinow/Jev-LLM-callibration}.
 
 \begin{table}[t]
-  \caption{Q2: acurácia em C1 e mudança de ECE de EN para PT (pareada por exemplo). * IC 95\% exclui zero.}
+  \caption{Acurácia em inglês e $\Delta$ECE ao passar ao português (* IC 95\% exclui zero; ICs no repositório).}
   \label{tab:q2}
   \setlength{\tabcolsep}{2pt}
   \resizebox{\linewidth}{!}{%
@@ -83,32 +81,30 @@ Foram 3.348 chamadas por sistema (1.116 itens $\times$ 3 condições) numa GPU N
     \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
     Sistema & Ac.\,C1 & C2$-$C1 & C3$-$C1 & Ac.\,C1 & C2$-$C1 & C3$-$C1 & Ac.\,C1 & C2$-$C1 & C3$-$C1 \\
     \midrule
-    Jev        & ,784 & $-$,010 & $-$,012 & ,936 & $-$,001 & $-$,001 & ,907 & $-$,010 & $+$,020 \\
-    Ministral  & ,740 & $+$,030* & $+$,022 & ,863 & $-$,004 & $-$,020 & ,882 & $+$,006 & $+$,034 \\
-    Gemma prob.& ,673 & $+$,003 & $+$,028 & ,807 & $+$,034* & $-$,018 & ,843 & $-$,010 & $-$,013 \\
-    Gemma verb.& ,697 & $+$,027* & $+$,006 & ,860 & $+$,022 & $-$,003 & ,873 & $-$,013 & $-$,032 \\
+    Jev        & 0,784 & $-$0,010 & $-$0,012 & 0,936 & $-$0,001 & $-$0,001 & 0,907 & $-$0,010 & $+$0,020 \\
+    Ministral  & 0,740 & $+$0,030* & $+$0,022 & 0,863 & $-$0,004 & $-$0,020 & 0,882 & $+$0,006 & $+$0,034 \\
+    Gemma prob.& 0,673 & $+$0,003 & $+$0,028 & 0,807 & $+$0,034* & $-$0,018 & 0,843 & $-$0,010 & $-$0,013 \\
+    Gemma verb.& 0,697 & $+$0,027* & $+$0,006 & 0,860 & $+$0,022 & $-$0,003 & 0,873 & $-$0,013 & $-$0,032 \\
     \bottomrule
   \end{tabular}}
 \end{table}
 
 \section{Resultados}
-\textbf{Q1 (H1).} Em C3, o Jev tem ECE menor que o Ministral nos três datasets, com ICs abaixo de zero (Fig.~\ref{fig:ece}, Tab.~\ref{tab:h1}): H1 é apoiada. O mesmo vale em C1 e C2, exceto SIB-200/C1 ($-$0,050 \ci{$-$0,070}{0{,}011}, inconclusivo). Com 10, 20 e 30 faixas o veredito em C3 se mantém, salvo SIB-200 com 30 faixas (IC inclui zero). O Ministral é sistematicamente superconfiante: confiança média de 0,95--0,97 contra acurácia de 0,71--0,88, com só 5 a 8 valores distintos de confiança; no Banking77/C3, 118 dos seus erros têm confiança $\ge$0,9 (Jev: 27).
+\textbf{Q1 (H1).} Em português, o Jev é mais bem calibrado que o Ministral nas três bases, com ICs inteiramente abaixo de zero (Fig.~\ref{fig:ece}, Tab.~\ref{tab:h1}): H1 é apoiada. Com 10 a 30 faixas, a diferença em C3 fica entre $-$0,153 e $-$0,165 (Banking77), $-$0,041 e $-$0,057 (CLINC150) e $-$0,056 e $-$0,082 (SIB-200), com IC abaixo de zero salvo no SIB-200 com 30; o padrão se repete em C1 e C2 (exceto SIB-200 em C1, inconclusivo). O Ministral é superconfiante: declara 95\% a 97\% de confiança em média para 71\% a 88\% de acerto, quase sempre com 0,95, 0,98 ou 1,0; no Banking77 em português, 118 dos seus 127 erros têm confiança $\ge$90\%, contra 27 dos 94 do Jev.
 
-\textbf{Modelo vs.\ forma de leitura.} No Gemma, a leitura verbalizada tem ECE menor que a por probabilidades em C3 nos três datasets (Tab.~\ref{tab:h1}), e em todas as condições no CLINC150 e no SIB-200; a leitura prob.\ também acerta menos. O Jev supera o Gemma prob.\ em todas as células, mas a vantagem sobre o Gemma verb.\ depende do dataset: grande no Banking77, limítrofe no CLINC150 (IC toca zero em C3) e ausente no SIB-200 (0,052 vs.\ 0,018 em C3, IC inclui zero). A vantagem do Jev sobre o Ministral, portanto, não se explica só pela forma de leitura, mas não é uniforme entre modelos.
+\textbf{Modelo ou forma de leitura?} No Gemma, a confiança verbalizada é mais bem calibrada que a extraída das probabilidades nas três bases (Tab.~\ref{tab:h1}). O Jev supera o Gemma \emph{prob.} sempre, mas o Gemma \emph{verb.} só claramente no Banking77 (limítrofe no CLINC150, ausente no SIB-200): a vantagem do Jev não vem só da forma de leitura, mas varia entre modelos.
 
-\textbf{Q2 (EN$\to$PT).} O ECE do Jev não muda de forma detectável em nenhuma célula (Tab.~\ref{tab:q2}). Dos 24 contrastes, só 3 excluem zero, todos em C2 e pequenos: Ministral/Banking77 ($+$0,030 \ci{0{,}003}{0{,}057}), Gemma verb./Banking77 ($+$0,027 \ci{0{,}001}{0{,}055}) e Gemma prob./\allowbreak CLINC150 ($+$0,034 \ci{0{,}004}{0{,}068}); nenhuma média entre datasets exclui zero. Sem correção para comparações múltiplas, isso é compatível com o acaso, e ICs que incluem zero não provam equivalência. O Jev muda a classe prevista em 2--7\% dos itens entre EN e PT; o Ministral, em 8--13\%; o Gemma, em 6--23\%.
+\textbf{Q2 (troca de idioma).} Das 24 variações (4 sistemas $\times$ 3 bases $\times$ 2 condições; Tab.~\ref{tab:q2}), só 3 têm IC que exclui zero, todas pequenas, em C2 e fora do Jev, compatíveis com o acaso sem correção para comparações múltiplas. Isso não prova equivalência: os ICs têm meia-largura típica de 0,03 de ECE (0,02 no Jev), e variações dessa ordem não seriam detectadas. A tradução afeta mais as respostas: o Jev muda a classe prevista em 2\% a 7\% dos itens, o Ministral em 8\% a 13\% e o Gemma em até 23\%.
 
-\textbf{Q3 (seleção).} Em C3, o Jev tem AURC menor que o Ministral (0,078 vs.\ 0,139 no Banking77; 0,019 vs.\ 0,046 no CLINC150; 0,020 vs.\ 0,081 no SIB-200) e maior acurácia nos 80\% mais confiantes (0,874/0,972/0,969 vs.\ 0,797/0,921/0,881). O padrão se repete em C1 e C2: a utilidade da confiança para seleção não se degrada em PT. Essas métricas não foram calculadas para o Gemma.
-
-\textbf{Ablação (Banking77).} Pedir ao Ministral 3 palpites com probabilidades~\cite{tian2023justask} reduz o ECE em C2 ($-$0,065 \ci{$-$0,087}{$-$0{,}044}), não de forma detectável em C3 ($-$0,022 \ci{$-$0,045}{0{,}001}), e piora a AUROC (0,760$\to$0,698; 0,771$\to$0,623). O Jev segue com ECE menor.
+\textbf{Q3 (seleção e custo por toque).} Em português, a AURC do Jev é menor que a do Ministral nas três bases (Banking77: 0,078 contra 0,139), e essa métrica não depende de limiar; em inglês, o mesmo ocorre nas três bases. Exigindo 90\% de acerto nas respostas automáticas, o Jev responde sozinho a 70\% das mensagens do Banking77 e o Ministral, a 37\%; exigindo 95\%, o Jev automatiza 46\% do Banking77, 95\% do CLINC150 e 91\% do SIB-200, e o Ministral, 0\%, 62\% e 38\%. O 0\% vem de o Ministral usar quase só três valores de confiança, sem corte que isole 95\% de acerto. Os limiares foram escolhidos nos dados de teste, o que favorece ambos. Por chamada, mesmo um prompt de 1,7 mil tokens (o do Ministral) custaria US\$\,0,07 por mil classificações no Jev; o Ministral, em sequência numa L40S a US\$\,1,57/h (mediana de aluguel~\cite{getdeploying_l40s}; 0,56\,s por chamada), cerca de US\$\,0,24 por mil, menos com lotes. O que pesa no custo por toque é a fração de mensagens que dispensa o humano.
 
 % [SUPOSIÇÃO DE RASCUNHO: números da pré-anotação por LLM, tratada como já revisada pelo grupo; atualizar após a revisão]
-\textbf{Análise de erros (Banking77/C3).} Os 221 erros (Jev 94, Ministral 127) foram pré-classificados por um LLM em seis categorias fixas, com justificativa por linha, e revisados pelos quatro integrantes. Poucos são arbitrários: 55\% dos erros do Jev e 40\% dos do Ministral são de rótulo ambíguo (a mensagem cabe em mais de uma opção ou a referência é discutível, p.ex.\ \texttt{get\_physical\_card} para ``onde está meu PIN?''), e 29\%/42\% confundem intenções próximas (pendente vs.\ falhou, taxa vs.\ câmbio); falta de contexto explica 13\%/9\%, e erro sem justificativa, 1\%/6\%. A tradução raramente é a causa: 191 dos 221 erros também ocorrem em EN e, dos 28 que só ocorrem em PT, só 3 se devem a ela (p.ex.\ ``apply for a visa card'' virou ``solicitar um cartão de crédito''). Com confiança $\ge$0,9, o Jev erra quase só em rótulos ambíguos (21 de 27), enquanto o Ministral também erra entre intenções próximas (50 de 118).
+\textbf{Análise de erros (Banking77, C3).} Os 221 erros do Jev (94) e do Ministral (127) receberam categorias sugeridas por um LLM e revisadas pelos autores. Mais da metade dos erros do Jev (55\%) e 40\% dos do Ministral são de \emph{rótulo ambíguo}: a mensagem cabe em mais de uma intenção ou o rótulo é discutível (p.ex.\ ``onde está meu PIN?'' tem como referência ``obter cartão físico''); 29\% e 42\% confundem \emph{intenções próximas}, como transferência pendente e falha. A tradução quase nunca é a causa: 191 erros já ocorrem em inglês, 2 não têm resposta válida em inglês e, dos 28 que só aparecem em português, 3 se devem à tradução (p.ex.\ ``visa card'' virou ``cartão de crédito''). Com confiança $\ge$90\%, o Jev erra quase só em rótulos ambíguos (21 de 27); o Ministral, também em intenções próximas (50 de 118).
 
-\section{Discussão, limitações e conclusões}
-\textbf{Ameaças à validade.} (i) Só o Banking77 tem tradução revisada por humanos; o CLINC150 (mensagens e nomes das intenções) usa tradução automática não revisada. (ii) Com 204 a 462 itens os ICs são largos; o ECE é enviesado para cima em amostras pequenas, e o IC percentil pode não conter a estimativa pontual (Jev, SIB-200/C2). (iii) No Gemma, as duas leituras usam prompts diferentes (códigos vs.\ JSON): o contraste verb.$-$prob.\ confunde leitura e prompt. (iv) Ministral quantizado (Q4\_K\_M); Jev 1.14.0 vs.\ 1.13.0 no benchmark; comparamos sistemas completos, sem conclusão causal sobre arquiteturas. (v) Possível contaminação dos datasets no treino. (vi) A AURC foi comparada por ICs não pareados. (vii) A análise de erros cobre só o Banking77/C3, e a pré-classificação por LLM pode ancorar a revisão humana.
+\section{Limitações e conclusões}
+\textbf{Limitações.} Avaliamos só dois LLMs abertos e pequenos, um quantizado em 4 bits (o que pode piorar a calibração), sem modelos comerciais nem classificadores ajustados. Não testamos recalibração (p.ex.\ \emph{temperature scaling}), que reduziria o ECE dos LLMs; a AURC, porém, não muda sob recalibrações monotônicas. O Jev já foi avaliado nas três bases em inglês~\cite{deusser2026jev}; a parte em português é nova. Com 204 a 462 itens o ECE é enviesado para cima, e várias faixas do Ministral ficam quase vazias. No CLINC150, idioma e qualidade da tradução (automática) se confundem; no Gemma, as duas leituras usam prompts diferentes, o que se mistura à comparação entre elas. Os limiares de automação foram escolhidos nos dados de teste. As categorias de erro foram sugeridas por um LLM e revisadas pelos autores, sem medida de concordância.
 
-\textbf{Conclusões.} Nas três tarefas, o Jev é mais bem calibrado que o Ministral com confiança verbalizada, em PT e em EN, e sua calibração é estável sob a troca de idioma. Não há evidência de que a tradução degrade sistematicamente a calibração de algum sistema, mas os dados não permitem afirmar equivalência. A forma de leitura também importa: no Gemma, a confiança verbalizada é mais bem calibrada que as probabilidades das opções e, no SIB-200, chega ao nível do Jev.
+\textbf{Conclusões.} Em português, o Jev foi mais bem calibrado que o Ministral nas três bases e que o Gemma em parte delas, e sua confiança permitiu automatizar mais mensagens com a mesma exigência de acerto, a custo por chamada baixo e sem GPU própria. A troca de idioma não teve efeito consistente na calibração, dentro da resolução das amostras.\label{fimcorpo}
 
 \section*{Contribuições individuais}
 % [A PREENCHER PELO GRUPO — não inferido pelo assistente]
@@ -116,7 +112,7 @@ Bernardo Machado: [a preencher]. Guilherme Ferreira: [a preencher]. Marco Túlio
 
 \section*{Declaração de uso de IA}
 % [REVISAR E CONFIRMAR PELO GRUPO]
-Claude Code (Anthropic) foi usado na geração de código do pipeline de avaliação (\texttt{src/jev\_eval/}), dos scripts de preparação de dados e de figuras, na tradução dos nomes das intenções do CLINC150 para o português, na pré-classificação dos erros do Banking77/C3 (revisada pelo grupo) e na redação de uma primeira versão deste relatório a partir dos resultados executados, revisada pelo grupo. [Listar outras ferramentas e componentes.] O desenho experimental, a validação dos resultados e as conclusões são de responsabilidade do grupo.
+Claude Code (Anthropic) foi usado na geração de código do pipeline de avaliação (\texttt{src/jev\_eval/}), dos scripts de preparação de dados e de figuras, na tradução dos nomes das intenções do CLINC150 para o português, na sugestão de categorias para os erros do Banking77/C3 (revisadas pelo grupo) e na redação de uma primeira versão deste relatório a partir dos resultados executados, revisada pelo grupo. O desenho experimental, a validação dos resultados e as conclusões são de responsabilidade do grupo.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
