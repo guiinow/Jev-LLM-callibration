@@ -1,0 +1,118 @@
+﻿condition;system;example_id;text;true_label;predicted_label;confidence
+C2;jev;clinc-0002;Qual é uma boa receita de tacos?;ingredients_list;recipe;1.0
+C2;jev;clinc-0192;Bom falar com você;goodbye;greeting;1.0
+C2;jev;clinc-0326;Gostaria que você me lembrasse de fazer algo.;reminder_update;reminder;1.0
+C2;jev;clinc-0417;Preciso ser lembrado(a) para fazer algo.;reminder_update;reminder;1.0
+C2;jev;clinc-0197;Você pode me ajudar a planejar uma viagem?;pto_request;travel_suggestion;0.99
+C2;jev;clinc-0169;Preciso de um lembrete para tirar o jantar do forno.;reminder_update;reminder;0.98
+C2;jev;clinc-0148;Atrasar um pagamento do cartão de crédito prejudica meu score de crédito.;improve_credit_score;credit_score;0.94
+C2;jev;clinc-0238;Então, quais matérias você gosta?;what_can_i_ask_you;what_are_your_hobbies;0.94
+C2;jev;clinc-0295;Quando é a data de validade do leite antes de ser usado?;food_last;expiration_date;0.93
+C2;jev;clinc-0401;Mostre em que eu gastei dinheiro.;transactions;spending_history;0.92
+C2;jev;clinc-0173;Qual a sua função?;user_name;what_can_i_ask_you;0.9
+C2;llm;clinc-0002;Qual é uma boa receita de tacos?;ingredients_list;recipe;1.0
+C2;llm;clinc-0168;Em AC, como está a temperatura?;smart_home;weather;1.0
+C2;llm;clinc-0326;Gostaria que você me lembrasse de fazer algo.;reminder_update;reminder;1.0
+C2;llm;clinc-0417;Preciso ser lembrado(a) para fazer algo.;reminder_update;reminder;1.0
+C2;llm;clinc-0118;Que horas são no horário de montanha?;time;timezone;0.98
+C2;llm;clinc-0135;Verifique a agenda de hoje para reuniões.;meeting_schedule;calendar;0.98
+C2;llm;clinc-0169;Preciso de um lembrete para tirar o jantar do forno.;reminder_update;reminder;0.98
+C2;llm;clinc-0170;Me diga a data de vencimento do meu cartão de crédito.;expiration_date;bill_due;0.98
+C2;llm;clinc-0257;Ah, me chame de Deb quando me responder.;change_user_name;user_name;0.98
+C2;llm;clinc-0358;Gostaria de saber qual o posto de gasolina mais próximo de Glendale.;directions;gas;0.98
+C2;llm;clinc-0363;Me diga a hora na Califórnia;time;timezone;0.98
+C2;llm;clinc-0012;Estou quase na hora de trocar os pneus?;tire_change;last_maintenance;0.95
+C2;llm;clinc-0039;Alguém te controla?;who_do_you_work_for;who_made_you;0.95
+C2;llm;clinc-0044;Eu gostaria de comida tailandesa.;meal_suggestion;restaurant_suggestion;0.95
+C2;llm;clinc-0054;Devo levar meu carro para manutenção?;schedule_maintenance;last_maintenance;0.95
+C2;llm;clinc-0063;Refresque minha memória sobre os itens que quero lembrar.;reminder;todo_list;0.95
+C2;llm;clinc-0070;Liga para o Jeff e manda ele pagar a conta.;text;make_call;0.95
+C2;llm;clinc-0074;Diga-me quanto tempo mais levarei para chegar ao destino.;distance;directions;0.95
+C2;llm;clinc-0159;Você pode me lembrar dos itens que eu anotei para não esquecer?;reminder;todo_list;0.95
+C2;llm;clinc-0173;Qual a sua função?;user_name;what_can_i_ask_you;0.95
+C2;llm;clinc-0192;Bom falar com você;goodbye;greeting;0.95
+C2;llm;clinc-0197;Você pode me ajudar a planejar uma viagem?;pto_request;travel_suggestion;0.95
+C2;llm;clinc-0268;Por que há um atraso na minha conta corrente?;account_blocked;transactions;0.95
+C2;llm;clinc-0278;Como você gostaria que eu o chamasse?;what_is_your_name;change_ai_name;0.95
+C2;llm;clinc-0286;Quanto tempo leva para chegar ao centro de ônibus?;distance;directions;0.95
+C2;llm;clinc-0295;Quando é a data de validade do leite antes de ser usado?;food_last;expiration_date;0.95
+C2;llm;clinc-0331;Diga a David onde estou.;share_location;text;0.95
+C2;llm;clinc-0387;Você pode verificar se há salas de reunião disponíveis entre 4 e 5 horas?;schedule_meeting;meeting_schedule;0.95
+C2;llm;clinc-0413;Você sabe quando eu devo trocar meus pneus da próxima vez?;tire_change;last_maintenance;0.95
+C2;llm;clinc-0419;Como faço para assar um peru de 10 libras?;recipe;cook_time;0.95
+C3;jev;clinc-0002;Qual é uma boa receita de tacos?;ingredients_list;recipe;1.0
+C3;jev;clinc-0326;Gostaria que você me lembrasse de fazer algo.;reminder_update;reminder;1.0
+C3;jev;clinc-0192;Bom falar com você;goodbye;greeting;0.99
+C3;jev;clinc-0197;Você pode me ajudar a planejar uma viagem?;pto_request;travel_suggestion;0.99
+C3;jev;clinc-0417;Preciso ser lembrado(a) para fazer algo.;reminder_update;reminder;0.99
+C3;jev;clinc-0169;Preciso de um lembrete para tirar o jantar do forno.;reminder_update;reminder;0.98
+C3;jev;clinc-0238;Então, quais matérias você gosta?;what_can_i_ask_you;what_are_your_hobbies;0.96
+C3;jev;clinc-0401;Mostre em que eu gastei dinheiro.;transactions;spending_history;0.94
+C3;jev;clinc-0148;Atrasar um pagamento do cartão de crédito prejudica meu score de crédito.;improve_credit_score;credit_score;0.91
+C3;jev;clinc-0236;Consulta quanto é o limite do meu visto.;credit_limit;international_visa;0.9
+C3;llm;clinc-0002;Qual é uma boa receita de tacos?;ingredients_list;recipe;1.0
+C3;llm;clinc-0326;Gostaria que você me lembrasse de fazer algo.;reminder_update;reminder;1.0
+C3;llm;clinc-0401;Mostre em que eu gastei dinheiro.;transactions;spending_history;1.0
+C3;llm;clinc-0417;Preciso ser lembrado(a) para fazer algo.;reminder_update;reminder;1.0
+C3;llm;clinc-0118;Que horas são no horário de montanha?;time;timezone;0.98
+C3;llm;clinc-0159;Você pode me lembrar dos itens que eu anotei para não esquecer?;reminder;todo_list;0.98
+C3;llm;clinc-0168;Em AC, como está a temperatura?;smart_home;weather;0.98
+C3;llm;clinc-0169;Preciso de um lembrete para tirar o jantar do forno.;reminder_update;reminder;0.98
+C3;llm;clinc-0170;Me diga a data de vencimento do meu cartão de crédito.;expiration_date;bill_due;0.98
+C3;llm;clinc-0363;Me diga a hora na Califórnia;time;timezone;0.98
+C3;llm;clinc-0034;Avisa quando falta quanto tempo para o próximo dia de folga.;next_holiday;pto_balance;0.95
+C3;llm;clinc-0044;Eu gostaria de comida tailandesa.;meal_suggestion;restaurant_suggestion;0.95
+C3;llm;clinc-0063;Refresque minha memória sobre os itens que quero lembrar.;reminder;todo_list;0.95
+C3;llm;clinc-0070;Liga para o Jeff e manda ele pagar a conta.;text;make_call;0.95
+C3;llm;clinc-0074;Diga-me quanto tempo mais levarei para chegar ao destino.;distance;directions;0.95
+C3;llm;clinc-0116;Você pode me contar algo engraçado sobre ciência?;tell_joke;fun_fact;0.95
+C3;llm;clinc-0163;Acabei de ficar sem manteiga e preciso que você peça mais.;order;shopping_list_update;0.95
+C3;llm;clinc-0173;Qual a sua função?;user_name;what_can_i_ask_you;0.95
+C3;llm;clinc-0192;Bom falar com você;goodbye;greeting;0.95
+C3;llm;clinc-0197;Você pode me ajudar a planejar uma viagem?;pto_request;travel_suggestion;0.95
+C3;llm;clinc-0238;Então, quais matérias você gosta?;what_can_i_ask_you;what_are_your_hobbies;0.95
+C3;llm;clinc-0268;Por que há um atraso na minha conta corrente?;account_blocked;transactions;0.95
+C3;llm;clinc-0278;Como você gostaria que eu o chamasse?;what_is_your_name;change_user_name;0.95
+C3;llm;clinc-0286;Quanto tempo leva para chegar ao centro de ônibus?;distance;directions;0.95
+C3;llm;clinc-0302;Tem alguma reserva disponível no Outback hoje à noite?;restaurant_reservation;accept_reservations;0.95
+C3;llm;clinc-0337;Alexa, compre a minha lista de compras;order;shopping_list;0.95
+C3;llm;clinc-0387;Você pode verificar se há salas de reunião disponíveis entre 4 e 5 horas?;schedule_meeting;meeting_schedule;0.95
+C3;llm;clinc-0391;Qual o tempo de espera até o próximo dia de folga?;next_holiday;pto_request_status;0.95
+C3;llm;clinc-0413;Você sabe quando eu devo trocar meus pneus da próxima vez?;tire_change;last_maintenance;0.95
+C3;llm;clinc-0441;Preciso pagar meu visto.;pay_bill;international_visa;0.95
+C1;jev;clinc-0002;what's a good recipe foe tacos;ingredients_list;recipe;1.0
+C1;jev;clinc-0168;at ac, what's the temperature like;smart_home;weather;1.0
+C1;jev;clinc-0197;can you help me plan a vacation;pto_request;travel_suggestion;1.0
+C1;jev;clinc-0326;i would like you to remind me to do something;reminder_update;reminder;1.0
+C1;jev;clinc-0169;i need a reminder to take dinner out of the oven;reminder_update;reminder;0.99
+C1;jev;clinc-0417;i need to be reminded to do something;reminder_update;reminder;0.99
+C1;jev;clinc-0238;so what subjects do you like;what_can_i_ask_you;what_are_your_hobbies;0.97
+C1;jev;clinc-0148;it is damaging to my credit score if i miss one credit card payment;improve_credit_score;credit_score;0.96
+C1;jev;clinc-0401;show what i have spent things on;transactions;spending_history;0.96
+C1;jev;clinc-0295;when is the milk date before used;food_last;expiration_date;0.91
+C1;llm;clinc-0002;what's a good recipe foe tacos;ingredients_list;recipe;1.0
+C1;llm;clinc-0135;check today's calendar for meetings;meeting_schedule;calendar;1.0
+C1;llm;clinc-0194;calorie check, cheese burger;calories;nutrition_info;1.0
+C1;llm;clinc-0299;alert my bank i'm checking out seattle for the next month;travel_notification;travel_alert;1.0
+C1;llm;clinc-0326;i would like you to remind me to do something;reminder_update;reminder;1.0
+C1;llm;clinc-0376;inform my bank i'm traveling to australia between february 23rd to february 25th;travel_notification;travel_alert;1.0
+C1;llm;clinc-0447;i will be traveling to lima alert my bank;travel_notification;travel_alert;1.0
+C1;llm;clinc-0168;at ac, what's the temperature like;smart_home;weather;0.98
+C1;llm;clinc-0169;i need a reminder to take dinner out of the oven;reminder_update;reminder;0.98
+C1;llm;clinc-0295;when is the milk date before used;food_last;expiration_date;0.98
+C1;llm;clinc-0417;i need to be reminded to do something;reminder_update;reminder;0.98
+C1;llm;clinc-0012;am i almost due for a tire change;tire_change;last_maintenance;0.95
+C1;llm;clinc-0044;i would like thai food;meal_suggestion;restaurant_suggestion;0.95
+C1;llm;clinc-0074;tell me how much longer i will have to drive to reach the destination;distance;directions;0.95
+C1;llm;clinc-0118;what time is it in the mountain timezone;time;timezone;0.95
+C1;llm;clinc-0148;it is damaging to my credit score if i miss one credit card payment;improve_credit_score;credit_score;0.95
+C1;llm;clinc-0159;can you please remind me of the items that i made note of to not forget;reminder;todo_list;0.95
+C1;llm;clinc-0197;can you help me plan a vacation;pto_request;travel_suggestion;0.95
+C1;llm;clinc-0238;so what subjects do you like;what_can_i_ask_you;what_are_your_hobbies;0.95
+C1;llm;clinc-0268;why is there a delay on my checking account;account_blocked;transactions;0.95
+C1;llm;clinc-0286;how long does it take to get downtown by bus;distance;directions;0.95
+C1;llm;clinc-0358;i would love to know the closest gas station to glendale;directions;gas;0.95
+C1;llm;clinc-0387;can you check if meeting rooms are available between 4 and 5;schedule_meeting;meeting_schedule;0.95
+C1;llm;clinc-0401;show what i have spent things on;transactions;spending_history;0.95
+C1;llm;clinc-0063;refresh my memory about what items i want to remember;reminder;todo_list;0.9
+C1;llm;clinc-0337;alexa, buy my grocery list;order;shopping_list;0.9

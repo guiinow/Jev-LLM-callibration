@@ -1,0 +1,315 @@
+﻿condition;system;example_id;text;true_label;predicted_label;confidence
+C2;jev;test-0043;Eu gostaria de reativar meu cartão.;card_linking;activate_my_card;1.0
+C2;jev;test-0072;qual é a sua taxa de câmbio;exchange_charge;exchange_rate;1.0
+C2;jev;test-0127;Como redefinir meu PIN?;pin_blocked;change_pin;1.0
+C2;jev;test-0142;Minha transferência está pendente.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C2;jev;test-0229;Quanto tempo leva para uma transferência chegar a um destinatário?;transfer_not_received_by_recipient;transfer_timing;1.0
+C2;jev;test-0303;recarga não foi concluída.;pending_top_up;top_up_failed;1.0
+C2;jev;test-0016;Meu cartão não chegou pelo correio novamente, você pode me ajudar?;card_delivery_estimate;card_arrival;0.99
+C2;jev;test-0095;O aplicativo não aceitou meu recarregamento.;top_up_reverted;top_up_failed;0.99
+C2;jev;test-0105;Quando tento comprar algo usando meu cartão, ele continua sendo recusado.;declined_transfer;declined_card_payment;0.99
+C2;jev;test-0314;Quais são as taxas para receber dinheiro?;top_up_by_bank_transfer_charge;receiving_money;0.99
+C2;jev;test-0277;O que devo fazer com meu caixa eletrônico que travou?;card_swallowed;atm_support;0.98
+C2;jev;test-0141;Por que minha conta não aceita depósitos em dinheiro?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.97
+C2;jev;test-0302;Você pode verificar se a taxa de câmbio está correta?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.96
+C2;jev;test-0312;Haverá alguma taxa para o dinheiro recebido?;top_up_by_bank_transfer_charge;receiving_money;0.96
+C2;jev;test-0378;Há alguma razão pela qual minha recarga não foi processada?;pending_top_up;top_up_failed;0.96
+C2;jev;test-0071;Oi, quero comprar algumas criptos, mas o aplicativo não me deixa! Qual é o problema? Eu realmente quero trocar isso.;beneficiary_not_allowed;exchange_via_app;0.95
+C2;jev;test-0256;Serei cobrado por uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C2;jev;test-0409;qual é o processo para configurar um PIN;get_physical_card;change_pin;0.94
+C2;jev;test-0296;Como faço para carregar meu cartão?;transfer_into_account;topping_up_by_card;0.93
+C2;jev;test-0287;Por favor, me diga como obter um cartão físico.;order_physical_card;get_physical_card;0.92
+C2;jev;test-0370;Posso usar meu American Express para adicionar dinheiro à minha conta?;supported_cards_and_currencies;topping_up_by_card;0.92
+C2;jev;test-0396;Quanto tempo leva para uma transferência internacional cair na minha conta?;balance_not_updated_after_bank_transfer;transfer_timing;0.91
+C2;jev;test-0017;Quais são as taxas extras?;transfer_fee_charged;extra_charge_on_statement;0.9
+C2;jev;test-0289;Já se passou uma semana e eu fiz tudo o que me pediram e ainda assim nada. Entrei em contato com o vendedor e não obtive resposta. Por favor, entendam minha frustração e devolvam o dinheiro na minha conta.;Refund_not_showing_up;request_refund;0.9
+C2;jev;test-0454;Quando a transferência será concluída?;pending_transfer;transfer_timing;0.9
+C2;llm;test-0072;qual é a sua taxa de câmbio;exchange_charge;exchange_rate;1.0
+C2;llm;test-0142;Minha transferência está pendente.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C2;llm;test-0229;Quanto tempo leva para uma transferência chegar a um destinatário?;transfer_not_received_by_recipient;transfer_timing;1.0
+C2;llm;test-0287;Por favor, me diga como obter um cartão físico.;order_physical_card;get_physical_card;1.0
+C2;llm;test-0015;O que acontece se um comerciante não aceitar um pagamento?;reverted_card_payment;card_acceptance;0.98
+C2;llm;test-0016;Meu cartão não chegou pelo correio novamente, você pode me ajudar?;card_delivery_estimate;card_arrival;0.98
+C2;llm;test-0025;Eu preciso criar vários cartões descartáveis por dia.;disposable_card_limits;get_disposable_virtual_card;0.98
+C2;llm;test-0043;Eu gostaria de reativar meu cartão.;card_linking;activate_my_card;0.98
+C2;llm;test-0062;Acho que alguém retirou dinheiro com meu cartão. O que devo fazer?;cash_withdrawal_not_recognised;compromised_card;0.98
+C2;llm;test-0095;O aplicativo não aceitou meu recarregamento.;top_up_reverted;top_up_failed;0.98
+C2;llm;test-0102;Eu tenho esperado mais do que o esperado pelo meu cartão bancário, você poderia fornecer informações sobre quando ele chegará?;card_arrival;card_delivery_estimate;0.98
+C2;llm;test-0105;Quando tento comprar algo usando meu cartão, ele continua sendo recusado.;declined_transfer;declined_card_payment;0.98
+C2;llm;test-0127;Como redefinir meu PIN?;pin_blocked;change_pin;0.98
+C2;llm;test-0135;O que você precisa para que eu possa verificar minha identidade?;verify_my_identity;why_verify_identity;0.98
+C2;llm;test-0149;Há uma transação da minha conta que eu não reconheço. Você pode rastrear as informações para que eu possa ter certeza se fui eu quem a fez ou não?;direct_debit_payment_not_recognised;card_payment_not_recognised;0.98
+C2;llm;test-0163;Então, a transferência finalmente foi processada, porém agora está pendente há bastante tempo. Quanto tempo vocês estimam que eu precise esperar até que seja concluída? É algo urgente e preciso de uma solução o quanto antes.;pending_transfer;transfer_timing;0.98
+C2;llm;test-0198;E se eu precisar de vários cartões descartáveis?;disposable_card_limits;get_disposable_virtual_card;0.98
+C2;llm;test-0227;Eu gostaria de um reembolso sobre a libra extra que me foi cobrada.;extra_charge_on_statement;request_refund;0.98
+C2;llm;test-0253;Quais principais cartões de pagamento são aceitos?;visa_or_mastercard;card_acceptance;0.98
+C2;llm;test-0256;Serei cobrado por uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.98
+C2;llm;test-0289;Já se passou uma semana e eu fiz tudo o que me pediram e ainda assim nada. Entrei em contato com o vendedor e não obtive resposta. Por favor, entendam minha frustração e devolvam o dinheiro na minha conta.;Refund_not_showing_up;request_refund;0.98
+C2;llm;test-0302;Você pode verificar se a taxa de câmbio está correta?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.98
+C2;llm;test-0303;recarga não foi concluída.;pending_top_up;top_up_failed;0.98
+C2;llm;test-0323;Eu esperava uma taxa de câmbio mais alta quando retirei dinheiro. Você pode me informar as taxas de câmbio atuais?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.98
+C2;llm;test-0370;Posso usar meu American Express para adicionar dinheiro à minha conta?;supported_cards_and_currencies;topping_up_by_card;0.98
+C2;llm;test-0371;Agradeceria se alguém me avisasse quando há uma cobrança extra para pagamentos. Eu estava verificando o aplicativo mais cedo e vi uma cobrança em um dos meus pagamentos que era adicional e que ninguém havia me avisado antes.;card_payment_fee_charged;extra_charge_on_statement;0.98
+C2;llm;test-0378;Há alguma razão pela qual minha recarga não foi processada?;pending_top_up;top_up_failed;0.98
+C2;llm;test-0396;Quanto tempo leva para uma transferência internacional cair na minha conta?;balance_not_updated_after_bank_transfer;transfer_timing;0.98
+C2;llm;test-0448;Há um débito na minha conta que eu não fiz.;direct_debit_payment_not_recognised;card_payment_not_recognised;0.98
+C2;llm;test-0454;Quando a transferência será concluída?;pending_transfer;transfer_timing;0.98
+C2;llm;test-0001;Houve um pagamento cancelado para o meu cartão.;reverted_card_payment;declined_card_payment;0.95
+C2;llm;test-0004;transação falhou?;transfer_not_received_by_recipient;failed_transfer;0.95
+C2;llm;test-0011;Onde está o PIN do cartão?;get_physical_card;passcode_forgotten;0.95
+C2;llm;test-0012;Por que meu recarga seria cancelada?;top_up_reverted;top_up_failed;0.95
+C2;llm;test-0017;Quais são as taxas extras?;transfer_fee_charged;extra_charge_on_statement;0.95
+C2;llm;test-0023;Meu amigo poderá completar minha conta?;topping_up_by_card;transfer_into_account;0.95
+C2;llm;test-0083;Eu tive uma transferência bloqueada.;beneficiary_not_allowed;declined_transfer;0.95
+C2;llm;test-0096;Qual é a tarifa para um cartão físico?;order_physical_card;get_physical_card;0.95
+C2;llm;test-0101;Fui cobrado na minha conta por algo que não deveria estar lá.;direct_debit_payment_not_recognised;extra_charge_on_statement;0.95
+C2;llm;test-0115;onde está a opção anti-roubo?;automatic_top_up;lost_or_stolen_card;0.95
+C2;llm;test-0119;Quanto tempo leva para processar depósitos de cheques?;balance_not_updated_after_cheque_or_cash_deposit;transfer_timing;0.95
+C2;llm;test-0121;Gostaria de solicitar um cartão de crédito.;visa_or_mastercard;order_physical_card;0.95
+C2;llm;test-0126;Minha conta foi cobrada por um saque que tentei fazer e foi recusado.;pending_cash_withdrawal;cash_withdrawal_not_recognised;0.95
+C2;llm;test-0128;Quanto você cobra por cartões físicos?;order_physical_card;get_physical_card;0.95
+C2;llm;test-0141;Por que minha conta não aceita depósitos em dinheiro?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.95
+C2;llm;test-0144;Onde posso encontrar meu PIN?;get_physical_card;passcode_forgotten;0.95
+C2;llm;test-0154;"Eu fui cobrado em dobro, e a segunda cobrança está aparecendo como ""pendente"". Quanto tempo levará para eu receber meu dinheiro de volta assim que a segunda cobrança for estornada?";pending_card_payment;transaction_charged_twice;0.95
+C2;llm;test-0170;Eu moro nos EUA, mas quero obter um cartão.;country_support;get_physical_card;0.95
+C2;llm;test-0171;Olá, encontrei o cartão que perdi e preciso reativá-lo, como faço isso?;card_linking;activate_my_card;0.95
+C2;llm;test-0174;Eu tentei recarregar usando meu cartão, mas agora o dinheiro simplesmente desapareceu!;topping_up_by_card;top_up_failed;0.95
+C2;llm;test-0180;Posso retirar dinheiro com este cartão em qualquer lugar?;atm_support;card_acceptance;0.95
+C2;llm;test-0190;Com o que posso pagar? Dinheiro funciona?;top_up_by_cash_or_cheque;card_acceptance;0.95
+C2;llm;test-0197;Onde está meu dinheiro? Eu transferi e não está na minha conta.;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C2;llm;test-0211;Quais cartões de crédito ou débito posso usar para recarregar?;supported_cards_and_currencies;topping_up_by_card;0.95
+C2;llm;test-0228;Onde posso pegar meu cartão?;order_physical_card;card_arrival;0.95
+C2;llm;test-0230;Por que eu não tenho minha transferência?;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C2;llm;test-0236;Olá. Estou de férias e não trouxe dinheiro comigo. Preciso retirar a minha moeda de casa de uma das suas máquinas. Vocês têm alguma que faça isso e há alguma taxa?;wrong_exchange_rate_for_cash_withdrawal;atm_support;0.95
+C2;llm;test-0245;Eu recarreguei meu cartão, mas o dinheiro desapareceu.;topping_up_by_card;top_up_failed;0.95
+C2;llm;test-0246;Há taxas para receber uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C2;llm;test-0260;Posso trocar por EUR?;fiat_currency_support;exchange_via_app;0.95
+C2;llm;test-0270;Sei que posso fazer transferências gratuitas, algo que sempre valorizei. Porém, depois que comprei algo de fora do país pela internet, reparei que foi cobrada uma taxa. O que é essa taxa e há como removê-la?;transfer_fee_charged;card_payment_fee_charged;0.95
+C2;llm;test-0276;Eu preciso de um cartão, mas estou nos EUA no momento.;country_support;order_physical_card;0.95
+C2;llm;test-0283;Eu preciso de algum tipo de documentação para a verificação de identidade?;verify_my_identity;why_verify_identity;0.95
+C2;llm;test-0296;Como faço para carregar meu cartão?;transfer_into_account;topping_up_by_card;0.95
+C2;llm;test-0312;Haverá alguma taxa para o dinheiro recebido?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C2;llm;test-0314;Quais são as taxas para receber dinheiro?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C2;llm;test-0315;O que eu tenho que fazer para conseguir um cartão de crédito Visa?;visa_or_mastercard;order_physical_card;0.95
+C2;llm;test-0342;Meu cartão ainda está pendente, estou esperando há um tempo...;pending_card_payment;card_arrival;0.95
+C2;llm;test-0349;Por que você continua recusando minhas transferências? Sempre funcionou muito bem até agora, mas quando tentei comprar algo agora há pouco, o cartão foi recusado. Já tentei algumas vezes, mas a mesma coisa está acontecendo.;declined_transfer;declined_card_payment;0.95
+C2;llm;test-0355;Fiz uma transferência e ainda estou esperando..;balance_not_updated_after_bank_transfer;pending_transfer;0.95
+C2;llm;test-0361;Posso trocar moedas?;fiat_currency_support;exchange_via_app;0.95
+C2;llm;test-0362;Posso receber em outra moeda?;receiving_money;fiat_currency_support;0.95
+C2;llm;test-0363;Onde está meu número PIN?;get_physical_card;passcode_forgotten;0.95
+C2;llm;test-0368;Você faz troca de EUR?;fiat_currency_support;exchange_via_app;0.95
+C2;llm;test-0377;Se eu solicitar que meus fundos sejam mantidos, quais moedas vocês usam?;fiat_currency_support;supported_cards_and_currencies;0.95
+C2;llm;test-0398;Ajude-me a encontrar o PIN do meu cartão!;get_physical_card;passcode_forgotten;0.95
+C2;llm;test-0402;Posso cancelar uma cobrança?;cancel_transfer;request_refund;0.95
+C2;llm;test-0409;qual é o processo para configurar um PIN;get_physical_card;change_pin;0.95
+C2;llm;test-0414;Tentei usar meu cartão para recarregar, mas todo o dinheiro desapareceu.;topping_up_by_card;top_up_failed;0.95
+C2;llm;test-0415;na China, preciso de um novo cartão.;card_about_to_expire;order_physical_card;0.95
+C2;llm;test-0417;Por favor, me ajudem a fazer a transferência. Estou recebendo uma mensagem de erro repetidamente e preciso pagar a primeira parcela do financiamento de um apartamento que estou comprando. O que está acontecendo?;failed_transfer;declined_transfer;0.95
+C2;llm;test-0426;Posso receber em uma moeda diferente?;receiving_money;fiat_currency_support;0.95
+C2;llm;test-0434;Como faço para redefinir meu PIN? Não consigo usar meu cartão.;pin_blocked;change_pin;0.95
+C2;llm;test-0440;Se eu quiser um cartão físico, preciso pagar alguma coisa?;order_physical_card;get_physical_card;0.95
+C2;llm;test-0446;Quais moedas vocês fazem trocas?;fiat_currency_support;supported_cards_and_currencies;0.95
+C2;llm;test-0460;Eu gostaria de fazer uma transferência. Quanto custa?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C2;llm;test-0461;Transferências SWIFT são aceitas?;top_up_by_bank_transfer_charge;transfer_into_account;0.95
+C3;jev;test-0043;Eu gostaria de reativar meu cartão.;card_linking;activate_my_card;1.0
+C3;jev;test-0072;qual é a sua taxa de câmbio;exchange_charge;exchange_rate;1.0
+C3;jev;test-0105;Quando tento comprar algo usando meu cartão, ele continua sendo recusado.;declined_transfer;declined_card_payment;1.0
+C3;jev;test-0127;Como redefinir meu PIN?;pin_blocked;change_pin;1.0
+C3;jev;test-0142;Minha transferência está pendente.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C3;jev;test-0229;Quanto tempo leva para uma transferência chegar a um destinatário?;transfer_not_received_by_recipient;transfer_timing;1.0
+C3;jev;test-0016;Meu cartão não chegou pelo correio novamente, você pode me ajudar?;card_delivery_estimate;card_arrival;0.99
+C3;jev;test-0095;O aplicativo não aceitou meu recarregamento.;top_up_reverted;top_up_failed;0.99
+C3;jev;test-0277;O que devo fazer com meu caixa eletrônico que travou?;card_swallowed;atm_support;0.99
+C3;jev;test-0303;recarga não foi concluída.;pending_top_up;top_up_failed;0.99
+C3;jev;test-0071;Oi, quero comprar algumas criptos, mas o aplicativo não me deixa! Qual é o problema? Eu realmente quero trocar isso.;beneficiary_not_allowed;exchange_via_app;0.98
+C3;jev;test-0141;Por que minha conta não aceita depósitos em dinheiro?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.98
+C3;jev;test-0314;Quais são as taxas para receber dinheiro?;top_up_by_bank_transfer_charge;receiving_money;0.98
+C3;jev;test-0302;Você pode verificar se a taxa de câmbio está correta?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.97
+C3;jev;test-0396;Quanto tempo leva para uma transferência internacional cair na minha conta?;balance_not_updated_after_bank_transfer;transfer_timing;0.97
+C3;jev;test-0256;Serei cobrado por uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.96
+C3;jev;test-0312;Haverá alguma taxa para o dinheiro recebido?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C3;jev;test-0296;Como faço para carregar meu cartão?;transfer_into_account;topping_up_by_card;0.94
+C3;jev;test-0378;Há alguma razão pela qual minha recarga não foi processada?;pending_top_up;top_up_failed;0.94
+C3;jev;test-0149;Há uma transação da minha conta que eu não reconheço. Você pode rastrear as informações para que eu possa ter certeza se fui eu quem a fez ou não?;direct_debit_payment_not_recognised;card_payment_not_recognised;0.93
+C3;jev;test-0287;Por favor, me diga como obter um cartão físico.;order_physical_card;get_physical_card;0.93
+C3;jev;test-0370;Posso usar meu American Express para adicionar dinheiro à minha conta?;supported_cards_and_currencies;topping_up_by_card;0.93
+C3;jev;test-0460;Eu gostaria de fazer uma transferência. Quanto custa?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.93
+C3;jev;test-0289;Já se passou uma semana e eu fiz tudo o que me pediram e ainda assim nada. Entrei em contato com o vendedor e não obtive resposta. Por favor, entendam minha frustração e devolvam o dinheiro na minha conta.;Refund_not_showing_up;request_refund;0.92
+C3;jev;test-0017;Quais são as taxas extras?;transfer_fee_charged;extra_charge_on_statement;0.91
+C3;jev;test-0355;Fiz uma transferência e ainda estou esperando..;balance_not_updated_after_bank_transfer;pending_transfer;0.91
+C3;jev;test-0409;qual é o processo para configurar um PIN;get_physical_card;change_pin;0.91
+C3;llm;test-0072;qual é a sua taxa de câmbio;exchange_charge;exchange_rate;1.0
+C3;llm;test-0142;Minha transferência está pendente.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C3;llm;test-0229;Quanto tempo leva para uma transferência chegar a um destinatário?;transfer_not_received_by_recipient;transfer_timing;1.0
+C3;llm;test-0016;Meu cartão não chegou pelo correio novamente, você pode me ajudar?;card_delivery_estimate;card_arrival;0.98
+C3;llm;test-0025;Eu preciso criar vários cartões descartáveis por dia.;disposable_card_limits;get_disposable_virtual_card;0.98
+C3;llm;test-0043;Eu gostaria de reativar meu cartão.;card_linking;activate_my_card;0.98
+C3;llm;test-0062;Acho que alguém retirou dinheiro com meu cartão. O que devo fazer?;cash_withdrawal_not_recognised;compromised_card;0.98
+C3;llm;test-0095;O aplicativo não aceitou meu recarregamento.;top_up_reverted;top_up_failed;0.98
+C3;llm;test-0102;Eu tenho esperado mais do que o esperado pelo meu cartão bancário, você poderia fornecer informações sobre quando ele chegará?;card_arrival;card_delivery_estimate;0.98
+C3;llm;test-0105;Quando tento comprar algo usando meu cartão, ele continua sendo recusado.;declined_transfer;declined_card_payment;0.98
+C3;llm;test-0163;Então, a transferência finalmente foi processada, porém agora está pendente há bastante tempo. Quanto tempo vocês estimam que eu precise esperar até que seja concluída? É algo urgente e preciso de uma solução o quanto antes.;pending_transfer;transfer_timing;0.98
+C3;llm;test-0227;Eu gostaria de um reembolso sobre a libra extra que me foi cobrada.;extra_charge_on_statement;request_refund;0.98
+C3;llm;test-0253;Quais principais cartões de pagamento são aceitos?;visa_or_mastercard;card_acceptance;0.98
+C3;llm;test-0302;Você pode verificar se a taxa de câmbio está correta?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.98
+C3;llm;test-0303;recarga não foi concluída.;pending_top_up;top_up_failed;0.98
+C3;llm;test-0396;Quanto tempo leva para uma transferência internacional cair na minha conta?;balance_not_updated_after_bank_transfer;transfer_timing;0.98
+C3;llm;test-0454;Quando a transferência será concluída?;pending_transfer;transfer_timing;0.98
+C3;llm;test-0004;transação falhou?;transfer_not_received_by_recipient;failed_transfer;0.95
+C3;llm;test-0011;Onde está o PIN do cartão?;get_physical_card;passcode_forgotten;0.95
+C3;llm;test-0015;O que acontece se um comerciante não aceitar um pagamento?;reverted_card_payment;card_acceptance;0.95
+C3;llm;test-0017;Quais são as taxas extras?;transfer_fee_charged;extra_charge_on_statement;0.95
+C3;llm;test-0023;Meu amigo poderá completar minha conta?;topping_up_by_card;receiving_money;0.95
+C3;llm;test-0082;Onde está meu depósito?;balance_not_updated_after_cheque_or_cash_deposit;pending_top_up;0.95
+C3;llm;test-0083;Eu tive uma transferência bloqueada.;beneficiary_not_allowed;declined_transfer;0.95
+C3;llm;test-0101;Fui cobrado na minha conta por algo que não deveria estar lá.;direct_debit_payment_not_recognised;extra_charge_on_statement;0.95
+C3;llm;test-0115;onde está a opção anti-roubo?;automatic_top_up;lost_or_stolen_card;0.95
+C3;llm;test-0119;Quanto tempo leva para processar depósitos de cheques?;balance_not_updated_after_cheque_or_cash_deposit;transfer_timing;0.95
+C3;llm;test-0121;Gostaria de solicitar um cartão de crédito.;visa_or_mastercard;order_physical_card;0.95
+C3;llm;test-0126;Minha conta foi cobrada por um saque que tentei fazer e foi recusado.;pending_cash_withdrawal;cash_withdrawal_not_recognised;0.95
+C3;llm;test-0127;Como redefinir meu PIN?;pin_blocked;change_pin;0.95
+C3;llm;test-0138;Posso fazer transações antes que a verificação de identidade esteja completa?;why_verify_identity;verify_my_identity;0.95
+C3;llm;test-0141;Por que minha conta não aceita depósitos em dinheiro?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.95
+C3;llm;test-0144;Onde posso encontrar meu PIN?;get_physical_card;passcode_forgotten;0.95
+C3;llm;test-0149;Há uma transação da minha conta que eu não reconheço. Você pode rastrear as informações para que eu possa ter certeza se fui eu quem a fez ou não?;direct_debit_payment_not_recognised;card_payment_not_recognised;0.95
+C3;llm;test-0154;"Eu fui cobrado em dobro, e a segunda cobrança está aparecendo como ""pendente"". Quanto tempo levará para eu receber meu dinheiro de volta assim que a segunda cobrança for estornada?";pending_card_payment;transaction_charged_twice;0.95
+C3;llm;test-0171;Olá, encontrei o cartão que perdi e preciso reativá-lo, como faço isso?;card_linking;activate_my_card;0.95
+C3;llm;test-0174;Eu tentei recarregar usando meu cartão, mas agora o dinheiro simplesmente desapareceu!;topping_up_by_card;top_up_failed;0.95
+C3;llm;test-0177;Por que a taxa de câmbio está errada quando compro algo no exterior?;card_payment_wrong_exchange_rate;exchange_rate;0.95
+C3;llm;test-0180;Posso retirar dinheiro com este cartão em qualquer lugar?;atm_support;card_acceptance;0.95
+C3;llm;test-0190;Com o que posso pagar? Dinheiro funciona?;top_up_by_cash_or_cheque;card_acceptance;0.95
+C3;llm;test-0197;Onde está meu dinheiro? Eu transferi e não está na minha conta.;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C3;llm;test-0206;Quanto tempo leva para as transferências serem concluídas? Eu enviei fundos para minha amiga, e ela diz que não recebeu nada.;transfer_not_received_by_recipient;transfer_timing;0.95
+C3;llm;test-0211;Quais cartões de crédito ou débito posso usar para recarregar?;supported_cards_and_currencies;topping_up_by_card;0.95
+C3;llm;test-0228;Onde posso pegar meu cartão?;order_physical_card;card_arrival;0.95
+C3;llm;test-0230;Por que eu não tenho minha transferência?;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C3;llm;test-0236;Olá. Estou de férias e não trouxe dinheiro comigo. Preciso retirar a minha moeda de casa de uma das suas máquinas. Vocês têm alguma que faça isso e há alguma taxa?;wrong_exchange_rate_for_cash_withdrawal;atm_support;0.95
+C3;llm;test-0245;Eu recarreguei meu cartão, mas o dinheiro desapareceu.;topping_up_by_card;top_up_failed;0.95
+C3;llm;test-0246;Há taxas para receber uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C3;llm;test-0256;Serei cobrado por uma transferência SEPA?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C3;llm;test-0260;Posso trocar por EUR?;fiat_currency_support;exchange_via_app;0.95
+C3;llm;test-0262;Você pode explicar sobre cartões descartáveis?;get_disposable_virtual_card;disposable_card_limits;0.95
+C3;llm;test-0270;Sei que posso fazer transferências gratuitas, algo que sempre valorizei. Porém, depois que comprei algo de fora do país pela internet, reparei que foi cobrada uma taxa. O que é essa taxa e há como removê-la?;transfer_fee_charged;exchange_charge;0.95
+C3;llm;test-0289;Já se passou uma semana e eu fiz tudo o que me pediram e ainda assim nada. Entrei em contato com o vendedor e não obtive resposta. Por favor, entendam minha frustração e devolvam o dinheiro na minha conta.;Refund_not_showing_up;request_refund;0.95
+C3;llm;test-0291;Eu quero rastrear o cartão que você enviou.;card_arrival;card_delivery_estimate;0.95
+C3;llm;test-0296;Como faço para carregar meu cartão?;transfer_into_account;topping_up_by_card;0.95
+C3;llm;test-0314;Quais são as taxas para receber dinheiro?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C3;llm;test-0323;Eu esperava uma taxa de câmbio mais alta quando retirei dinheiro. Você pode me informar as taxas de câmbio atuais?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.95
+C3;llm;test-0326;Preciso estabelecer que sou pago em GBP antes de uma transferência?;receiving_money;verify_source_of_funds;0.95
+C3;llm;test-0342;Meu cartão ainda está pendente, estou esperando há um tempo...;pending_card_payment;card_arrival;0.95
+C3;llm;test-0349;Por que você continua recusando minhas transferências? Sempre funcionou muito bem até agora, mas quando tentei comprar algo agora há pouco, o cartão foi recusado. Já tentei algumas vezes, mas a mesma coisa está acontecendo.;declined_transfer;declined_card_payment;0.95
+C3;llm;test-0355;Fiz uma transferência e ainda estou esperando..;balance_not_updated_after_bank_transfer;pending_transfer;0.95
+C3;llm;test-0361;Posso trocar moedas?;fiat_currency_support;exchange_via_app;0.95
+C3;llm;test-0362;Posso receber em outra moeda?;receiving_money;fiat_currency_support;0.95
+C3;llm;test-0363;Onde está meu número PIN?;get_physical_card;passcode_forgotten;0.95
+C3;llm;test-0368;Você faz troca de EUR?;fiat_currency_support;exchange_via_app;0.95
+C3;llm;test-0369;Eu não recebi a quantia certa de dinheiro quando usei a moeda de outro país.;wrong_exchange_rate_for_cash_withdrawal;wrong_amount_of_cash_received;0.95
+C3;llm;test-0370;Posso usar meu American Express para adicionar dinheiro à minha conta?;supported_cards_and_currencies;topping_up_by_card;0.95
+C3;llm;test-0371;Agradeceria se alguém me avisasse quando há uma cobrança extra para pagamentos. Eu estava verificando o aplicativo mais cedo e vi uma cobrança em um dos meus pagamentos que era adicional e que ninguém havia me avisado antes.;card_payment_fee_charged;extra_charge_on_statement;0.95
+C3;llm;test-0377;Se eu solicitar que meus fundos sejam mantidos, quais moedas vocês usam?;fiat_currency_support;supported_cards_and_currencies;0.95
+C3;llm;test-0378;Há alguma razão pela qual minha recarga não foi processada?;pending_top_up;top_up_failed;0.95
+C3;llm;test-0398;Ajude-me a encontrar o PIN do meu cartão!;get_physical_card;passcode_forgotten;0.95
+C3;llm;test-0409;qual é o processo para configurar um PIN;get_physical_card;change_pin;0.95
+C3;llm;test-0414;Tentei usar meu cartão para recarregar, mas todo o dinheiro desapareceu.;topping_up_by_card;top_up_failed;0.95
+C3;llm;test-0417;Por favor, me ajudem a fazer a transferência. Estou recebendo uma mensagem de erro repetidamente e preciso pagar a primeira parcela do financiamento de um apartamento que estou comprando. O que está acontecendo?;failed_transfer;declined_transfer;0.95
+C3;llm;test-0426;Posso receber em uma moeda diferente?;receiving_money;fiat_currency_support;0.95
+C3;llm;test-0434;Como faço para redefinir meu PIN? Não consigo usar meu cartão.;pin_blocked;change_pin;0.95
+C3;llm;test-0446;Quais moedas vocês fazem trocas?;fiat_currency_support;supported_cards_and_currencies;0.95
+C3;llm;test-0448;Há um débito na minha conta que eu não fiz.;direct_debit_payment_not_recognised;card_payment_not_recognised;0.95
+C1;jev;test-0043;I would like to reactivate my card.;card_linking;activate_my_card;1.0
+C1;jev;test-0072;whats your exchange rate;exchange_charge;exchange_rate;1.0
+C1;jev;test-0095;The app wouldn't accept my top up.;top_up_reverted;top_up_failed;1.0
+C1;jev;test-0105;When I try and to buy something using my card it keeps getting declined.;declined_transfer;declined_card_payment;1.0
+C1;jev;test-0142;My transfer is pending.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C1;jev;test-0229;How long does it take for a transfer to get to a recipient?;transfer_not_received_by_recipient;transfer_timing;1.0
+C1;jev;test-0141;Why does my account not accept cash deposits?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.99
+C1;jev;test-0303;top up did not complete;pending_top_up;top_up_failed;0.99
+C1;jev;test-0314;What are the charges for receiving money?;top_up_by_bank_transfer_charge;receiving_money;0.99
+C1;jev;test-0171;Hello, I found the card I misplaced and I need to reactive it, how do I do that?;card_linking;activate_my_card;0.98
+C1;jev;test-0302;Can you look to make sure the exchange rate is correct;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.98
+C1;jev;test-0017;What extra charges are there?;transfer_fee_charged;extra_charge_on_statement;0.97
+C1;jev;test-0071;Hey I want to buy some crypto but the app doesn't allow me to! What's the issue, I really want to exchange this;beneficiary_not_allowed;exchange_via_app;0.97
+C1;jev;test-0083;I had a transfer blocked;beneficiary_not_allowed;declined_transfer;0.97
+C1;jev;test-0296;How do I top up my card?;transfer_into_account;topping_up_by_card;0.97
+C1;jev;test-0312;Will there be any charges for money received?;top_up_by_bank_transfer_charge;receiving_money;0.97
+C1;jev;test-0127;How do I reset my PIN?;pin_blocked;change_pin;0.96
+C1;jev;test-0149;There is a transaction from my account that I don't recognize can you trace back the information so I can make sure it's something I did or not?;direct_debit_payment_not_recognised;card_payment_not_recognised;0.94
+C1;jev;test-0256;Will I be charged for a SEPA transfer?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.94
+C1;jev;test-0454;When will the transfer be completed?;pending_transfer;transfer_timing;0.94
+C1;jev;test-0016;my card was not in the mail again can you advise?;card_delivery_estimate;card_arrival;0.93
+C1;jev;test-0355;I made a transfer and am still waiting.;balance_not_updated_after_bank_transfer;pending_transfer;0.93
+C1;jev;test-0409;what is the process for setting up a pin;get_physical_card;change_pin;0.92
+C1;jev;test-0287;Please tell me how to get a physical card.;order_physical_card;get_physical_card;0.91
+C1;jev;test-0378;Is there a reason my top up hasn't gone through;pending_top_up;top_up_failed;0.91
+C1;jev;test-0278;I got my American Express in Apple Bay but top up is not working;apple_pay_or_google_pay;top_up_failed;0.9
+C1;llm;test-0072;whats your exchange rate;exchange_charge;exchange_rate;1.0
+C1;llm;test-0105;When I try and to buy something using my card it keeps getting declined.;declined_transfer;declined_card_payment;1.0
+C1;llm;test-0142;My transfer is pending.;balance_not_updated_after_bank_transfer;pending_transfer;1.0
+C1;llm;test-0229;How long does it take for a transfer to get to a recipient?;transfer_not_received_by_recipient;transfer_timing;1.0
+C1;llm;test-0287;Please tell me how to get a physical card.;order_physical_card;get_physical_card;1.0
+C1;llm;test-0454;When will the transfer be completed?;pending_transfer;transfer_timing;1.0
+C1;llm;test-0025;I need to create several disposable cards per day.;disposable_card_limits;get_disposable_virtual_card;0.98
+C1;llm;test-0062;Think someone has took money out with my card. What shall I do?;cash_withdrawal_not_recognised;compromised_card;0.98
+C1;llm;test-0095;The app wouldn't accept my top up.;top_up_reverted;top_up_failed;0.98
+C1;llm;test-0102;I have been waiting longer than expected for my bank card, could you provide information on when it will arrive?;card_arrival;card_delivery_estimate;0.98
+C1;llm;test-0127;How do I reset my PIN?;pin_blocked;change_pin;0.98
+C1;llm;test-0227;I would like a refund on the extra pound I was charged.;extra_charge_on_statement;request_refund;0.98
+C1;llm;test-0253;What major card payments are accepted?;visa_or_mastercard;card_acceptance;0.98
+C1;llm;test-0291;i want to track the card you sent;card_arrival;card_delivery_estimate;0.98
+C1;llm;test-0302;Can you look to make sure the exchange rate is correct;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.98
+C1;llm;test-0303;top up did not complete;pending_top_up;top_up_failed;0.98
+C1;llm;test-0396;How long does it take for an international transfer into my account?;balance_not_updated_after_bank_transfer;transfer_timing;0.98
+C1;llm;test-0004;transaction failed?;transfer_not_received_by_recipient;failed_transfer;0.95
+C1;llm;test-0012;Why would my top up be cancelled?;top_up_reverted;top_up_failed;0.95
+C1;llm;test-0015;What happens if a merchant doesn't accept a payment?;reverted_card_payment;card_acceptance;0.95
+C1;llm;test-0016;my card was not in the mail again can you advise?;card_delivery_estimate;card_arrival;0.95
+C1;llm;test-0023;Will my friend be able to top off my account?;topping_up_by_card;transfer_into_account;0.95
+C1;llm;test-0043;I would like to reactivate my card.;card_linking;activate_my_card;0.95
+C1;llm;test-0083;I had a transfer blocked;beneficiary_not_allowed;declined_transfer;0.95
+C1;llm;test-0096;What is the charge for a physical card?;order_physical_card;get_physical_card;0.95
+C1;llm;test-0101;I was charged on my account that shouldn't be there.;direct_debit_payment_not_recognised;extra_charge_on_statement;0.95
+C1;llm;test-0121;I would like to apply for a visa card.;visa_or_mastercard;order_physical_card;0.95
+C1;llm;test-0126;My account was charged for a withdraw I tried to make that was decline.;pending_cash_withdrawal;cash_withdrawal_not_recognised;0.95
+C1;llm;test-0141;Why does my account not accept cash deposits?;balance_not_updated_after_cheque_or_cash_deposit;top_up_by_cash_or_cheque;0.95
+C1;llm;test-0149;There is a transaction from my account that I don't recognize can you trace back the information so I can make sure it's something I did or not?;direct_debit_payment_not_recognised;card_payment_not_recognised;0.95
+C1;llm;test-0154;"I was double charged, and the second charge is showing as ""pending"". How long will it be before I get my money back once the second charge has been refunded?";pending_card_payment;transaction_charged_twice;0.95
+C1;llm;test-0159;I do not wish to verify my identity.;why_verify_identity;unable_to_verify_identity;0.95
+C1;llm;test-0171;Hello, I found the card I misplaced and I need to reactive it, how do I do that?;card_linking;activate_my_card;0.95
+C1;llm;test-0174;I tried to top up using my card, but now the money just disappeared!;topping_up_by_card;top_up_failed;0.95
+C1;llm;test-0180;Can I get cash with this card anywhere?;atm_support;card_acceptance;0.95
+C1;llm;test-0190;What can I pay with? Does cash work?;top_up_by_cash_or_cheque;card_acceptance;0.95
+C1;llm;test-0197;Where is my money? I transfered it and it isn't in my account.;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C1;llm;test-0198;What if I need multiple disposable cards?;disposable_card_limits;get_disposable_virtual_card;0.95
+C1;llm;test-0211;Which credit or debit cards can I use to top up?;supported_cards_and_currencies;topping_up_by_card;0.95
+C1;llm;test-0228;Where can I get my card at?;order_physical_card;card_arrival;0.95
+C1;llm;test-0230;Why don't I have my transfer?;balance_not_updated_after_bank_transfer;transfer_not_received_by_recipient;0.95
+C1;llm;test-0236;Hello. I'm on holiday and didn't bring any cash with me. I need to withdrawal my home currency from one of your machines. Do you have any that will do this and is there a charge?;wrong_exchange_rate_for_cash_withdrawal;cash_withdrawal_charge;0.95
+C1;llm;test-0246;Are there charges for receiving a SEPA transfer?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C1;llm;test-0256;Will I be charged for a SEPA transfer?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95
+C1;llm;test-0260;Can I exchange to EUR?;fiat_currency_support;exchange_via_app;0.95
+C1;llm;test-0270;I know that I am able to make transfers for free.  That was something that I valued.  After I bought something online from abroad I noticed that I got charged a fee?  What is this and can it be removed?;transfer_fee_charged;card_payment_fee_charged;0.95
+C1;llm;test-0280;Which forms of currency are accepted?;supported_cards_and_currencies;fiat_currency_support;0.95
+C1;llm;test-0289;It's been a week and I have done everything that I was asked to do and still nothing. I have contacted the seller and have not gotten a response. Please understand my frustration and put the money back in my account.;Refund_not_showing_up;request_refund;0.95
+C1;llm;test-0296;How do I top up my card?;transfer_into_account;topping_up_by_card;0.95
+C1;llm;test-0312;Will there be any charges for money received?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C1;llm;test-0314;What are the charges for receiving money?;top_up_by_bank_transfer_charge;receiving_money;0.95
+C1;llm;test-0323;I expected a higher exchange rate when I withdrew money. Can you tell me current exchange rates?;wrong_exchange_rate_for_cash_withdrawal;exchange_rate;0.95
+C1;llm;test-0341;What happened to where my top-up was canceled?;top_up_reverted;top_up_failed;0.95
+C1;llm;test-0342;My card is still pending, I've been waiting a while.;pending_card_payment;card_arrival;0.95
+C1;llm;test-0349;Why do you keep declining my transfers?it was always been working really well so far but when I tried to buy something just now the card got declined . I tried couple of times already  but same thing is happening.;declined_transfer;declined_card_payment;0.95
+C1;llm;test-0351;Causes of top-up cancellation;top_up_reverted;top_up_failed;0.95
+C1;llm;test-0355;I made a transfer and am still waiting.;balance_not_updated_after_bank_transfer;pending_transfer;0.95
+C1;llm;test-0361;Can I exchange currencies?;fiat_currency_support;exchange_via_app;0.95
+C1;llm;test-0362;Can I get paid in another currency?;receiving_money;fiat_currency_support;0.95
+C1;llm;test-0369;I did not get the right amount of money when I used a different country's currency.;wrong_exchange_rate_for_cash_withdrawal;card_payment_wrong_exchange_rate;0.95
+C1;llm;test-0370;Can I use my American Express to add money to my account?;supported_cards_and_currencies;topping_up_by_card;0.95
+C1;llm;test-0371;I would appreciate that someone let me know when there is an extra charge for payments. I was checking the app earlier and saying a charge on one of my payments that was additional that no one made me aware of before.;card_payment_fee_charged;extra_charge_on_statement;0.95
+C1;llm;test-0377;If I request that my funds be held, what currencies do you use?;fiat_currency_support;supported_cards_and_currencies;0.95
+C1;llm;test-0378;Is there a reason my top up hasn't gone through;pending_top_up;top_up_failed;0.95
+C1;llm;test-0398;Help me find my card pin!;get_physical_card;passcode_forgotten;0.95
+C1;llm;test-0414;I tried to use my card to top up but all of the money has disappeared.;topping_up_by_card;top_up_failed;0.95
+C1;llm;test-0417;Please help me make a transfer. I keep receiving an error and I'm trying to make the initial mortgage payment for a flat I'm buying. What is the deal here?;failed_transfer;declined_transfer;0.95
+C1;llm;test-0434;How do I reset my PIN, I can't seem to use my card?;pin_blocked;change_pin;0.95
+C1;llm;test-0440;If I want a physical card, do I have to pay anything?;order_physical_card;get_physical_card;0.95
+C1;llm;test-0448;There's a debit on my account that I didn't do.;direct_debit_payment_not_recognised;card_payment_not_recognised;0.95
+C1;llm;test-0460;I would like to make a transfer. How much does it cost?;top_up_by_bank_transfer_charge;transfer_fee_charged;0.95

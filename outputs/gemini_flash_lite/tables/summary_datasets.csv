@@ -1,0 +1,6 @@
+﻿measure;condition;system;n_datasets;mean;ci95_low;ci95_high;banking77;clinc150;sib200
+ece;C1;llm;3;0.0963;;;0.1784;0.053;0.0574
+ece;C2;llm;3;0.0965;;;0.1915;0.0524;0.0457
+ece;C3;llm;3;0.1007;;;0.184;0.0568;0.0612
+ece_pt_minus_en;C2-C1;llm;3;0.0003;-0.0087;0.0145;0.0131;-0.0005;-0.0117
+ece_pt_minus_en;C3-C1;llm;3;0.0043;-0.0087;0.0182;0.0056;0.0036;0.0038

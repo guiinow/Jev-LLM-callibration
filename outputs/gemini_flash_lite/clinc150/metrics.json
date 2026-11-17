@@ -1,0 +1,184 @@
+{
+  "n_bins": 15,
+  "high_confidence_threshold": 0.9,
+  "jev_confidence_source": {},
+  "conditions": {
+    "C1": {
+      "errors": {
+        "jev": {
+          "n": 0,
+          "example_ids": []
+        },
+        "llm": {
+          "n": 0,
+          "example_ids": []
+        }
+      },
+      "all_valid": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": 0.05295555555555544,
+          "accuracy": 0.9266666666666666,
+          "n": 450,
+          "mean_confidence": 0.9782888888888889,
+          "overconfidence": 0.051622222222222236,
+          "high_confidence_errors": 26,
+          "distinct_confidence_values": 7
+        }
+      },
+      "paired": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        }
+      },
+      "n_paired": 0
+    },
+    "C2": {
+      "errors": {
+        "jev": {
+          "n": 0,
+          "example_ids": []
+        },
+        "llm": {
+          "n": 0,
+          "example_ids": []
+        }
+      },
+      "all_valid": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": 0.05242222222222237,
+          "accuracy": 0.9244444444444444,
+          "n": 450,
+          "mean_confidence": 0.9768666666666667,
+          "overconfidence": 0.05242222222222226,
+          "high_confidence_errors": 30,
+          "distinct_confidence_values": 7
+        }
+      },
+      "paired": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        }
+      },
+      "n_paired": 0
+    },
+    "C3": {
+      "errors": {
+        "jev": {
+          "n": 0,
+          "example_ids": []
+        },
+        "llm": {
+          "n": 1,
+          "example_ids": [
+            "clinc-0098"
+          ]
+        }
+      },
+      "all_valid": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": 0.05677060133630305,
+          "accuracy": 0.9309576837416481,
+          "n": 449,
+          "mean_confidence": 0.9770378619153675,
+          "overconfidence": 0.046080178173719344,
+          "high_confidence_errors": 30,
+          "distinct_confidence_values": 6
+        }
+      },
+      "paired": {
+        "jev": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        },
+        "llm": {
+          "ece": null,
+          "accuracy": null,
+          "n": 0
+        }
+      },
+      "n_paired": 0
+    }
+  },
+  "language_shift": {
+    "llm": {
+      "C2": {
+        "n": 450,
+        "ece_en": 0.05295555555555544,
+        "ece_pt": 0.05242222222222237,
+        "delta_ece": -0.0005333333333330734,
+        "delta_ece_ci95": [
+          -0.018869444444444543,
+          0.021026111111111037
+        ],
+        "delta_ece_ci_excludes_zero": false,
+        "accuracy_en": 0.9266666666666666,
+        "accuracy_pt": 0.9244444444444444,
+        "delta_accuracy": -0.0022222222222222365,
+        "delta_accuracy_ci95": [
+          -0.022222222222222254,
+          0.01777777777777778
+        ],
+        "delta_accuracy_ci_excludes_zero": false,
+        "prediction_change_rate": 0.05333333333333334,
+        "mean_confidence_change": -0.0014222222222222238,
+        "mean_abs_confidence_change": 0.01315555555555556,
+        "n_bootstrap": 5000,
+        "seed": 42
+      },
+      "C3": {
+        "n": 449,
+        "ece_en": 0.053184855233853,
+        "ece_pt": 0.05677060133630305,
+        "delta_ece": 0.003585746102450049,
+        "delta_ece_ci95": [
+          -0.016547884187082116,
+          0.023742761692650226
+        ],
+        "delta_ece_ci_excludes_zero": false,
+        "accuracy_en": 0.9265033407572383,
+        "accuracy_pt": 0.9309576837416481,
+        "delta_accuracy": 0.0044543429844098315,
+        "delta_accuracy_ci95": [
+          -0.015590200445434355,
+          0.024498886414253906
+        ],
+        "delta_accuracy_ci_excludes_zero": false,
+        "prediction_change_rate": 0.053452115812917596,
+        "mean_confidence_change": -0.0013140311804008932,
+        "mean_abs_confidence_change": 0.011959910913140318,
+        "n_bootstrap": 5000,
+        "seed": 42
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+﻿system;pt_condition;n;ece_en;ece_pt;delta_ece;delta_ece_ci_low;delta_ece_ci_high;delta_ece_ci_excludes_zero;accuracy_en;accuracy_pt;delta_accuracy;delta_accuracy_ci_low;delta_accuracy_ci_high;prediction_change_rate;mean_confidence_change;mean_abs_confidence_change
+jev;C2;204;0.0319;0.0221;-0.0098;-0.0319;0.0168;False;0.9069;0.9167;0.0098;-0.0098;0.0294;0.0196;-0.0016;0.0335
+jev;C3;204;0.0319;0.0521;0.0202;-0.0225;0.0352;False;0.9069;0.9167;0.0098;-0.0098;0.0294;0.0196;0.0009;0.0336
+llm;C2;204;0.0574;0.0457;-0.0117;-0.0283;0.0152;False;0.8922;0.902;0.0098;-0.0098;0.0294;0.0196;0.003;0.012
+llm;C3;204;0.0574;0.0612;0.0038;-0.0234;0.0326;False;0.8922;0.8971;0.0049;-0.0245;0.0343;0.0539;0.0077;0.0171

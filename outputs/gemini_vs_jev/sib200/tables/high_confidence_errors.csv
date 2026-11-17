@@ -1,0 +1,59 @@
+﻿condition;system;example_id;text;true_label;predicted_label;confidence
+C2;jev;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C2;jev;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.99
+C2;jev;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.98
+C2;jev;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.92
+C2;llm;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C2;llm;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.98
+C2;llm;sib-0433;As partes atuais da Bélgica faziam parte do Luxemburgo no passado, mas tornaram-se belgas após a Revolução Belga de 1830.;politics;geography;0.95
+C2;llm;sib-0551;A nutrição adequada por si só não gera desempenhos de alta performance, mas pode afetar significativamente o bem-estar geral dos atletas mais jovens.;sports;health;0.95
+C2;llm;sib-0552;Mantendo um equilíbrio energético saudável, praticar hábitos eficazes de hidratação e compreender os vários aspectos das práticas de suplementação podem ajudar os atletas a melhorar seu desempenho e a aumentar seu prazer pelo esporte.;sports;health;0.95
+C2;llm;sib-0706;Acima da ponta norte de Machu Picchu fica esta montanha íngreme, que muitas vezes serve de pano de fundo para muitas fotos das ruínas.;geography;travel;0.95
+C2;llm;sib-1235;Com isso, os jogadores poderão controlar ações e movimentos no videogame movendo o dispositivo no ar.;entertainment;science_technology;0.95
+C2;llm;sib-1254;Os dois compostos reagem um com o outro para formar cristais que podem bloquear a função renal, afirmaram os pesquisadores da universidade.;science_technology;health;0.95
+C2;llm;sib-1602;Exemplos de atividades locais incluem a pescaria, tirar fotografias, ver pássaros, visitar os parques e estudar sobre o ecossistema.;entertainment;travel;0.95
+C2;llm;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.95
+C2;llm;sib-1690;"As Cataratas do Niágara estão mais para o sul; já o norte possui a beleza natural intocada de Muskoka e muito mais.";geography;travel;0.95
+C2;llm;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.95
+C2;llm;sib-1896;Você pode ver as pirâmides no escuro e também no silêncio antes de o show começar.;entertainment;travel;0.95
+C2;llm;sib-0809;O canyoning (ou canionismo) diz respeito a ir até o fundo de um cânion, que pode ser seco ou repleto de água.;sports;travel;0.9
+C3;jev;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C3;jev;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.99
+C3;jev;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;0.97
+C3;jev;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.93
+C3;llm;sib-0117;O Encélado é o objeto mais refletivo do sistema solar, refletindo cerca de 90% da luz solar que o atinge.;geography;science_technology;1.0
+C3;llm;sib-1226;Potro recebeu tratamento no ombro, mas conseguiu voltar ao jogo.;health;sports;1.0
+C3;llm;sib-1235;Com isso, os jogadores poderão controlar ações e movimentos no videogame movendo o dispositivo no ar.;entertainment;science_technology;0.98
+C3;llm;sib-0289;O mapa de terremotos internacional do Serviço Geológico dos Estados Unidos não indicou nenhum tremor de terra na Islândia na semana anterior.;geography;science_technology;0.95
+C3;llm;sib-0433;As partes atuais da Bélgica faziam parte do Luxemburgo no passado, mas tornaram-se belgas após a Revolução Belga de 1830.;politics;geography;0.95
+C3;llm;sib-0551;A nutrição adequada por si só não gera desempenhos de alta performance, mas pode afetar significativamente o bem-estar geral dos atletas mais jovens.;sports;health;0.95
+C3;llm;sib-0552;Mantendo um equilíbrio energético saudável, praticar hábitos eficazes de hidratação e compreender os vários aspectos das práticas de suplementação podem ajudar os atletas a melhorar seu desempenho e a aumentar seu prazer pelo esporte.;sports;health;0.95
+C3;llm;sib-0668;Mesmo que isto seja uma atividade muito comum, ela é proibida pela Disney: os ingressos são intransferíveis.;entertainment;travel;0.95
+C3;llm;sib-0706;Acima da ponta norte de Machu Picchu fica esta montanha íngreme, que muitas vezes serve de pano de fundo para muitas fotos das ruínas.;geography;travel;0.95
+C3;llm;sib-1254;Os dois compostos reagem um com o outro para formar cristais que podem bloquear a função renal, afirmaram os pesquisadores da universidade.;science_technology;health;0.95
+C3;llm;sib-1602;Exemplos de atividades locais incluem a pescaria, tirar fotografias, ver pássaros, visitar os parques e estudar sobre o ecossistema.;entertainment;travel;0.95
+C3;llm;sib-1648;A crosta possui 70 km de espessura no lado visível e 100 km de espessura no lado invisível.;geography;science_technology;0.95
+C3;llm;sib-1690;"As Cataratas do Niágara estão mais para o sul; já o norte possui a beleza natural intocada de Muskoka e muito mais.";geography;travel;0.95
+C3;llm;sib-1840;Eles fornecem maior estabilidade para o cavaleiro, mas podem apresentar problemas de segurança, pois os pés do cavaleiro podem ficar presos neles.;travel;sports;0.95
+C3;llm;sib-1896;Você pode ver as pirâmides no escuro e também no silêncio antes de o show começar.;entertainment;travel;0.95
+C1;jev;sib-0117;Enceladus is the most reflective object in the solar system, reflecting about 90 percent of the sunlight that hits it.;geography;science_technology;1.0
+C1;jev;sib-1226;Potro received treatment to his shoulder at this point but managed to return to the game.;health;sports;0.99
+C1;jev;sib-1254;The two compounds react with one another to form crystals that may block kidney function, researchers at the university said.;science_technology;health;0.94
+C1;jev;sib-1840;They provide greater stability for the rider but can have safety concerns due to the potential for a rider's feet to get stuck in them.;travel;sports;0.94
+C1;jev;sib-1648;The crust is about 70 km thick on the near side and 100 km thick on the far side.;geography;science_technology;0.92
+C1;jev;sib-1432;The much-abused and often-ridiculed rule of thirds is a simple guideline creating dynamism while keeping a measure of order in an image.;science_technology;entertainment;0.9
+C1;llm;sib-0117;Enceladus is the most reflective object in the solar system, reflecting about 90 percent of the sunlight that hits it.;geography;science_technology;1.0
+C1;llm;sib-1226;Potro received treatment to his shoulder at this point but managed to return to the game.;health;sports;1.0
+C1;llm;sib-0433;Present-day parts of Belgium were part of Luxembourg in the past but became Belgian after the 1830s Belgian Revolution.;politics;geography;0.95
+C1;llm;sib-0551;Proper nutritional practices alone cannot generate elite performances, but they can significantly affect young athletes' overall wellness.;sports;health;0.95
+C1;llm;sib-0706;Towering above the north end of Machu Picchu is this steep mountain, often the backdrop to many photos of the ruins.;geography;travel;0.95
+C1;llm;sib-1235;This will allow players to control actions and movements in video games by moving the device through the air.;entertainment;science_technology;0.95
+C1;llm;sib-1254;The two compounds react with one another to form crystals that may block kidney function, researchers at the university said.;science_technology;health;0.95
+C1;llm;sib-1648;The crust is about 70 km thick on the near side and 100 km thick on the far side.;geography;science_technology;0.95
+C1;llm;sib-1649;It is thinner under the maria and thicker under the highlands.;geography;science_technology;0.95
+C1;llm;sib-1690;Farther south is Niagara Falls and the north is home to the untapped natural beauty of the Muskoka and beyond.;geography;travel;0.95
+C1;llm;sib-0552;Maintaining a healthy energy balance, practicing effective hydration habits, and understanding the various aspects of supplementation practices can help athletes improve their performance and increase their enjoyment of the sport.;sports;health;0.9
+C1;llm;sib-0809;Canyoning (or: canyoneering) is about going in a bottom of a canyon, which is either dry or full of water.;sports;travel;0.9
+C1;llm;sib-1602;Examples of on-site activities include hunting, fishing, photography, bird watching, and visiting parks and studying information about the ecosystem.;entertainment;travel;0.9
+C1;llm;sib-1840;They provide greater stability for the rider but can have safety concerns due to the potential for a rider's feet to get stuck in them.;travel;sports;0.9
+C1;llm;sib-1896;You can see the pyramids in the dark and you can see them in silence before the show begins.;entertainment;travel;0.9

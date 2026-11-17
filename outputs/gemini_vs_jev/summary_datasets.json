@@ -1,0 +1,184 @@
+{
+  "datasets": [
+    "banking77",
+    "clinc150",
+    "sib200"
+  ],
+  "n_bins": 15,
+  "n_bootstrap": 5000,
+  "seed": 42,
+  "ece": {
+    "C1": {
+      "jev": {
+        "per_dataset": {
+          "banking77": 0.0972,
+          "clinc150": 0.0369,
+          "sib200": 0.0319
+        },
+        "n_datasets": 3,
+        "mean": 0.0553
+      },
+      "llm": {
+        "per_dataset": {
+          "banking77": 0.1784,
+          "clinc150": 0.053,
+          "sib200": 0.0574
+        },
+        "n_datasets": 3,
+        "mean": 0.0963
+      }
+    },
+    "C2": {
+      "jev": {
+        "per_dataset": {
+          "banking77": 0.0873,
+          "clinc150": 0.0355,
+          "sib200": 0.0221
+        },
+        "n_datasets": 3,
+        "mean": 0.0483
+      },
+      "llm": {
+        "per_dataset": {
+          "banking77": 0.1915,
+          "clinc150": 0.0524,
+          "sib200": 0.0457
+        },
+        "n_datasets": 3,
+        "mean": 0.0965
+      }
+    },
+    "C3": {
+      "jev": {
+        "per_dataset": {
+          "banking77": 0.085,
+          "clinc150": 0.0356,
+          "sib200": 0.0521
+        },
+        "n_datasets": 3,
+        "mean": 0.0576
+      },
+      "llm": {
+        "per_dataset": {
+          "banking77": 0.184,
+          "clinc150": 0.0568,
+          "sib200": 0.0612
+        },
+        "n_datasets": 3,
+        "mean": 0.1007
+      }
+    }
+  },
+  "jev_minus": {
+    "C1": {
+      "llm": {
+        "per_dataset": {
+          "banking77": -0.0812,
+          "clinc150": -0.016,
+          "sib200": -0.0255
+        },
+        "n_datasets": 3,
+        "mean": -0.0409,
+        "ci95": [
+          -0.0485,
+          -0.0153
+        ],
+        "ci_excludes_zero": true
+      }
+    },
+    "C2": {
+      "llm": {
+        "per_dataset": {
+          "banking77": -0.1042,
+          "clinc150": -0.0169,
+          "sib200": -0.0236
+        },
+        "n_datasets": 3,
+        "mean": -0.0482,
+        "ci95": [
+          -0.0554,
+          -0.0213
+        ],
+        "ci_excludes_zero": true
+      }
+    },
+    "C3": {
+      "llm": {
+        "per_dataset": {
+          "banking77": -0.099,
+          "clinc150": -0.0221,
+          "sib200": -0.0091
+        },
+        "n_datasets": 3,
+        "mean": -0.0434,
+        "ci95": [
+          -0.052,
+          -0.0197
+        ],
+        "ci_excludes_zero": true
+      }
+    }
+  },
+  "en_to_pt": {
+    "jev": {
+      "C2-C1": {
+        "per_dataset": {
+          "banking77": -0.01,
+          "clinc150": -0.0014,
+          "sib200": -0.0098
+        },
+        "n_datasets": 3,
+        "mean": -0.007,
+        "ci95": [
+          -0.0159,
+          0.0089
+        ],
+        "ci_excludes_zero": false
+      },
+      "C3-C1": {
+        "per_dataset": {
+          "banking77": -0.0122,
+          "clinc150": -0.0014,
+          "sib200": 0.0202
+        },
+        "n_datasets": 3,
+        "mean": 0.0022,
+        "ci95": [
+          -0.0121,
+          0.0151
+        ],
+        "ci_excludes_zero": false
+      }
+    },
+    "llm": {
+      "C2-C1": {
+        "per_dataset": {
+          "banking77": 0.0131,
+          "clinc150": -0.0005,
+          "sib200": -0.0117
+        },
+        "n_datasets": 3,
+        "mean": 0.0003,
+        "ci95": [
+          -0.0087,
+          0.0145
+        ],
+        "ci_excludes_zero": false
+      },
+      "C3-C1": {
+        "per_dataset": {
+          "banking77": 0.0056,
+          "clinc150": 0.0036,
+          "sib200": 0.0038
+        },
+        "n_datasets": 3,
+        "mean": 0.0043,
+        "ci95": [
+          -0.0087,
+          0.0182
+        ],
+        "ci_excludes_zero": false
+      }
+    }
+  }
+}

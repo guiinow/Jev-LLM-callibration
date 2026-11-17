@@ -1,0 +1,13 @@
+﻿condition;n_bins;ece_jev;ece_llm;delta_ece_jev_minus_llm;ci_low;ci_high;verdict;conclusion_stable
+C1;10;0.0323;0.053;-0.0207;-0.0394;0.006;inconclusive;True
+C1;15;0.0369;0.053;-0.016;-0.033;0.0139;inconclusive;True
+C1;20;0.04;0.053;-0.0129;-0.0283;0.0171;inconclusive;True
+C1;30;0.041;0.053;-0.012;-0.0243;0.0194;inconclusive;True
+C2;10;0.0366;0.0542;-0.0176;-0.0396;0.012;inconclusive;True
+C2;15;0.0355;0.0524;-0.0169;-0.0346;0.0173;inconclusive;True
+C2;20;0.0396;0.0542;-0.0146;-0.0282;0.0188;inconclusive;True
+C2;30;0.0521;0.0542;-0.0021;-0.0169;0.0316;inconclusive;True
+C3;10;0.0298;0.0568;-0.0269;-0.0442;0.0033;inconclusive;True
+C3;15;0.0346;0.0568;-0.0221;-0.0341;0.0118;inconclusive;True
+C3;20;0.038;0.0568;-0.0188;-0.031;0.0147;inconclusive;True
+C3;30;0.0462;0.0568;-0.0106;-0.02;0.0238;inconclusive;True
