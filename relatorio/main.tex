@@ -16,12 +16,10 @@
 
 \title{LLMs abertos ou um classificador calibrado? A confiança do Jev em português em três tarefas de classificação}
 
-\newcommand{\ufmg}{\affiliation{\institution{Universidade Federal de Minas Gerais}\city{Belo Horizonte}\country{Brasil}}}
-\author{Bernardo Machado}\ufmg
-\author{Guilherme Ferreira}\ufmg
-\author{Marco Túlio Marcelino}\ufmg
-\author{Luísa Porfírio}\ufmg
-\renewcommand{\shortauthors}{Machado, Ferreira, Marcelino e Porfírio}
+%% Autores num único bloco com afiliação compartilhada (economiza espaço no topo).
+\author{Bernardo Machado, Guilherme Ferreira, Marco Túlio Marcelino, Luísa Porfírio e Túlio de Sousa}
+\affiliation{\institution{Universidade Federal de Minas Gerais}\city{Belo Horizonte}\country{Brasil}}
+\renewcommand{\shortauthors}{Machado et al.}
 
 \begin{abstract}
 LLMs de uso geral conseguem classificar mensagens, mas sua confiança, pedida por escrito, tende a ser exagerada, o que limita quanto se pode automatizar. O Jev (TypeSafe AI) é um classificador que apenas escolhe entre opções fixas e devolve probabilidades descritas como calibradas. Comparamos o Jev com dois LLMs abertos, o Ministral-3 14B e o Gemma-4-E4B, em três bases (intenções de clientes de banco, pedidos a assistentes virtuais e tópicos de frases), em inglês e em português. Em português, o Jev é mais bem calibrado que o Ministral nas três bases, e sua confiança separa melhor acertos de erros, o que permite automatizar mais mensagens com a mesma exigência de acerto. Não encontramos variação consistente da calibração com a troca de idioma em nenhum sistema; como os ICs têm meia-largura de cerca de 0,03 de ECE, variações dessa ordem não seriam detectadas.
@@ -108,11 +106,10 @@ A solução mais comum hoje é um LLM generativo: o prompt lista as opções e p
 
 \section*{Contribuições individuais}
 % [A PREENCHER PELO GRUPO — não inferido pelo assistente]
-Bernardo Machado: [a preencher]. Guilherme Ferreira: [a preencher]. Marco Túlio Marcelino: [a preencher]. Luísa Porfírio: [a preencher].
+Bernardo Machado: [a preencher]. Guilherme Ferreira: definição da arquitetura do projeto, implementação dos métodos necessários para a experimentação inicial e disponibilização do repositório para trabalho distribuído. Marco Túlio Marcelino: [a preencher]. Luísa Porfírio: [a preencher]. Túlio de Sousa: [a preencher].
 
 \section*{Declaração de uso de IA}
-% [REVISAR E CONFIRMAR PELO GRUPO]
-Claude Code (Anthropic) foi usado na geração de código do pipeline de avaliação (\texttt{src/jev\_eval/}), dos scripts de preparação de dados e de figuras, na tradução dos nomes das intenções do CLINC150 para o português, na sugestão de categorias para os erros do Banking77/C3 (revisadas pelo grupo) e na redação de uma primeira versão deste relatório a partir dos resultados executados, revisada pelo grupo. O desenho experimental, a validação dos resultados e as conclusões são de responsabilidade do grupo.
+Ferramentas de IA generativa foram usadas como apoio na geração do código dos experimentos, na tradução das bases de dados para o português e na redação deste relatório. Todo o material produzido com esse apoio foi revisado pelo grupo, que é responsável pelo desenho experimental, pela validação dos resultados e pelas conclusões.
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
