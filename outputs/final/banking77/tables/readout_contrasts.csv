@@ -4,6 +4,15 @@ verb_minus_prob_ece;gemma;C2;verb;prob;461;0.0045;-0.0312;0.0326;False
 verb_minus_prob_ece;gemma;C3;verb;prob;458;-0.0423;-0.0774;-0.0101;True
 verb_minus_prob_shift;gemma;C2 vs C1;verb;prob;457;0.0259;-0.0115;0.0598;False
 verb_minus_prob_shift;gemma;C3 vs C1;verb;prob;457;-0.0218;-0.0583;0.0182;False
+jev_minus_system_ece;deepseek_pro_verb;C1;jev;deepseek_pro_verb;462;-0.0591;-0.0879;-0.0242;True
+jev_minus_system_ece;deepseek_pro_verb;C2;jev;deepseek_pro_verb;462;-0.0796;-0.1021;-0.0406;True
+jev_minus_system_ece;deepseek_pro_verb;C3;jev;deepseek_pro_verb;462;-0.0996;-0.1195;-0.0571;True
+jev_minus_system_ece;deepseek_verb;C1;jev;deepseek_verb;462;-0.0216;-0.0458;0.0108;False
+jev_minus_system_ece;deepseek_verb;C2;jev;deepseek_verb;462;-0.0357;-0.0577;0.0022;False
+jev_minus_system_ece;deepseek_verb;C3;jev;deepseek_verb;462;-0.0291;-0.0475;0.0106;False
+jev_minus_system_ece;gemini_verb;C1;jev;gemini_verb;462;-0.0812;-0.1053;-0.0488;True
+jev_minus_system_ece;gemini_verb;C2;jev;gemini_verb;462;-0.1042;-0.1265;-0.0666;True
+jev_minus_system_ece;gemini_verb;C3;jev;gemini_verb;462;-0.099;-0.1183;-0.058;True
 jev_minus_system_ece;gemma_prob;C1;jev;gemma_prob;462;-0.1497;-0.1859;-0.1115;True
 jev_minus_system_ece;gemma_prob;C2;jev;gemma_prob;462;-0.1625;-0.1946;-0.1217;True
 jev_minus_system_ece;gemma_prob;C3;jev;gemma_prob;462;-0.1897;-0.2178;-0.1426;True

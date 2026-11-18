@@ -9,6 +9,33 @@
   "seed": 42,
   "ece": {
     "C1": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": 0.1563,
+          "clinc150": 0.0385,
+          "sib200": 0.0324
+        },
+        "n_datasets": 3,
+        "mean": 0.0757
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": 0.1188,
+          "clinc150": 0.017,
+          "sib200": 0.0339
+        },
+        "n_datasets": 3,
+        "mean": 0.0566
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": 0.1784,
+          "clinc150": 0.053,
+          "sib200": 0.0574
+        },
+        "n_datasets": 3,
+        "mean": 0.0963
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": 0.2469,
@@ -47,6 +74,33 @@
       }
     },
     "C2": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": 0.1669,
+          "clinc150": 0.0459,
+          "sib200": 0.0137
+        },
+        "n_datasets": 3,
+        "mean": 0.0755
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": 0.1229,
+          "clinc150": 0.0462,
+          "sib200": 0.0462
+        },
+        "n_datasets": 3,
+        "mean": 0.0718
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": 0.1915,
+          "clinc150": 0.0524,
+          "sib200": 0.0457
+        },
+        "n_datasets": 3,
+        "mean": 0.0965
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": 0.2498,
@@ -85,6 +139,33 @@
       }
     },
     "C3": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": 0.1846,
+          "clinc150": 0.041,
+          "sib200": 0.0276
+        },
+        "n_datasets": 3,
+        "mean": 0.0844
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": 0.1141,
+          "clinc150": 0.0177,
+          "sib200": 0.0416
+        },
+        "n_datasets": 3,
+        "mean": 0.0578
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": 0.184,
+          "clinc150": 0.0568,
+          "sib200": 0.0612
+        },
+        "n_datasets": 3,
+        "mean": 0.1007
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": 0.2748,
@@ -125,6 +206,48 @@
   },
   "jev_minus": {
     "C1": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": -0.0591,
+          "clinc150": -0.0016,
+          "sib200": 0.0001
+        },
+        "n_datasets": 3,
+        "mean": -0.0202,
+        "ci95": [
+          -0.0364,
+          0.0036
+        ],
+        "ci_excludes_zero": false
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": -0.0216,
+          "clinc150": 0.0199,
+          "sib200": -0.002
+        },
+        "n_datasets": 3,
+        "mean": -0.0012,
+        "ci95": [
+          -0.0171,
+          0.0181
+        ],
+        "ci_excludes_zero": false
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": -0.0812,
+          "clinc150": -0.016,
+          "sib200": -0.0255
+        },
+        "n_datasets": 3,
+        "mean": -0.0409,
+        "ci95": [
+          -0.0485,
+          -0.0153
+        ],
+        "ci_excludes_zero": true
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": -0.1497,
@@ -169,6 +292,48 @@
       }
     },
     "C2": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": -0.0796,
+          "clinc150": -0.0104,
+          "sib200": 0.0082
+        },
+        "n_datasets": 3,
+        "mean": -0.0273,
+        "ci95": [
+          -0.0381,
+          -0.0035
+        ],
+        "ci_excludes_zero": true
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": -0.0357,
+          "clinc150": -0.0106,
+          "sib200": -0.0241
+        },
+        "n_datasets": 3,
+        "mean": -0.0235,
+        "ci95": [
+          -0.0319,
+          0.0056
+        ],
+        "ci_excludes_zero": false
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": -0.1042,
+          "clinc150": -0.0169,
+          "sib200": -0.0236
+        },
+        "n_datasets": 3,
+        "mean": -0.0482,
+        "ci95": [
+          -0.0554,
+          -0.0213
+        ],
+        "ci_excludes_zero": true
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": -0.1625,
@@ -213,6 +378,48 @@
       }
     },
     "C3": {
+      "deepseek_pro_verb": {
+        "per_dataset": {
+          "banking77": -0.0996,
+          "clinc150": -0.0054,
+          "sib200": 0.0245
+        },
+        "n_datasets": 3,
+        "mean": -0.0269,
+        "ci95": [
+          -0.0412,
+          -0.0052
+        ],
+        "ci_excludes_zero": true
+      },
+      "deepseek_verb": {
+        "per_dataset": {
+          "banking77": -0.0291,
+          "clinc150": 0.0178,
+          "sib200": 0.0105
+        },
+        "n_datasets": 3,
+        "mean": -0.0002,
+        "ci95": [
+          -0.0157,
+          0.0186
+        ],
+        "ci_excludes_zero": false
+      },
+      "gemini_verb": {
+        "per_dataset": {
+          "banking77": -0.099,
+          "clinc150": -0.0221,
+          "sib200": -0.0091
+        },
+        "n_datasets": 3,
+        "mean": -0.0434,
+        "ci95": [
+          -0.052,
+          -0.0197
+        ],
+        "ci_excludes_zero": true
+      },
       "gemma_prob": {
         "per_dataset": {
           "banking77": -0.1897,
@@ -258,6 +465,96 @@
     }
   },
   "en_to_pt": {
+    "deepseek_pro_verb": {
+      "C2-C1": {
+        "per_dataset": {
+          "banking77": 0.0105,
+          "clinc150": 0.0074,
+          "sib200": -0.0186
+        },
+        "n_datasets": 3,
+        "mean": -0.0002,
+        "ci95": [
+          -0.0178,
+          0.019
+        ],
+        "ci_excludes_zero": false
+      },
+      "C3-C1": {
+        "per_dataset": {
+          "banking77": 0.0283,
+          "clinc150": 0.0025,
+          "sib200": -0.0061
+        },
+        "n_datasets": 3,
+        "mean": 0.0082,
+        "ci95": [
+          -0.0088,
+          0.025
+        ],
+        "ci_excludes_zero": false
+      }
+    },
+    "deepseek_verb": {
+      "C2-C1": {
+        "per_dataset": {
+          "banking77": 0.0041,
+          "clinc150": 0.0291,
+          "sib200": 0.0123
+        },
+        "n_datasets": 3,
+        "mean": 0.0152,
+        "ci95": [
+          -0.007,
+          0.0287
+        ],
+        "ci_excludes_zero": false
+      },
+      "C3-C1": {
+        "per_dataset": {
+          "banking77": -0.0047,
+          "clinc150": 0.0007,
+          "sib200": 0.0077
+        },
+        "n_datasets": 3,
+        "mean": 0.0012,
+        "ci95": [
+          -0.0169,
+          0.0181
+        ],
+        "ci_excludes_zero": false
+      }
+    },
+    "gemini_verb": {
+      "C2-C1": {
+        "per_dataset": {
+          "banking77": 0.0131,
+          "clinc150": -0.0005,
+          "sib200": -0.0117
+        },
+        "n_datasets": 3,
+        "mean": 0.0003,
+        "ci95": [
+          -0.0087,
+          0.0145
+        ],
+        "ci_excludes_zero": false
+      },
+      "C3-C1": {
+        "per_dataset": {
+          "banking77": 0.0056,
+          "clinc150": 0.0036,
+          "sib200": 0.0038
+        },
+        "n_datasets": 3,
+        "mean": 0.0043,
+        "ci95": [
+          -0.0087,
+          0.0182
+        ],
+        "ci_excludes_zero": false
+      }
+    },
     "gemma_prob": {
       "C2-C1": {
         "per_dataset": {

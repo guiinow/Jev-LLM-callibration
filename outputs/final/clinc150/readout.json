@@ -2,6 +2,132 @@
   "n_bins": 15,
   "cells": [
     {
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "system": "deepseek_pro_verb",
+      "condition": "C1",
+      "n": 450,
+      "accuracy": 0.9177777777777778,
+      "ece": 0.03853333333333339,
+      "ece_ci95": [
+        0.022109999999999755,
+        0.06384444444444452
+      ],
+      "mean_confidence": 0.937022222222222
+    },
+    {
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "system": "deepseek_pro_verb",
+      "condition": "C2",
+      "n": 450,
+      "accuracy": 0.8933333333333333,
+      "ece": 0.04588888888888905,
+      "ece_ci95": [
+        0.02233222222222222,
+        0.07408944444444453
+      ],
+      "mean_confidence": 0.9392222222222222
+    },
+    {
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "system": "deepseek_pro_verb",
+      "condition": "C3",
+      "n": 450,
+      "accuracy": 0.9066666666666666,
+      "ece": 0.04099999999999998,
+      "ece_ci95": [
+        0.02224388888888885,
+        0.06775833333333338
+      ],
+      "mean_confidence": 0.9476666666666668
+    },
+    {
+      "model": "deepseek",
+      "readout": "verb",
+      "system": "deepseek_verb",
+      "condition": "C1",
+      "n": 450,
+      "accuracy": 0.9222222222222223,
+      "ece": 0.01702222222222226,
+      "ece_ci95": [
+        0.009955555555555627,
+        0.04480055555555544
+      ],
+      "mean_confidence": 0.921511111111111
+    },
+    {
+      "model": "deepseek",
+      "readout": "verb",
+      "system": "deepseek_verb",
+      "condition": "C2",
+      "n": 450,
+      "accuracy": 0.8866666666666667,
+      "ece": 0.04615555555555548,
+      "ece_ci95": [
+        0.026621666666666682,
+        0.07733444444444436
+      ],
+      "mean_confidence": 0.9165999999999999
+    },
+    {
+      "model": "deepseek",
+      "readout": "verb",
+      "system": "deepseek_verb",
+      "condition": "C3",
+      "n": 450,
+      "accuracy": 0.9088888888888889,
+      "ece": 0.01771111111111102,
+      "ece_ci95": [
+        0.010466666666666687,
+        0.04602555555555538
+      ],
+      "mean_confidence": 0.9194444444444442
+    },
+    {
+      "model": "gemini",
+      "readout": "verb",
+      "system": "gemini_verb",
+      "condition": "C1",
+      "n": 450,
+      "accuracy": 0.9266666666666666,
+      "ece": 0.05295555555555544,
+      "ece_ci95": [
+        0.03151111111111112,
+        0.07686666666666653
+      ],
+      "mean_confidence": 0.9782888888888889
+    },
+    {
+      "model": "gemini",
+      "readout": "verb",
+      "system": "gemini_verb",
+      "condition": "C2",
+      "n": 450,
+      "accuracy": 0.9244444444444444,
+      "ece": 0.05242222222222237,
+      "ece_ci95": [
+        0.03233333333333325,
+        0.07811166666666672
+      ],
+      "mean_confidence": 0.9768666666666668
+    },
+    {
+      "model": "gemini",
+      "readout": "verb",
+      "system": "gemini_verb",
+      "condition": "C3",
+      "n": 449,
+      "accuracy": 0.9309576837416481,
+      "ece": 0.05677060133630305,
+      "ece_ci95": [
+        0.03516425389755013,
+        0.08098106904231625
+      ],
+      "mean_confidence": 0.9770378619153676
+    },
+    {
       "model": "gemma",
       "readout": "prob",
       "system": "gemma_prob",
@@ -250,6 +376,141 @@
     }
   ],
   "jev_vs_system": [
+    {
+      "system": "deepseek_pro_verb",
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "condition": "C1",
+      "n": 450,
+      "estimate": -0.0016222222222221847,
+      "ci95": [
+        -0.026555555555555665,
+        0.02871166666666686
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "deepseek_pro_verb",
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "condition": "C2",
+      "n": 450,
+      "estimate": -0.010355555555555757,
+      "ci95": [
+        -0.027757222222222436,
+        0.026711666666666797
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "deepseek_pro_verb",
+      "model": "deepseek_pro",
+      "readout": "verb",
+      "condition": "C3",
+      "n": 450,
+      "estimate": -0.005444444444444474,
+      "ci95": [
+        -0.021201666666666653,
+        0.026622777777777763
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "deepseek_verb",
+      "model": "deepseek",
+      "readout": "verb",
+      "condition": "C1",
+      "n": 450,
+      "estimate": 0.019888888888888945,
+      "ci95": [
+        -0.001933888888888827,
+        0.039491111111111074
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "deepseek_verb",
+      "model": "deepseek",
+      "readout": "verb",
+      "condition": "C2",
+      "n": 450,
+      "estimate": -0.010622222222222186,
+      "ci95": [
+        -0.03233444444444457,
+        0.023823333333333398
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "deepseek_verb",
+      "model": "deepseek",
+      "readout": "verb",
+      "condition": "C3",
+      "n": 450,
+      "estimate": 0.017844444444444486,
+      "ci95": [
+        -0.0014449999999997052,
+        0.042867222222222175
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemini_verb",
+      "model": "gemini",
+      "readout": "verb",
+      "condition": "C1",
+      "n": 450,
+      "estimate": -0.016044444444444236,
+      "ci95": [
+        -0.033045000000000026,
+        0.013888888888888788
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemini_verb",
+      "model": "gemini",
+      "readout": "verb",
+      "condition": "C2",
+      "n": 450,
+      "estimate": -0.016888888888889078,
+      "ci95": [
+        -0.03459999999999999,
+        0.01729000000000009
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
+    {
+      "system": "gemini_verb",
+      "model": "gemini",
+      "readout": "verb",
+      "condition": "C3",
+      "n": 449,
+      "estimate": -0.02213808463251691,
+      "ci95": [
+        -0.03407628062360824,
+        0.011826837416481063
+      ],
+      "ci_excludes_zero": false,
+      "n_bootstrap": 5000,
+      "seed": 42
+    },
     {
       "system": "gemma_prob",
       "model": "gemma",
