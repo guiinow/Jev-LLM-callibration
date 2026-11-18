@@ -1,0 +1,43 @@
+# TIMING TEST ONLY (10 examples per dataset), separate output. Not evidence.
+# DEEPSEEK V4 PRO (API) appended to the final run: same inputs, examples, conditions and main prompt as
+# configs/final.yaml, as one more system ("deepseek_pro_verb": confidence written in the JSON, like the
+# Ministral LLM). Only DeepSeek is called; resuming keeps the Jev/Ministral/Gemma rows untouched.
+# H1 stays defined as Jev vs the Ministral LLM; DeepSeek enters summary_datasets and readout (jev_vs_system).
+# Back up outputs/final/raw_predictions.jsonl before running.
+seed: 42
+sample_size: 10
+ece_bins: 15
+conditions: [C1, C2, C3]
+systems: [deepseek_pro_verb]  # run AFTER configs/deepseek.yaml finishes: never two runs on one file
+jev:
+  model: jev-1.14.0  # not called
+api_models:
+  deepseek_pro:
+    model: deepseek-v4-pro  # served as DeepSeek-V4-Pro-0813 on 2026-11-17
+    base_url: https://api.deepseek.com
+    api_key_env: OPENAI_API_KEY  # the DeepSeek key lives in .env under this name
+    extra_body: {thinking: {type: disabled}}  # thinking is on by default and ignores temperature=0
+datasets:
+  - name: banking77
+    task: choice
+    source: {hf_id: PolyAI/banking77, split: test, revision: 1846984189f2bc0ac51c6fc3a600fa9e1714e0c6}
+    paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+  - name: clinc150
+    task: choice
+    source: {hf_id: tech4humans/clinc_oos_pt, split: test, revision: e45fe5519bdeac1b7d8de0e335d5c8573d627520}
+    paths:
+      sample: data/clinc150/sample_clinc150.jsonl
+      intents: data/clinc150/intents_clinc150.json
+  - name: sib200
+    task: choice
+    source: {hf_id: Davlan/sib200, config: por_Latn, split: test, revision: 38977a667f6fc264d5c26ec57a01e16db040b358}
+    paths:
+      sample: data/sib200/sample_sib200.jsonl
+      intents: data/sib200/intents_sib200.json
+paths:
+      sample: data/usp/sample_usp.jsonl
+      intents: data/usp/intents_usp.json
+paths:
+  raw_predictions: outputs/deepseek_pro_timing/raw_predictions.jsonl

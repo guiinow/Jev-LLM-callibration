@@ -79,15 +79,21 @@ PARSERS = {"single": parse_llm_json, "topk": parse_topk_json}
 class LlmClient(ClassifierClient):
     """OpenAI-compatible chat client (OpenAI API or a local server such as Ollama's /v1)."""
 
+    extra_body: dict | None = None
+
     def __init__(self, model: str | None = None, base_url: str | None = None,
                  api_key_env: str = "OPENAI_API_KEY", api_key: str | None = None,
-                 num_ctx: int | None = None) -> None:
+                 num_ctx: int | None = None, extra_body: dict | None = None) -> None:
         from openai import OpenAI
         api_key = api_key or os.getenv(api_key_env)
         if not api_key:
             raise RuntimeError(f"{api_key_env} is required for LlmClient; use --mock for local smoke runs.")
         self.model = model or os.getenv("LLM_MODEL", "gpt-4.1-mini")
-        self.model_id = self.model
+        # Provider-specific request fields (e.g. DeepSeek's {"thinking": {"type": "disabled"}}). They change
+        # the answers, so they are part of model_id and therefore of input_hash.
+        self.extra_body = extra_body or None
+        self.model_id = self.model if not self.extra_body else \
+            f"{self.model} {json.dumps(self.extra_body, sort_keys=True, separators=(',', ':'))}"
         self.num_ctx = num_ctx
         self.client = OpenAI(api_key=api_key, base_url=base_url or os.getenv("OPENAI_BASE_URL"))
 
@@ -96,12 +102,16 @@ class LlmClient(ClassifierClient):
             model=self.model,
             temperature=0,
             messages=[{"role": "user", "content": prompt.render_llm(message, criteria)}],
+            **({"extra_body": self.extra_body} if self.extra_body else {}),
         )
         text = response.choices[0].message.content or ""
         usage = None
         if response.usage is not None:
             usage = {"prompt_tokens": response.usage.prompt_tokens,
                      "completion_tokens": response.usage.completion_tokens}
+            cache_hit = getattr(response.usage, "prompt_cache_hit_tokens", None)  # DeepSeek only
+            if cache_hit is not None:
+                usage["prompt_cache_hit_tokens"] = cache_hit
         served = getattr(response, "model", None)
         if self.num_ctx and usage and (usage["prompt_tokens"] or 0) + (usage["completion_tokens"] or 0) \
                 >= CONTEXT_GUARD * self.num_ctx:
@@ -110,7 +120,7 @@ class LlmClient(ClassifierClient):
             intent, confidence = PARSERS[prompt.answer](text, set(criteria))
         except ValueError as error:
             raise InvalidResponse(str(error), text, served, usage) from error
-        return ClassificationResult(intent, confidence, text, self.model, prompt.version,
+        return ClassificationResult(intent, confidence, text, self.model_id, prompt.version,
                                     served_model=served, usage=usage)
 
 

@@ -21,6 +21,17 @@ class OpenModelSpec:
     max_new_tokens: int = 96  # verbalized readout only
 
 
+@dataclass(frozen=True)
+class ApiModelSpec:
+    """A model behind an OpenAI-compatible API (e.g. DeepSeek), run as "<key>_verb": the API gives no
+    option probabilities, so only the verbalized readout exists. The key itself is read from `api_key_env`."""
+    key: str
+    model: str
+    base_url: str
+    api_key_env: str = "OPENAI_API_KEY"
+    extra_body: dict[str, Any] | None = None  # provider-specific request fields; part of model_id/input_hash
+
+
 @dataclass
 class EvalConfig:
     seed: int
@@ -34,6 +45,7 @@ class EvalConfig:
     llm: dict[str, Any] = field(default_factory=dict)
     jev: dict[str, Any] = field(default_factory=dict)
     open_models: dict[str, OpenModelSpec] = field(default_factory=dict)
+    api_models: dict[str, ApiModelSpec] = field(default_factory=dict)
 
     @property
     def output_dir(self) -> Path:
@@ -64,6 +76,17 @@ def _open_models(raw: dict[str, Any]) -> dict[str, OpenModelSpec]:
     return models
 
 
+def _api_models(raw: dict[str, Any]) -> dict[str, ApiModelSpec]:
+    models = {}
+    for key, settings in (raw or {}).items():
+        if not settings.get("model") or not settings.get("base_url"):
+            raise ValueError(f"API model {key!r}: set 'model' and 'base_url'.")
+        if "api_key" in settings:
+            raise ValueError(f"API model {key!r}: put the key in .env and name it with 'api_key_env', not 'api_key'.")
+        models[key] = ApiModelSpec(key=key, **settings)
+    return models
+
+
 def load_config(path: str | Path) -> EvalConfig:
     config_path = Path(path)
     with config_path.open(encoding="utf-8") as file:
@@ -72,10 +95,18 @@ def load_config(path: str | Path) -> EvalConfig:
     for name in raw["conditions"]:
         get_condition(name)  # fail fast on typos
     open_models = _open_models(raw.get("open_models"))
+    api_models = _api_models(raw.get("api_models"))
+    if both := set(open_models) & set(api_models):
+        raise ValueError(f"Models {sorted(both)} are listed under both 'open_models' and 'api_models'.")
     for system in raw["systems"]:
-        model, _ = system_parts(system)
-        if is_open_model_system(system) and model not in open_models:
-            raise ValueError(f"System {system!r} needs an 'open_models.{model}' entry in the config.")
+        model, readout = system_parts(system)
+        if not is_open_model_system(system):
+            continue
+        if model in api_models:
+            if readout != "verb":
+                raise ValueError(f"System {system!r}: API models give no option probabilities; use '{model}_verb'.")
+        elif model not in open_models:
+            raise ValueError(f"System {system!r} needs an 'open_models.{model}' or 'api_models.{model}' entry.")
     datasets = [_dataset_spec(item, base) for item in raw["datasets"]]
     if not datasets:
         raise ValueError("Config must list at least one dataset.")
@@ -91,4 +122,5 @@ def load_config(path: str | Path) -> EvalConfig:
         llm=raw.get("llm") or {},
         jev=raw.get("jev") or {},
         open_models=open_models,
+        api_models=api_models,
     )

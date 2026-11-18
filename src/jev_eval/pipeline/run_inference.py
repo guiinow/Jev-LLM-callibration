@@ -68,6 +68,12 @@ def _open_model_client(system: str, config: EvalConfig, mock: bool, backends: di
     from jev_eval.clients.open_models import (HfVerbalClient, MockOptionProbClient, MockVerbalClient,
                                               OptionProbClient)
     key, readout = system_parts(system)
+    if key in config.api_models:  # "<key>_verb" through an OpenAI-compatible API, same client as the LLM
+        if mock:
+            return MockLlmClient()
+        api = config.api_models[key]
+        return LlmClient(model=api.model, base_url=api.base_url, api_key_env=api.api_key_env,
+                         extra_body=api.extra_body)
     spec = config.open_models[key]
     if mock:
         return MockOptionProbClient(key) if readout == "prob" else MockVerbalClient(key)
@@ -87,7 +93,7 @@ def build_clients(mock: bool, config: EvalConfig | None = None) -> dict[str, Cla
         "llm": (lambda: MockLlmClient()) if mock else (lambda: LlmClient(
             model=llm.get("model"), base_url=llm.get("base_url"),
             api_key_env=llm.get("api_key_env", "OPENAI_API_KEY"), api_key=llm.get("api_key"),
-            num_ctx=llm.get("num_ctx"))),
+            num_ctx=llm.get("num_ctx"), extra_body=llm.get("extra_body"))),
     }
     backends: dict = {}
     return {system: (_open_model_client(system, config, mock, backends) if is_open_model_system(system)

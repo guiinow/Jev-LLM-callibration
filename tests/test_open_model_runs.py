@@ -114,3 +114,41 @@ def test_analyze_without_open_models_writes_no_readout_files(tmp_path, monkeypat
     config.systems = ["jev", "llm"]
     cli._analyze(config, ri.run_inference(config, mock=True))
     assert not (tmp_path / "banking77" / "readout.json").exists()
+
+
+API_MODELS = ("api_models:\n  deepseek: {model: deepseek-flash, base_url: 'https://api.deepseek.com',"
+              " api_key_env: DEEPSEEK_API_KEY, extra_body: {thinking: {type: disabled}}}\n")
+
+
+def test_config_loads_api_models(tmp_path):
+    config = load_config(write_config(tmp_path, systems="[deepseek_verb]", models=API_MODELS))
+    spec = config.api_models["deepseek"]
+    assert spec.model == "deepseek-flash" and spec.extra_body == {"thinking": {"type": "disabled"}}
+
+
+def test_api_models_only_have_the_verbalized_readout(tmp_path):
+    with pytest.raises(ValueError, match="no option probabilities"):
+        load_config(write_config(tmp_path, systems="[deepseek_prob]", models=API_MODELS))
+
+
+def test_api_model_key_never_goes_in_the_config(tmp_path):
+    models = "api_models:\n  deepseek: {model: m, base_url: 'https://x', api_key: sk-123}\n"
+    with pytest.raises(ValueError, match="api_key_env"):
+        load_config(write_config(tmp_path, systems="[deepseek_verb]", models=models))
+
+
+def test_api_model_runs_through_the_llm_client(tmp_path, monkeypatch):
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-test")
+    config = load_config(write_config(tmp_path, systems="[deepseek_verb]", models=API_MODELS))
+    client = ri.build_clients(mock=False, config=config)["deepseek_verb"]
+    assert isinstance(client, ri.LlmClient) and client.extra_body == {"thinking": {"type": "disabled"}}
+    assert client.model_id == 'deepseek-flash {"thinking":{"type":"disabled"}}'  # request fields enter input_hash
+    assert ri.prompt_for("banking77", ri.get_condition("C3"), "deepseek_verb", config).answer == "single"
+
+
+def test_shipped_deepseek_config_appends_to_the_final_run():
+    config = load_config(ROOT / "configs" / "deepseek.yaml")
+    final = load_config(ROOT / "configs" / "final.yaml")
+    assert config.systems == ["deepseek_verb"] and config.paths == final.paths
+    assert config.sample_size == final.sample_size and config.conditions == final.conditions
+    assert [d.paths for d in config.datasets] == [d.paths for d in final.datasets]
