@@ -1,267 +1,168 @@
-# Calibração Jev x LLMs de EN para PT-BR (Banking77, CLINC150, SIB-200)
+# Calibração de confiança: Jev e LLMs de EN para PT-BR
 
-Projeto final da disciplina de LLMs (UFMG, 2026/2). Comparamos a calibração de confiança de dois sistemas na classificação de intenções bancárias: o **Jev** (TypeSafe), que devolve a escolha e as probabilidades das opções, e um **LLM generativo** (`ministral-3:14b`, local via Ollama), que devolve a intenção e uma confiança verbalizada. Na versão estendida (proposta refinada) entram também os modelos abertos Gemma e Qwen, cada um lido de duas formas, e os datasets CLINC150 e SIB-200. Todos os sistemas recebem as mesmas mensagens e as mesmas opções. Na execução final, o PT-BR vem da tradução pública revisada por humanos [`c2d-usp/banking77-pt-br`](https://huggingface.co/datasets/c2d-usp/banking77-pt-br) (Dimant et al., 2025, CC BY 4.0).
+Projeto final da disciplina de LLMs (UFMG, 2026/2). Avaliamos se a confiança
+do Jev é calibrada em português e como a mudança de inglês para português afeta
+Jev e LLMs generativos.
 
-- **H1 (única hipótese principal):** em PT-BR, ECE_Jev < ECE_LLM. A hipótese é apoiada se o IC 95% pareado de ΔECE = ECE_Jev − ECE_LLM ficar abaixo de zero. Se o intervalo incluir zero, o resultado é inconclusivo.
-- **Métrica primária:** ECE com 15 bins uniformes, fixados antes do teste. A acurácia entra como contexto.
-- **Confiança:** no Jev, `probabilities[escolha]` (proposta, seção 4.2). No LLM, o número verbalizado no JSON.
+## Perguntas e desenho
 
-## Perguntas do estudo
+- **Q1 (H1):** em PT-BR, o ECE do Jev é menor que o do sistema comparado?
+- **Q2:** o ECE e a acurácia mudam de EN para PT?
+- **Q3:** a confiança permite selecionar respostas para automação?
 
-O estudo junta a hipótese original com a mudança de idioma. A proposta completa e o que mudou em relação à inicial estão em [docs/proposta-refinada.md](docs/proposta-refinada.md).
+A métrica principal é o ECE com 15 bins uniformes. A hipótese usa
+`ΔECE = ECE_Jev - ECE_sistema` e é apoiada quando o IC 95% pareado fica abaixo
+de zero. A confiança do Jev é a probabilidade da opção escolhida; nos LLMs
+generativos, é o valor numérico retornado no JSON.
 
-| # | Pergunta | Onde sai |
+Cada exemplo é avaliado em três condições:
+
+| Condição | Mensagem | Instruções e opções |
 |---|---|---|
-| **Q1 (H1)** | Em PT-BR, o ECE do Jev é menor que o do LLM? | `metrics.json` → `conditions.<C>.paired_bootstrap` |
-| **Q2** | O ECE e a acurácia mudam de EN para PT, em cada sistema? | `metrics.json` → `language_shift`, `tables/language_shift.csv` |
-| **Q3** | A confiança ainda serve para escolher quando responder? | `metrics.json` → `conditions.<C>.selective`, `tables/selective.csv` |
+| C1 | Inglês | Inglês |
+| C2 | Português | Inglês |
+| C3 | Português | Português |
 
-## Condições
+C3 é a condição principal de Q1. O contraste primário de Q2 é C2 − C1.
 
-Cada exemplo roda em três condições de idioma, sempre com os dois sistemas:
+Os datasets são:
 
-| Condição | Mensagem | Instruções e opções | Papel |
-|---|---|---|---|
-| C1 | EN | EN | Linha de base em inglês (exploratória) |
-| C2 | PT-BR | EN | PT-BR com opções em inglês |
-| C3 | PT-BR | PT-BR | PT-BR com opções em português, o desenho descrito na proposta (seção 4.1) |
+| Dataset | Amostra | Tradução |
+|---|---:|---|
+| Banking77 | 462 | PT-BR da USP, revisada por humanos |
+| CLINC150 | 450 | Tradução automática, não revisada |
+| SIB-200 | 204 | FLORES-200, tradução profissional |
 
-**O H1 (Q1) é testado na C3**, como na proposta inicial e na refinada (decisão a confirmar antes de ver os resultados). O `metrics.json` traz o ΔECE pareado com IC de todas as condições. O efeito do idioma (Q2) é medido como C2 menos C1 (contraste primário, só o conteúdo muda) e C3 menos C1.
+O estudo compara Jev, Ministral, Gemma e modelos via API. Gemma é avaliado
+por confiança verbalizada e por probabilidades das opções. Os resultados
+versionados estão em [`outputs/final/`](outputs/final/).
 
-Os prompts são templates congelados e versionados em `src/jev_eval/prompts/templates.py`. Editar o texto muda o fingerprint e quebra `tests/test_templates.py` até que a `version` seja incrementada. Prompts principais: `choice-v1` (Banking77), `clinc-choice-v1` e `sib-choice-v1`. Variantes: `*-codes-v1` (leitura das probabilidades dos modelos abertos) e `choice-topk-v1` (ablação, só Banking77).
+## Requisitos e instalação
 
-## Execuções
-
-| Pasta | Config | Papel | PT-BR | Jev | LLM | Máquina |
-|---|---|---|---|---|---|---|
-| `outputs/full_ministral/` | `configs/full_local.yaml` | Preliminar (antes das condições) | Rascunho automático, não revisado | `jev-latest` (alias) | `ministral-3:14b`, `num_ctx` padrão do Ollama | Do Marco Túlio |
-| `outputs/final/` | `configs/final.yaml` (+ `open_models.yaml`, `open_models_qwen.yaml`) | **Evidência para Q1–Q3** (C1, C2 e C3; Banking77, CLINC150, SIB-200) | Banking77: USP, revisada por humanos; CLINC150: tradução automática; SIB-200: FLORES-200 (tradução humana) | `jev-1.14.0` | `ministral-3-14b-ctx8k` (`num_ctx` 8192) | MacBook Pro M3 Max, 36 GB, Ollama (Metal) |
-| `outputs/ablation_topk/` | `configs/ablation_topk.yaml` | Ablação de prompt (E1) | Igual à final | Reaproveitado da final | Igual à final, com o prompt top-3 | Igual à final |
-
-A versão exata de cada componente fica registrada em `outputs/<execução>/run_metadata.json`, uma entrada por invocação de `run`: commit, chip, RAM, versão do Ollama, digest e quantização do modelo, `num_ctx`, versões dos pacotes, condições e datasets. Cada linha de `raw_predictions.jsonl` também traz:
-- `served_model`: a versão que a API diz ter usado;
-- `usage`: os tokens do LLM;
-- `latency_s`: o tempo da chamada;
-- `input_hash`.
-
-## Setup
-
-Requer Python ≥ 3.12 (o numpy fixado exige isso).
+Python 3.12 ou superior:
 
 ```bash
-python3.12 -m venv .venv        # ou: uv venv --python 3.12 .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-cp .env.example .env            # preencha TYPESAFE_API_KEY; nunca commite o .env
-pytest                          # a suíte deve passar
+cp .env.example .env
+pytest
 ```
 
-A CLI `jev-eval` carrega o `.env` da raiz automaticamente. Variáveis já definidas no ambiente têm prioridade.
-
-| Variável | Uso |
-|---|---|
-| `TYPESAFE_API_KEY` | Obrigatória para chamar o Jev |
-| `TYPESAFE_DEFAULT_MODEL` | Fallback. As configs fixam `jev.model` |
-| `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `LLM_MODEL` | Só para configs sem seção `llm:`. As nossas usam o Ollama local, sem chave |
-
-### Ollama (LLM local)
+Para chamadas ao Jev, preencha `TYPESAFE_API_KEY` no ambiente ou no `.env`.
+As configurações locais usam Ollama e não exigem chave de API:
 
 ```bash
-brew install ollama && ollama serve          # ou o app do ollama.com
+brew install ollama
+ollama serve
 ollama pull ministral-3:14b
-ollama create ministral-3-14b-ctx8k -f configs/ollama/ministral-3-14b-ctx8k.Modelfile
-ollama show ministral-3-14b-ctx8k --parameters   # deve mostrar num_ctx 8192
+ollama create ministral-3-14b-ctx8k \
+  -f configs/ollama/ministral-3-14b-ctx8k.Modelfile
 ```
 
-O `num_ctx` é fixado no Modelfile por três motivos: o Ollama **trunca prompts longos sem avisar**, o valor padrão mudou entre versões, e o endpoint compatível com OpenAI (`/v1`) não aceita `num_ctx` por requisição. Por segurança, uma resposta cujo prompt mais a saída use 90% ou mais do `num_ctx` é gravada como erro `ContextOverflow`, e não como resposta válida.
+## Reprodução
 
-## Reproduzir os resultados principais
+Os dados de entrada já estão versionados. Para reconstruí-los:
 
 ```bash
-# 1. Entradas EN/PT (já versionadas em data/; refazer é opcional e reproduz os mesmos arquivos)
-python scripts/build_usp_data.py        # Banking77 -> data/usp/
-python scripts/build_clinc150_data.py   # CLINC150  -> data/clinc150/ (com manifest.json do pareamento)
-python scripts/build_sib200_data.py     # SIB-200   -> data/sib200/   (com manifest.json do pareamento)
+python scripts/build_usp_data.py
+python scripts/build_clinc150_data.py
+python scripts/build_sib200_data.py
+```
 
-# 2. Pré-voo: tokens do prompt mais longo de cada condição e uma chamada ao Jev (versão servida)
+Teste local sem APIs:
+
+```bash
+jev-eval --config configs/smoke.yaml smoke
+```
+
+Execução e análise principais:
+
+```bash
 jev-eval --config configs/final.yaml probe
-
-# 3. Testes curtos (10 exemplos por dataset -> outputs/final_timing/, não versionado): tempo por chamada
-jev-eval --config configs/final_timing.yaml run          # Jev + Ministral
-jev-eval --config configs/open_models_timing.yaml run    # + Gemma (prob e verb); exige o extra open-models
-
-# 4. Execução, métricas, figuras e tabelas
-jev-eval --config configs/final.yaml run       # retomável; grava cada resposta ao chegar
-jev-eval --config configs/open_models.yaml run # Gemma (e Qwen, se couber) nas mesmas entradas, mesmo arquivo
-jev-eval --config configs/final.yaml analyze   # -> outputs/final/<dataset>/metrics.json + summary_datasets.json
-jev-eval --config configs/final.yaml plot      # -> outputs/final/banking77/{figures,tables}/
-
-# 5. Conferência: nosso Jev em inglês bate com o benchmark publicado?
-jev-eval --config configs/final.yaml check-benchmark   # -> outputs/final/banking77/benchmark_check.md
-
-# 6. Figuras do relatório, uma por pergunta (rode o analyze antes). --lang en para rótulos em inglês
-jev-eval --config configs/final.yaml report --lang pt  # -> outputs/final/<dataset>/report/pt/
-
-# 7. Análise de erros (E3): planilha para o grupo categorizar, depois a contagem
-jev-eval --config configs/final.yaml error-sheet     # -> outputs/final/banking77/error_analysis/error_annotation_C3.csv
-jev-eval --config configs/final.yaml error-summary   # (depois de preencher) -> error_categories_C3.{csv,json}
+jev-eval --config configs/final.yaml run
+jev-eval --config configs/final.yaml analyze
+jev-eval --config configs/final.yaml plot
+jev-eval --config configs/final.yaml check-benchmark
+jev-eval --config configs/final.yaml report --lang pt
 ```
 
-**Resumo entre datasets.** Com mais de um dataset, o `analyze` grava `outputs/final/summary_datasets.json` e `tables/summary_datasets.csv`: por sistema e condição, o ECE, o ΔECE (Jev − cada sistema) e a mudança EN→PT (C2 − C1, C3 − C1), em cada dataset e na média com pesos iguais. O IC 95% da média vem da média das reamostragens bootstrap de cada dataset; as previsões nunca são misturadas.
+O `run` é retomável e salva as respostas à medida que chegam. A configuração
+final usa Jev `1.14.0`, Ministral com contexto 8192, temperatura zero e
+amostragem estratificada com seed 42. A execução registrada foi feita em
+Linux x86_64; os metadados completos estão em
+`outputs/final/run_metadata.json`.
 
-**Análise de erros (E3).** O `error-sheet` lista cada resposta errada (válida) dos sistemas escolhidos numa condição (padrão: Banking77, C3, Jev e Ministral), com a mensagem em PT e em EN, o rótulo certo, o previsto, a confiança e o que os outros sistemas responderam. O grupo preenche `category` com uma destas categorias e, se preciso, `notes`: `intencoes_proximas`, `rotulo_ambiguo`, `traducao`, `falta_contexto`, `erro_do_modelo`, `outro` (definições em `src/jev_eval/pipeline/error_sheet.py`). O comando se recusa a sobrescrever uma planilha existente (use `--force` só se ela estiver vazia). O `error-summary` recusa categorias vazias ou desconhecidas e conta por sistema, também só entre os erros com confiança ≥ 0,9. Opções: `--dataset`, `--condition` e `--systems`.
-
-**Ablação de prompt (E1, análise secundária).** O LLM roda de novo com o prompt `choice-topk-v1`, que pede as 3 intenções mais prováveis, cada uma com a probabilidade de estar correta (o "Verb. 1S top-k" de Tian et al., 2023). A previsão é a intenção de maior probabilidade, e a confiança é essa probabilidade. Como em Tian et al., só esse palpite principal precisa ser uma intenção válida. Palpites inferiores com intenção fora das opções são ignorados e contados em `answers_with_invented_lower_guess`.
-- Modelo, `num_ctx`, entradas e exemplos são os mesmos da execução final. A ablação roda as condições C2 e C3; dá para acrescentar a C1.
-- O Jev **não é chamado de novo**. O `analyze` e o `plot` usam as respostas do Jev e do LLM com o prompt principal de `outputs/final/raw_predictions.jsonl` (`paths.baseline`). Antes, conferem pelo `input_hash` que cada uma foi produzida com a mesma mensagem, as mesmas opções e o mesmo prompt. Por isso a ablação exige a execução final completa.
-- O H1 continua definido sobre o prompt principal.
-
-### Modelos abertos: Gemma e Qwen, com duas formas de medir a confiança
-
-O Jev dá probabilidades e o Ministral escreve a confiança, então um "Jev ganhou" não diz se foi o modelo ou a forma de medir. Por isso cada modelo aberto é medido **das duas formas, com os mesmos pesos** (um só modelo carregado serve os dois sistemas):
-
-| Sistema | Como a confiança sai |
-|---|---|
-| `<modelo>_prob` | O prompt lista as opções com códigos de uma letra (A, B, ... AA, AB). O modelo responde só o código. A distribuição do próximo token, restrita aos códigos e renormalizada, é a probabilidade de cada opção, e a confiança é a da opção escolhida. É o método do benchmark do Jev. Nada é gerado |
-| `<modelo>_verb` | O modelo escreve o JSON com intenção e confiança (0 a 1), com o mesmo prompt principal do Ministral |
-
-Os modelos são **de pesos abertos** (Hugging Face, sem custo por chamada de API; o custo é o hardware). Verifique os termos de licença de cada um antes de publicar resultados. `configs/open_models.yaml` usa `google/gemma-4-E4B-it` e `Qwen/Qwen3.8-27B`, os mesmos do benchmark, em revisões fixadas. O Gemma-4-E4B ocupa cerca de 16 GB em bf16 (cabe num Mac de 36 GB). O Qwen3.8-27B ocupa cerca de 56 GB e precisa de GPU grande; quantizar mudaria os pesos e quebraria a comparação com o benchmark.
+Modelos abertos opcionais:
 
 ```bash
-pip install -e ".[open-models]"                      # torch, transformers, accelerate
-jev-eval --config configs/open_models.yaml run       # estende outputs/final: só calcula o que falta
-jev-eval --config configs/open_models.yaml analyze   # + readout.json e tabelas readout_*.csv
-jev-eval --config configs/open_models.yaml check-benchmark   # Gemma e Qwen (prob) contra o publicado
+pip install -e ".[open-models]"
+jev-eval --config configs/open_models.yaml run
+jev-eval --config configs/open_models.yaml analyze
 ```
 
-**Qwen numa GPU alugada.** O `configs/open_models_qwen.yaml` roda só `qwen_prob` e `qwen_verb`. Copie o repositório e `outputs/final/raw_predictions.jsonl` para a máquina com GPU, rode `jev-eval --config configs/open_models_qwen.yaml run` (as linhas dos outros sistemas, inclusive as que falharam, ficam intactas) e traga o arquivo de volta. Se o Mac escreveu na própria cópia enquanto isso (por exemplo, o Gemma), junte as duas com `python scripts/merge_raw_predictions.py outputs/final/raw_predictions.jsonl <cópia_do_qwen>.jsonl --output outputs/final/raw_predictions.merged.jsonl`, confira e substitua. O script recusa respostas válidas conflitantes para a mesma linha.
+## Resultados salvos
 
-O `open_models.yaml` grava no mesmo `outputs/final/raw_predictions.jsonl`. As linhas do Jev e do Ministral já calculadas são mantidas (a retomada confere o `input_hash`). Rode a configuração final antes. As duas leituras foram exercitadas de ponta a ponta só com um modelo pequeno (`Qwen/Qwen2.5-0.5B-Instruct`), porque a máquina de desenvolvimento não comporta o Gemma-4 nem o Qwen3.8; os testes automáticos usam um modelo de mentira. Valide em C1 com o `check-benchmark` antes de confiar nos números.
+Em cada diretório `outputs/<execução>/<dataset>/`:
+
+- `metrics.json`: ECE, acurácia, ICs, bootstrap pareado e mudança EN→PT;
+- `tables/language_shift.csv`: Q2;
+- `tables/selective.csv`: Q3, AURC e seleção por cobertura;
+- `tables/bin_sensitivity.csv` e `tables/robustness.csv`: análises de robustez;
+- `tables/summary.csv`: tabela principal;
+- `figures/`: diagramas de confiabilidade, ECE, risco e confusões;
+- `report/`: figuras vetoriais para o relatório.
+
+Na raiz da execução:
+
+- `raw_predictions.jsonl`: previsões, confianças, respostas brutas e hashes
+  das entradas;
+- `run_metadata.json`: versões, configuração e ambiente;
+- `summary_datasets.json`: resumo por dataset, sem misturar previsões.
+
+O benchmark em inglês é conferido com:
 
 ```bash
-jev-eval --config configs/ablation_topk.yaml probe     # tokens do prompt top-3
-jev-eval --config configs/ablation_topk.yaml run       # só LLM
-jev-eval --config configs/ablation_topk.yaml analyze   # -> outputs/ablation_topk/banking77/{metrics,ablation}.json
-jev-eval --config configs/ablation_topk.yaml plot      # -> ... tables/ablation.csv, ablation_deltas.csv
+jev-eval --config configs/final.yaml check-benchmark
 ```
 
-Os números reportados podem ser recalculados sem chamar nenhuma API: basta rodar `analyze` e `plot` sobre os `raw_predictions.jsonl` versionados.
+## Limitações e desvios
 
-**Preliminar.** As entradas são montadas com `python scripts/build_pilot_data.py`. Os registros do preliminar são anteriores às condições (`language` = `en`/`pt_br`):
-- o `analyze` e o `plot` os leem como `C1` e `PT-preliminar` (mensagem PT, opções PT, instruções EN, que não é nenhuma das três condições);
-- eles também derivam `probabilities[escolha]` do `raw_response` salvo, porque o preliminar gravou o campo `confidence` do SDK. O `metrics.json` informa em `jev_confidence_source` quantos registros puderam ser derivados.
+- As conclusões valem para dados traduzidos, não para mensagens originalmente
+  escritas em português.
+- As traduções do CLINC150 e os nomes de suas intenções não foram revisados
+  pelo grupo.
+- Os datasets têm tamanhos, número de classes e qualidade de tradução
+  diferentes; por isso os resultados são apresentados por dataset.
+- A amostra é menor que o teste completo do benchmark, produzindo ICs largos.
+- O estudo compara sistemas completos e não permite concluir que uma
+  arquitetura ou método de treinamento causa a diferença observada.
+- As leituras do Gemma usam prompts diferentes, portanto o contraste mistura
+  forma de leitura e prompt.
 
-Para refazer a análise sem tocar nas saídas originais: `jev-eval --config configs/full_local.yaml analyze --output-dir outputs/full_ministral/rederived_c1` (e `plot` com o mesmo `--output-dir`).
+## Análise de erros
 
-**Garantias do `run`:**
-- Respostas com erro são refeitas, com até 3 tentativas para erros de rede.
-- O `run` **recusa retomar** sobre registros produzidos com outras entradas: texto, opções, modelo ou prompt diferentes (detectados pelo `input_hash`), ou registros antigos sem hash. Nesses casos, use uma pasta nova ou `--fresh`.
-- Antes de chamar as APIs, o `run` falha se:
-  - faltar alguma descrição no idioma de instrução de uma condição;
-  - duas descrições forem iguais;
-  - algum texto PT-BR estiver vazio ou idêntico ao inglês.
+Para gerar a planilha:
 
-  Ele também avisa enquanto houver traduções não revisadas.
-- Respostas inválidas guardam o texto bruto do LLM. O parser lê só o primeiro objeto JSON da resposta, porque o modelo às vezes acrescenta uma nota e um segundo bloco "corrigido".
+```bash
+jev-eval --config configs/final.yaml error-sheet
+```
 
-**Teste sem APIs:** `jev-eval --config configs/smoke.yaml smoke` ou `jev-eval --config configs/default.yaml run --mock`. Os mocks são determinísticos e servem só para testar o pipeline. O smoke usa descrições PT-BR marcadas `[SMOKE-PLACEHOLDER]`.
+Depois de preencher `category`, gere o resumo:
 
-## Datasets
+```bash
+jev-eval --config configs/final.yaml error-summary
+```
 
-Cada config lista seus `datasets`: nome, tipo de tarefa (`choice`, `binary` ou `multilabel`), caminhos e, se o dataset vier do Hugging Face, um `source` com `revision` obrigatória. Um dataset novo entra com um adapter em `src/jev_eval/data/`, registrado por nome, e um template de prompt. Estão implementados `banking77`, `clinc150` e `sib200` (todos `choice`), com o mesmo formato local (`sample_*.jsonl` com `text_en`/`text_pt_br` e `intents_*.json` com as descrições EN/PT):
+## Declaração de uso de IA
 
-| Dataset | Amostra | Português | Opções em PT (C3) | Pareamento EN↔PT |
-|---|---|---|---|---|
-| Banking77 | 462 (6 por intenção, seed 42) | USP, revisado por humanos | Nomes PT da USP | Ordem conferida nas 3.080 linhas, casamento pelo texto EN (`data/usp/provenance.json`) |
-| CLINC150 | 450 (3 por intenção, seed 42), só as 150 intenções (sem a classe fora de escopo) | `tech4humans/clinc_oos_pt`, tradução automática não revisada | Traduzidas por LLM (Claude), não revisadas (`data/clinc150/intent_names_pt.json`) | EN e PT na mesma linha; texto EN e intenção conferidos contra `clinc/clinc_oos` nas 5.500 linhas; 2 pares com PT igual ao EN excluídos (`data/clinc150/manifest.json`) |
-| SIB-200 | 204 (teste inteiro) | FLORES-200 (`por_Latn`), tradução humana profissional | 7 tópicos traduzidos por nós | Por `index_id`, conferindo ids e categorias (`data/sib200/manifest.json`) |
- As métricas nunca juntam datasets: `analyze` e `plot` rodam um dataset por vez e gravam em `<saída>/<dataset>/`.
+Ferramentas de IA generativa foram usadas na implementação do pipeline, na
+tradução dos nomes das intenções do CLINC150 e na redação do relatório. Todo o
+material foi revisado pelo grupo, que é responsável pelo desenho experimental,
+pela execução, pela validação dos resultados e pelas conclusões.
 
-## Tradução PT-BR
+## Referências internas
 
-**Execução final: tradução da USP.** Usamos [`c2d-usp/banking77-pt-br`](https://huggingface.co/datasets/c2d-usp/banking77-pt-br) (Dimant et al., 2025, CC BY 4.0). Segundo o cartão do dataset, a tradução foi feita com GPT (`gpt 4o-mini`, e `gpt 3.5-turbo` em 3 frases do teste) e depois revisada por humanos. A coluna `alterado` marca as frases corrigidas nessa revisão.
-
-O dataset não traz o texto em inglês nem IDs. Por isso o `scripts/build_usp_data.py`:
-1. baixa as duas fontes em revisões fixadas (`PolyAI/banking77` `1846984`, `c2d-usp/banking77-pt-br` `85f51c4`);
-2. descarta as 2 linhas vazias no fim do teste da USP (3.082 → 3.080) e recusa linhas vazias em outra posição;
-3. confere que a ordem é a mesma. Mapeando os nomes PT para IDs pela tabela do cartão do dataset, a intenção coincide nas 3.080 posições. Além disso, o comprimento das frases EN e PT tem correlação de 0,972 item a item, contra 0,118 com as frases embaralhadas dentro de cada intenção. Se qualquer checagem falhar, o script para;
-4. casa cada um dos 462 exemplos da amostra com o seu índice no teste original pelo texto em inglês (não há duplicatas no teste), confere o rótulo e copia a frase PT-BR;
-5. usa os nomes PT das intenções, com `_` trocado por espaço, como descrições PT-BR das opções (C3), e confere que as 77 são distintas.
-
-Ele gera, em `data/usp/`:
-- `sample_usp.jsonl`;
-- `intents_usp.json`;
-- `alignment_usp.jsonl`: índice no teste, `alterado` e `modelo_tradutor` por exemplo (28 dos 462 têm `alterado = 1`);
-- `provenance.json`.
-
-**Preliminar: rascunho próprio, não revisado.** Feito com modelo local via Ollama (`gemma4:12b-it-qat`) e glossário fixo (`scripts/translate_local.py`), e montado em `data/pilot/` por `scripts/build_pilot_data.py`. A revisão manual pelo grupo (planilhas por revisor) foi dispensada, porque a execução final usa a tradução da USP, já revisada por humanos. Esse fluxo foi removido do repositório.
-
-## Saídas de uma execução
-
-Por dataset, em `<saída>/<dataset>/`. As figuras e tabelas usam só os exemplos em que os dois sistemas responderam, para que ECE_Jev e ECE_LLM sejam calculados sobre os mesmos itens.
-
-| Arquivo | Para quê |
-|---|---|
-| `../raw_predictions.jsonl` | Uma linha por (dataset, exemplo, condição, sistema): previsão, confiança, acerto, resposta bruta (também nas respostas inválidas), `served_model`, `usage`, `confidence_sdk` (Jev), `input_hash`, `latency_s` |
-| `../run_metadata.json` | Proveniência de cada invocação de `run` |
-| `metrics.json` | Por condição: ECE, acurácia, IC 95% por bootstrap, confiança média, excesso de confiança, erros com confiança ≥ 0,9, ΔECE pareado (5000 reamostragens, seed 42), chamadas que falharam e `jev_confidence_sdk_check` (ECE com o `confidence` do SDK, só como checagem) |
-| `tables/language_shift.csv` | Q2. Por sistema e condição PT: ECE em EN e em PT, ΔECE (PT − EN) e ΔAcurácia com IC 95% pareado por exemplo, fração de previsões que mudam de classe e mudança média da confiança (`analyze` já grava) |
-| `tables/selective.csv` | Q3. Por condição e sistema: AURC e acurácia ao aceitar só os 50% e 80% mais confiantes, com IC 95%. Empates de confiança são tratados como ordem aleatória |
-| `tables/bin_sensitivity.csv` | ΔECE (Jev − LLM) com 10, 15, 20 e 30 faixas, o veredito de cada uma (`jev_lower`, `llm_lower` ou `inconclusive`) e se a conclusão muda com o número de faixas |
-| `benchmark_check.md`, `benchmark_check_<sistema>.md` | Só com `check-benchmark`: o Jev em C1 contra o benchmark publicado (Banking77): acurácia, ECE, acurácia nos 50% e 80% mais confiantes e AURC. Para `gemma_prob` e `qwen_prob`, só acurácia e ECE. Diz se o valor publicado cai no nosso IC |
-| `readout.json`, `tables/readout_cells.csv`, `tables/readout_contrasts.csv` | Só com modelos abertos. Por modelo, forma de medir e condição: acurácia e ECE com IC. Contrastes pareados: ECE(escrita) − ECE(probabilidades) por condição; se a mudança EN→PT do ECE depende da forma de medir; Jev contra cada outro sistema |
-| `report/<idioma>/q1_h1`, `q2_en_pt`, `q3_selection` (`.png` e `.pdf`) | Só com `report`. Uma figura por pergunta, na largura de uma coluna ACM (o PDF é vetorial, para o LaTeX). Q1: ECE do Jev e do LLM por condição, com o ΔECE e seu IC. Q2: mudança de ECE e de acurácia de EN para cada condição PT, por sistema. Q3: acurácia ao aceitar só as respostas mais confiantes, com o AURC de cada sistema. Os números vêm do `metrics.json`, os mesmos das tabelas |
-| `figures/reliability.png` | Diagrama de confiabilidade (área ∝ tamanho do bin) + histograma de confiança, por condição |
-| `figures/ece_accuracy_ci.png` | ECE e acurácia por sistema e condição, com IC 95% |
-| `figures/delta_ece_bootstrap.png` | Distribuição bootstrap de ΔECE = Jev − LLM |
-| `figures/confidence_correct_vs_wrong.png` | Confiança em acertos e em erros |
-| `figures/risk_coverage.png` | Exploratório: acurácia das respostas aceitas vs cobertura |
-| `figures/top_confusions.png` | Pares (verdadeiro → previsto) mais confundidos |
-| `tables/summary.csv` | Tabela principal |
-| `tables/robustness.csv` | Robustez (E2), por condição e sistema: ECE com 10, 15 e 20 bins uniformes e com 15 bins de massa igual, Brier top-1, AUROC (acerto × erro) e número de valores distintos de confiança. O Jev aparece também com o `confidence` do SDK, só como checagem |
-| `tables/ablation.csv`, `ablation_deltas.csv` (só na ablação) | Jev, LLM com o prompt principal e LLM top-3, sobre os itens em que os três responderam: métricas e ΔECE pareado com IC 95% (top-3 − principal, Jev − top-3, Jev − principal) |
-| `../summary_datasets.json`, `../tables/summary_datasets.csv` | Só com 2+ datasets: ECE, ΔECE (Jev − sistema) e mudança EN→PT por dataset e na média com pesos iguais, com IC 95% |
-| `error_analysis/error_annotation_<C>.csv`, `error_categories_<C>.{csv,json}` | Só com `error-sheet`/`error-summary`: planilha de erros para categorizar e a contagem por sistema e categoria |
-| `tables/reliability_bins.csv`, `high_confidence_errors.csv`, `confusion_pairs.csv`, `language_flips.csv` | Bins, erros com confiança alta, confusões e efeito do idioma (C1 vs cada condição PT) |
-
-## Método
-
-- Banking77, split `test`, amostragem estratificada com seed 42: 6 exemplos por intenção × 77 = 462 (a proposta fala em "até 500"). CLINC150: 3 por intenção × 150 = 450. SIB-200: as 204 frases do teste.
-- Mesmas mensagens e opções para os dois sistemas, em cada condição.
-- O LLM roda com temperatura 0 e prompts congelados.
-- O ECE usa bins uniformes congelados no YAML (`final` = 15).
-- O IC 95% de ΔECE vem de bootstrap pareado por `example_id`, com 5000 reamostragens e seed 42.
-- **Robustez (E2):** a métrica primária continua sendo o ECE com 15 bins uniformes. Os outros números são checagens e não viram hipótese.
-  - Nos bins de massa igual, os itens empatados são divididos pela ordem original.
-  - O Jev devolve as probabilidades com 2 casas decimais, então há muitos empates. `distinct_confidence_values` mostra quantos valores distintos existem.
-- O estudo compara produtos e interfaces. Ele não permite concluir que RLCD seja superior a RLHF.
-
-## Desvios do protocolo e limitações conhecidas
-
-- **Condições C1, C2 e C3.** A proposta compara EN e PT-BR. As condições separam o idioma da mensagem do idioma das opções e instruções. A C3 é o PT-BR descrito na proposta. A C2 é uma condição nova.
-- **Tradução substituída.** A proposta previa uma tradução própria revisada pelo grupo. Na execução final usamos a tradução pública da USP, também revisada por humanos, porque:
-  - a revisão dela é completa, e não por amostra;
-  - ela está documentada e é citável;
-  - qualquer pessoa pode reproduzir os insumos.
-
-  A amostra e as intenções não mudam. As descrições PT-BR das opções passam a ser os nomes PT das intenções definidos pela USP.
-- **Risco de contaminação.** A tradução está pública desde 2025, e o Banking77 em inglês desde 2020. O `ministral-3:14b` e o modelo por trás do Jev podem ter visto essas frases, ou os pares frase-intenção, no treino.
-  - Isso pode inflar a acurácia, e não temos como medir.
-  - Não há garantia de que o efeito seja igual nos dois sistemas.
-  - A comparação de ECE continua pareada sobre os mesmos itens, mas os números absolutos devem ser lidos com isso em mente.
-- **Preliminar:**
-  - PT-BR não revisado;
-  - Jev pelo alias `jev-latest`, sem registro da versão servida;
-  - confiança do Jev gravada a partir do `confidence` do SDK (corrigido na análise);
-  - `num_ctx` padrão do Ollama (o probe mostrou que nenhum prompt foi truncado);
-  - outra máquina;
-  - anterior às condições.
-- **CLINC150:** a tradução das mensagens é automática e não foi revisada (o cartão do dataset cita tanto `gemini-1.5-flash` quanto `gpt-4o-mini`), e as descrições PT das 150 intenções foram traduzidas por LLM (Claude), também sem revisão. Ficamos só com as 150 intenções, sem a classe fora de escopo, então os números não são comparáveis com os do benchmark (que usa 151 opções).
-- **SIB-200:** o português é o do FLORES-200 (`por_Latn`), traduzido por profissionais; o cartão não marca a variedade como brasileira.
-- O Jev não é perfeitamente determinístico: no pré-voo, o mesmo exemplo recebeu 0,98 num dia e 0,99 no outro. Cada exemplo é chamado uma vez, e as respostas salvas são as usadas na análise.
-- Os datasets diferem em número de opções (77, 150 e 7) e em qualidade de tradução. Por isso os resultados são por dataset, e o resumo é a média com pesos iguais.
-- O estudo avalia dados **traduzidos**, e não mensagens escritas originalmente em português.
-
-## AI disclosure (rascunho)
-
-Ferramentas de IA generativa foram usadas para auxiliar a implementação do pipeline e a revisão de código. As decisões metodológicas, a revisão das traduções, a execução das avaliações e a interpretação dos resultados são responsabilidade do grupo.
+- [Proposta refinada](docs/proposta-refinada.md)
+- [Plano do artigo](docs/plano_do_artigo_e_prs.md)
+- [Especificação do curso](docs/especificacao-do-curso.md)
